@@ -2,7 +2,7 @@
 'use strict';
 (()=>{
 const $=id=>document.getElementById(id), TAU=Math.PI*2;
-const BUILD='TACTICAL R2 · NO RESPAWN';window.TV_BUILD=BUILD;
+const BUILD='TACTICAL R3 · AMBUSH ROUTES';window.TV_BUILD=BUILD;
 const maps=[
  {name:'Taipei 101',theme:'tower',sky:'#79cbff',wall:'#b2c9da',trim:'#2778c0',floor:'#b3c3d0',accent:'#ffbd43'},
  {name:'National Chiang Kai-shek Memorial Hall',theme:'memorial',sky:'#89d6ff',wall:'#e7e8de',trim:'#2e64a8',floor:'#b2b5b5',accent:'#f0c35f'},
@@ -21,11 +21,11 @@ const missions=[
  {name:'Temple Courtyard Watch',map:2,diff:'Casual',time:720,story:'Armed hostile patrols threaten protected temple surroundings. Disable the machines and disconnect the interference source.',steps:[['combat',4,'Clear hostiles from the courtyard'],['disable',1,'Disable the interference controller']],win:'Clear the hostiles and disable the controller.',lose:'Armor reaches zero or time expires.'},
  {name:'Palace Archive Lockdown',map:3,diff:'Tight',time:780,story:'A fictional digital archive has locked down. Clear security corridors and disable two remote controllers.',steps:[['combat',6,'Clear the archive access route'],['disable',2,'Disable both interference controllers']],win:'Restore archive access and disable both controllers.',lose:'Armor reaches zero or time expires.'},
  {name:'Liberty Route Clear',map:4,diff:'Casual',time:660,story:'Armed hostiles are blocking the public route across Liberty Square. Secure its checkpoints and reactivate safety beacons.',steps:[['combat',5,'Secure the public route'],['disable',2,'Reactivate both safety beacons'],['waypoint',0,'Reach the evacuation checkpoint']],win:'Reactivate beacons and reach the final checkpoint.',lose:'Armor reaches zero or time expires.'},
- {name:'Dome Concourse Push',map:5,diff:'Tight',time:900,story:'All eight hostile guards are already deployed in the Dome concourse. Clear them, unlock the service terminal and secure the exit. No reinforcements arrive in this campaign round.',steps:[['combat',8,'Clear all eight deployed guards'],['disable',1,'Unlock the service terminal'],['waypoint',0,'Secure the concourse exit']],win:'Clear the deployed squad and secure the exit.',lose:'Armor reaches zero or time expires.'},
+ {name:'Dome Concourse Push',map:5,diff:'Tight',time:900,story:'Follow the service concourse toward the Dome. Hidden teams guard side entrances and turns. Clear the route, unlock the service terminal and secure the exit. Defeated guards do not return.',steps:[['combat',8,'Clear all eight deployed guards'],['disable',1,'Unlock the service terminal'],['waypoint',0,'Secure the concourse exit']],win:'Clear the deployed squad and secure the exit.',lose:'Armor reaches zero or time expires.'},
  {name:'Night Lantern Rescue',map:6,diff:'Tight',time:720,story:'The evacuated night market still has trapped vendors. Clear its lantern-lit lanes and rescue the stranded people.',steps:[['combat',5,'Secure the market lanes'],['rescue',0,'Rescue the stranded vendors'],['escort',0,'Guide the vendors to safety']],win:'Rescue and escort the stranded vendors.',lose:'Armor or escort safety reaches zero, or time expires.'},
  {name:'Market Exit Escort',map:6,diff:'Casual',time:780,story:'Seven armed hostiles are already deployed at the market exit. Remove the electronic lock and lead the evacuation team out.',steps:[['combat',7,'Clear the market exit route'],['disable',1,'Disable the security lock'],['rescue',0,'Find the evacuation team'],['escort',0,'Lead the team out']],win:'Disable the lock and guide the group to safety.',lose:'Armor or escort safety reaches zero, or time expires.'},
  {name:'Mountain Signal Break',map:7,diff:'Casual',time:780,story:'The main relay signal has been traced to a fictional Yangmingshan service station. Clear patrols and disconnect the transmitters.',steps:[['combat',4,'Stop armed patrols on the trail'],['disable',2,'Disconnect both signal relays'],['waypoint',0,'Recover transmission data']],win:'Disconnect both relays and recover transmission data.',lose:'Armor reaches zero or time expires.'},
- {name:'Skyline Final Stand',map:7,diff:'Tight',time:1080,story:'Seven hostiles, including the armored squad leader, are already at the Yangmingshan relay approach. Clear the entire squad, disable both controllers and recover the restoration data. Eliminated enemies do not return.',steps:[['combat',7,'Clear the squad and armored leader'],['disable',2,'Disable both main controllers'],['waypoint',0,'Recover Skyline restoration data']],win:'Clear the seven deployed hostiles and restore the grid.',lose:'Armor reaches zero or time expires.'}
+ {name:'Skyline Final Stand',map:7,diff:'Tight',time:1080,story:'Follow the lookout switchbacks toward the relay. Hidden patrols and an armored squad leader guard the approach. Clear them, disable both controllers and recover the restoration data. Eliminated enemies do not return.',steps:[['combat',7,'Clear the squad and armored leader'],['disable',2,'Disable both main controllers'],['waypoint',0,'Recover Skyline restoration data']],win:'Clear the seven deployed hostiles and restore the grid.',lose:'Armor reaches zero or time expires.'}
 ];
 const artSprites={};const canvas=$('scene'),ctx=canvas.getContext('2d',{alpha:true}); let CW=960,CH=540,DPR=1;
 function resize(){const w=innerWidth,h=innerHeight;canvas.width=Math.min(1280,Math.floor(w*Math.min(devicePixelRatio||1,1.3)));canvas.height=Math.min(720,Math.floor(h*Math.min(devicePixelRatio||1,1.3)));CW=canvas.width;CH=canvas.height;ctx.imageSmoothingEnabled=true;}
@@ -39,8 +39,8 @@ function missionSelect(){running=false;show('missionSelect');const grid=$('missi
 function brief(i){selected=i;$('defenseBtn').hidden=![7,11].includes(i);const m=missions[i];show('briefing');$('briefNumber').textContent=`MISSION ${String(i+1).padStart(2,'0')}`;$('briefTitle').textContent=m.name;$('briefLocation').textContent=maps[m.map].name;$('briefStory').textContent=m.story;$('briefDifficulty').textContent=m.diff.toUpperCase();$('briefDifficulty').className='difficulty '+(m.diff==='Tight'?'tight':'');$('briefObjectives').replaceChildren();m.steps.forEach(s=>{let li=document.createElement('li');li.textContent=s[2];$('briefObjectives').append(li)});$('briefWin').textContent=m.win;$('briefLose').textContent=m.lose;let bg=$('briefLandscape');bg.style.backgroundImage=`linear-gradient(0deg,#071e43dd,transparent 70%),url('assets/landmark-${m.map+1}.jpg')`;bg.style.backgroundPosition=`${m.map===0?'center':m.map===7?'right':'35%'} center`;}
 $('continueBtn').onclick=()=>brief(Math.max(0,progress.unlocked-1));$('openMissions').onclick=missionSelect;document.querySelectorAll('[data-back]').forEach(x=>x.onclick=()=>screen==='briefing'?missionSelect():show('menu'));$('deployBtn').onclick=()=>start('campaign');$('defenseBtn').onclick=()=>start('defense');
 $('soundToggle').onclick=()=>{soundOn=!soundOn;$('soundToggle').textContent=soundOn?'♫ ON':'♫ OFF';beep();};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.();};
-const MAP_W=24,MAP_H=24;
-function makeGrid(theme){
+const MAP_W=64,MAP_H=36;
+function makeSiteGrid(theme){
 // Each landmark has a distinct footprint; all mission objectives remain reachable
 // through the main traversal spine. These are stylized play spaces, not site plans.
 const g=Array.from({length:24},(_,z)=>Array.from({length:24},(_,x)=>x===0||z===0||x===23||z===23?1:0));
@@ -81,14 +81,14 @@ if(theme==='tower'){
 }
 return g;
 }
-function solid(x,y){return !game||!game.grid[Math.floor(y)]||game.grid[Math.floor(y)][Math.floor(x)]>0;}
+function solid(x,y){const row=game?.grid[Math.floor(y)],col=Math.floor(x);return !row||col<0||col>=row.length||row[col]>0;}
 function passable(x,y,r=.22){return !solid(x-r,y-r)&&!solid(x+r,y-r)&&!solid(x-r,y+r)&&!solid(x+r,y+r);}
 function visibility(x1,y1,x2,y2){let d=Math.hypot(x2-x1,y2-y1),s=Math.max(1,Math.ceil(d/.14));for(let i=1;i<s;i++){let a=i/s;if(solid(x1+(x2-x1)*a,y1+(y2-y1)*a))return false;}return true;}
 const waypoints=[{x:18.5,y:12.5},{x:18.5,y:11.5},{x:16.5,y:13.5},{x:18.5,y:14.5}];
 function objectiveAt(type,index=0){
  const plan=window.TVSites?.plans[game.m.map];
  const p=type==='device'?plan?.devices[index]:type==='point'?plan?.point:null;
- return {type,x:p?.[0]??18.5,y:p?.[1]??12.5,active:true};
+ return {type,x:(p?.[0]??18.5)+game.route.plan.offset.x,y:(p?.[1]??12.5)+game.route.plan.offset.y,active:true};
 }
 function start(mode='campaign'){
  if(!window.TV3D?.ready){note('Loading the textured character and 3D engine…',3);return;}
@@ -96,21 +96,25 @@ function start(mode='campaign'){
  if(mode==='defense'&&![7,11].includes(selected))mode='campaign';
  const base=missions[selected],m=mode==='defense'?{...base,name:base.name+' — Defense Drill',
   steps:[['defend',3,'Optional defense drill — clear three incoming waves']],win:'Clear the three explicit defense waves.'}:base;
- game={id:selected,m,mode,theme:maps[m.map],grid:makeGrid(maps[m.map].theme),px:3.5,py:12.5,dir:0,pitch:0,
+ const layout=window.TVRoutes.create(maps[m.map].theme,makeSiteGrid(maps[m.map].theme)),entry=mode==='campaign'?layout.plan.start:layout.plan.siteStart;
+ game={id:selected,m,mode,theme:maps[m.map],grid:layout.grid,route:layout,routeProgress:0,encounterEvents:[],routeGuide:null,px:entry.x,py:entry.y,dir:0,pitch:0,
   armor:100,escortHealth:100,terminalHealth:100,ammo:30,reserve:150,weapon:0,aim:false,reloadUntil:0,recoil:0,
   shieldUntil:0,droneUntil:0,enemies:[],downeds:[],objective:null,stage:0,preparedStage:-1,stageDone:0,nextInteractAt:0,
   kills:0,shots:0,hits:0,devices:0,rescues:0,elapsed:0,remaining:m.time,animation:0,muzzle:0,hitFlash:0,wasMoving:false,
   escort:null,lastFire:-10,spawnCycle:0,defendClock:0,spawnLocked:false,nextEnemyId:1,spawnEvents:[]};
- running=true;paused=false;keys.clear();firing=false;moveInput.x=moveInput.y=0;show('playing');ctx.clearRect(0,0,CW,CH);window.TV3D.load(m.map,game.grid);
- spawnWave(mode==='defense'?3:m.steps[0][1],false,'deployment');
+ running=true;paused=false;keys.clear();firing=false;moveInput.x=moveInput.y=0;show('playing');ctx.clearRect(0,0,CW,CH);passable.bounds={width:game.grid[0].length,height:game.grid.length};window.TV3D.load(m.map,game.grid,layout);
+ if(mode==='campaign'){
+  window.TVRoutes.roster(game,m.steps[0][1],spawnEnemy);game.spawnCycle+=3;
+  game.spawnEvents.push({reason:'hidden-roster',time:0,count:game.enemies.length});
+ }else spawnWave(3,false,'deployment');
  game.rosterSize=game.enemies.length;game.spawnLocked=mode==='campaign';
- prepareStage();beep('win',.09);note(mode==='defense'?'OPTIONAL DEFENSE — WAVE 1 / 3':'ROUND LIVE — ALL HOSTILES DEPLOYED',2.5);
+ prepareStage();window.TVRoutes.update(game,visibility);beep('win',.09);note(mode==='defense'?'OPTIONAL DEFENSE — WAVE 1 / 3':'FOLLOW THE ROUTE — WATCH THE CORNERS',2.5);
 }
 function spawnEnemy(x,y,kind='guard'){
  if(!running||game.spawnLocked||solid(x,y))return false;
  const hp=kind==='heavy'?6:3;
  game.enemies.push({id:game.nextEnemyId++,x,y,kind,hp,maxHp:hp,phase:Math.random()*6,moving:false,facing:Math.PI,
-  fall:0,state:'active',hitAt:0,locomotionSpeed:0,intent:'hold',nextShot:game.elapsed+1.1+Math.random()*.8});return true;
+  fall:0,state:'active',hitAt:0,locomotionSpeed:0,intent:'hold',nextShot:game.elapsed+1.1+Math.random()*.8});return game.enemies[game.enemies.length-1];
 }
 function spawnWave(n,heavy=false,reason='defense-wave'){
  if(!running||game.spawnLocked)return false;
@@ -118,7 +122,7 @@ function spawnWave(n,heavy=false,reason='defense-wave'){
  const before=game.enemies.length;
  for(let i=0;i<n;i++){
   const [x,y]=slots[(game.spawnCycle+i)%slots.length];
-  spawnEnemy(x,y,heavy||(game.mode==='campaign'&&game.id===11&&i===n-1)?'heavy':i%3===2?'shield':'guard');
+  spawnEnemy(x+game.route.plan.offset.x,y+game.route.plan.offset.y,heavy||(game.mode==='campaign'&&game.id===11&&i===n-1)?'heavy':i%3===2?'shield':'guard');
  }
  game.spawnCycle+=3;game.spawnEvents.push({reason,time:game.elapsed,count:game.enemies.length-before});return true;
 }
@@ -133,7 +137,7 @@ function prepareStage(){
  // Stage preparation never creates enemies. Campaign roster is sealed at deployment.
  if(st[0]==='defend'){game.defendClock=0;game.terminalHealth=100;}
  else if(st[0]==='rescue')game.objective=objectiveAt('rescue');
- else if(st[0]==='escort'){game.escort={x:18.5,y:12.5,safety:100};game.objective={type:'exit',x:3.5,y:12.5,active:true};}
+ else if(st[0]==='escort'){game.escort={...objectiveAt('rescue'),safety:100};game.objective={type:'exit',...game.route.plan.start,active:true};}
  else if(st[0]==='disable')game.objective=objectiveAt('device');
  else if(st[0]==='waypoint')game.objective=objectiveAt('point');
  updateHUD();note(st[0]==='defend'?`DEFENSE — WAVE 1 / ${st[1]}`:st[2],2);
@@ -143,9 +147,9 @@ function nextStage(expectedStage){
  game.stage++;prepareStage();
 }
 let noticeUntil=0;function note(msg,seconds=1.6){$('notice').textContent=msg;$('notice').style.opacity=1;noticeUntil=performance.now()/1000+seconds;}
-function updateHUD(){if(!game)return;const st=game.m.steps[game.stage];$('buildLabel').textContent=BUILD;$('hostileCount').textContent=game.mode==='campaign'?('HOSTILES '+game.enemies.filter(e=>e.state==='active').length+' / '+game.rosterSize+' · NO RESPAWN'):'OPTIONAL DEFENSE WAVES';$('hudMission').textContent=`MISSION ${String(game.id+1).padStart(2,'0')} · ${game.theme.name}`;$('hudObjective').textContent=st?(st[0]==='defend'?`WAVE ${game.stageDone+1} / ${st[1]} · TERMINAL ${Math.ceil(game.terminalHealth)}% · ${st[2]}`:(st[0]!=='combat'&&!game.enemies.some(e=>e.state==='active')?'AREA CLEAR · ':'')+st[2]):'Mission Complete';$('hudTimer').textContent=`TIME ${Math.max(0,Math.floor(game.remaining/60)).toString().padStart(2,'0')}:${Math.max(0,Math.floor(game.remaining%60)).toString().padStart(2,'0')}`;$('hudTimer').style.color=game.remaining<60?'#ff907e':'#ffd666';$('armorBar').style.width=`${Math.max(0,game.armor)}%`;$('armorText').textContent=Math.ceil(game.armor);$('armorBar').style.background=game.armor<35?'linear-gradient(90deg,#ed594d,#ffa459)':'linear-gradient(90deg,#31e2a7,#d1fa61)';$('weaponName').textContent=game.weapon?'PULSE SIDEARM':'SKYLINE RIFLE';$('ammoText').textContent=game.reloadUntil?'RELOADING':`${game.ammo} / ${game.reserve}`;}
+function updateHUD(){if(!game)return;const st=game.m.steps[game.stage];$('buildLabel').textContent=BUILD;$('hostileCount').textContent=game.mode==='campaign'?('ROUTE '+Math.floor(game.routeProgress)+' / '+Math.round(game.route.plan.length)+'m · '+game.enemies.filter(e=>e.state==='active'&&e.awakened).length+' ENGAGED · NO RESPAWN'):'OPTIONAL DEFENSE WAVES';$('hudMission').textContent=`MISSION ${String(game.id+1).padStart(2,'0')} · ${game.theme.name}`;$('hudObjective').textContent=st?(st[0]==='combat'&&game.mode==='campaign'?(game.enemies.some(e=>e.state==='active'&&e.awakened)?'CONTACT — CLEAR THIS SECTION':'ADVANCE — CHECK THE NEXT CORNER'):st[0]==='defend'?`WAVE ${game.stageDone+1} / ${st[1]} · TERMINAL ${Math.ceil(game.terminalHealth)}% · ${st[2]}`:(st[0]!=='combat'&&!game.enemies.some(e=>e.state==='active')?'AREA CLEAR · ':'')+st[2]):'Mission Complete';$('hudTimer').textContent=`TIME ${Math.max(0,Math.floor(game.remaining/60)).toString().padStart(2,'0')}:${Math.max(0,Math.floor(game.remaining%60)).toString().padStart(2,'0')}`;$('hudTimer').style.color=game.remaining<60?'#ff907e':'#ffd666';$('armorBar').style.width=`${Math.max(0,game.armor)}%`;$('armorText').textContent=Math.ceil(game.armor);$('armorBar').style.background=game.armor<35?'linear-gradient(90deg,#ed594d,#ffa459)':'linear-gradient(90deg,#31e2a7,#d1fa61)';$('weaponName').textContent=game.weapon?'PULSE SIDEARM':'SKYLINE RIFLE';$('ammoText').textContent=game.reloadUntil?'RELOADING':`${game.ammo} / ${game.reserve}`;}
 function move(dx,dy){if(!running||paused)return;const r=.21;if(passable(game.px+dx,game.py,r))game.px+=dx;if(passable(game.px,game.py+dy,r))game.py+=dy;}
-function shoot(){completeReload();if(game?.reloadUntil)return;if(!running||paused||game.elapsed-game.lastFire<(game.weapon?.3:.16))return;game.lastFire=game.elapsed;if(game.ammo<=0){note('RELOAD REQUIRED',1);beep('tap');return;}game.ammo--;game.shots++;game.muzzle=.08;game.recoil=Math.min(.12,game.recoil+.018);game.shotNoiseUntil=game.elapsed+1.5;beep('shot',.07);let target=null,angle=game.dir,best=1e6;for(const e of game.enemies){if(e.state!=='active')continue;let dist=Math.hypot(e.x-game.px,e.y-game.py),ad=Math.atan2(e.y-game.py,e.x-game.px)-angle;ad=Math.atan2(Math.sin(ad),Math.cos(ad));const threshold=Math.atan(.3/Math.max(.1,dist))+(game.aim?.003:.009);if(Math.abs(ad)<threshold*3&&visibility(game.px,game.py,e.x,e.y))window.TVTactics.react(e,game);const height=1.65+Math.tan(game.pitch||0)*dist;if(height<.15||height>(e.crouching?1.25:1.95))continue;if(Math.abs(ad)<threshold&&dist<21&&dist<best&&visibility(game.px,game.py,e.x,e.y)){target=e;best=dist;}}if(target){game.hits++;target.hp--;target.hitAt=.25;beep('hit',.07);if(target.hp<=0){target.state='disabled';target.fall=0;target.moving=false;game.downeds.push(target);game.kills++;note('HOSTILE UNIT STOPPED!',.85);}else note('DIRECT HIT!',.5);}updateHUD();}
+function shoot(){completeReload();if(game?.reloadUntil)return;if(!running||paused||game.elapsed-game.lastFire<(game.weapon?.3:.16))return;game.lastFire=game.elapsed;if(game.ammo<=0){note('RELOAD REQUIRED',1);beep('tap');return;}game.ammo--;game.shots++;game.muzzle=.08;game.recoil=Math.min(.12,game.recoil+.018);game.shotNoiseUntil=game.elapsed+1.5;beep('shot',.07);let target=null,angle=game.dir,best=1e6;for(const e of game.enemies){if(e.state!=='active')continue;let dist=Math.hypot(e.x-game.px,e.y-game.py),ad=Math.atan2(e.y-game.py,e.x-game.px)-angle;ad=Math.atan2(Math.sin(ad),Math.cos(ad));const threshold=Math.atan(.3/Math.max(.1,dist))+(game.aim?.003:.009);if(Math.abs(ad)<threshold*3&&visibility(game.px,game.py,e.x,e.y)){if(e.awakened===false)window.TVRoutes.wakeGroup(game,e.encounterId,'incoming-fire');window.TVTactics.react(e,game);}const height=1.65+Math.tan(game.pitch||0)*dist;if(height<.15||height>(e.crouching?1.25:1.95))continue;if(Math.abs(ad)<threshold&&dist<21&&dist<best&&visibility(game.px,game.py,e.x,e.y)){target=e;best=dist;}}if(target){game.hits++;target.hp--;target.hitAt=.25;beep('hit',.07);if(target.hp<=0){target.state='disabled';target.fall=0;target.moving=false;game.downeds.push(target);game.kills++;note('HOSTILE UNIT STOPPED!',.85);}else note('DIRECT HIT!',.5);}updateHUD();}
 function completeReload(){if(!game||!game.reloadUntil||game.elapsed<game.reloadUntil)return;
  const max=game.weapon?12:30,take=Math.min(max-game.ammo,game.reserve);game.ammo+=take;game.reserve-=take;game.reloadUntil=0;updateHUD();}
 function reload(){if(!running||!game||paused||game.reloadUntil||game.ammo>=(game.weapon?12:30)||game.reserve<=0)return;
@@ -189,6 +193,7 @@ addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight
 function simulate(dt){if(!game||paused||!running)return;dt=Math.min(dt,.05);game.elapsed+=dt;game.remaining-=dt;game.animation+=dt*(game.wasMoving?8:1.4);game.muzzle=Math.max(0,game.muzzle-dt);game.hitFlash=Math.max(0,game.hitFlash-dt);game.recoil=Math.max(0,game.recoil-dt*.1);completeReload();if(game.remaining<=0){finish(false);return;}
 if(keys.has('arrowleft'))game.dir-=dt*1.8;if(keys.has('arrowright'))game.dir+=dt*1.8;
 let forward=(keys.has('w')||keys.has('arrowup')?1:0)-(keys.has('s')||keys.has('arrowdown')?1:0)-moveInput.y;let side=(keys.has('d')?1:0)-(keys.has('a')?1:0)+moveInput.x;let magnitude=Math.hypot(forward,side);game.wasMoving=magnitude>.08;if(magnitude>1){forward/=magnitude;side/=magnitude;}let sp=(keys.has('shift')?4.1:3.2)*dt;move(Math.cos(game.dir)*forward*sp+Math.cos(game.dir+Math.PI/2)*side*sp,Math.sin(game.dir)*forward*sp+Math.sin(game.dir+Math.PI/2)*side*sp);if(firing)shoot();
+window.TVRoutes.update(game,visibility);
 for(const e of game.enemies){window.TVTactics.update(e,game,dt,{passable,visibility,solid,onDamage:()=>beep('damage',.026)});if(game.armor<=0){finish(false);return;}}
 for(const e of game.downeds)e.fall=Math.min(1,e.fall+dt*2.0);if(game.downeds.length>22)game.downeds.splice(0,game.downeds.length-22);
 const stage=game.stage,st=game.m.steps[stage];
@@ -208,7 +213,16 @@ if(st){
   }
  }else if(st[0]==='escort'&&game.escort){
   const o=game.escort,d=Math.hypot(game.px-o.x,game.py-o.y);
-  if(d>1.3&&d<9){let ux=(game.px-o.x)/d,uy=(game.py-o.y)/d,step=2.35*dt;if(passable(o.x+ux*step,o.y+uy*step,.3)){o.x+=ux*step;o.y+=uy*step;}}
+  if(d>1.3&&d<9){
+   let target={x:game.px,y:game.py};
+   if(!visibility(o.x,o.y,game.px,game.py)){
+    if(!o.route||game.elapsed>=(o.repathAt||0)){o.route=window.TVTactics.findPath(o.x,o.y,game.px,game.py,passable);o.repathAt=game.elapsed+.5;}
+    while(o.route?.length&&Math.hypot(o.route[0].x-o.x,o.route[0].y-o.y)<.2)o.route.shift();
+    target=o.route?.[0]||target;
+   }
+   const length=Math.hypot(target.x-o.x,target.y-o.y)||1,step=2.35*dt,dx=(target.x-o.x)/length*step,dy=(target.y-o.y)/length*step;
+   if(passable(o.x+dx,o.y,.3))o.x+=dx;if(passable(o.x,o.y+dy,.3))o.y+=dy;
+  }
   if(game.enemies.some(e=>e.state==='active')){o.safety-=dt*.4;if(o.safety<=0){finish(false);return;}}
   if(Math.hypot(o.x-game.objective.x,o.y-game.objective.y)<2.2&&Math.hypot(game.px-game.objective.x,game.py-game.objective.y)<2.8)nextStage(stage);
  }
@@ -264,7 +278,23 @@ shape([[196,18],[195,-19],[259,-28],[273,12],[257,45],[211,44]],'#ffae34');shape
 // Rifle markings
 p.fillStyle='#fff';p.font='900 19px system-ui';p.textAlign='center';p.fillText(game.weapon?'PULSE SIDEARM':'SKYLINE RIFLE',190,77);p.strokeStyle='#124273';p.lineWidth=4;p.shadowBlur=0;p.restore();
 if(game.muzzle){p.save();let fx=x+420*sc,fy=y+82*sc;p.translate(fx,fy);p.rotate(game.elapsed*2);p.fillStyle='#fffce0';p.strokeStyle='#ff9c2c';p.lineWidth=3;p.beginPath();for(let i=0;i<16;i++){let a=i*TAU/16,r=i%2===0?35*sc:12*sc;p.lineTo(Math.cos(a)*r,Math.sin(a)*r);}p.closePath();p.fill();p.stroke();p.restore();}}
-function drawMini(){if(!game)return;let c=$('minimap'),p=c.getContext('2d'),s=c.width/24;p.clearRect(0,0,c.width,c.height);p.fillStyle='#0c2a53';p.fillRect(0,0,c.width,c.height);for(let y=0;y<24;y++)for(let x=0;x<24;x++)if(game.grid[y][x]){p.fillStyle=game.grid[y][x]===1?'#5284a8':'#7897a7';p.fillRect(x*s,y*s,s-.4,s-.4);}if(game.objective){p.fillStyle='#6effa8';p.beginPath();p.arc(game.objective.x*s,game.objective.y*s,5,0,TAU);p.fill();}for(let e of game.enemies){if(e.state==='active'&&(game.elapsed<game.droneUntil||Math.hypot(e.x-game.px,e.y-game.py)<7)){p.fillStyle='#ff7265';p.beginPath();p.arc(e.x*s,e.y*s,3,0,TAU);p.fill();}}p.save();p.translate(game.px*s,game.py*s);p.rotate(game.dir);p.fillStyle='#ffda56';p.beginPath();p.moveTo(8,0);p.lineTo(-5,-5);p.lineTo(-5,5);p.closePath();p.fill();p.restore();}
+function drawMini(){
+ if(!game)return;const c=$('minimap'),p=c.getContext('2d'),w=game.grid[0].length,h=game.grid.length,
+  scale=Math.min(c.width/w,c.height/h),ox=(c.width-w*scale)/2,oy=(c.height-h*scale)/2;
+ if(!game.miniBase){
+  const base=document.createElement('canvas');base.width=c.width;base.height=c.height;const b=base.getContext('2d');
+  b.fillStyle='#12241b';b.fillRect(0,0,c.width,c.height);
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(game.grid[y][x]){b.fillStyle=game.grid[y][x]===31?'#4b6250':'#718371';b.fillRect(ox+x*scale,oy+y*scale,scale,scale);}
+  b.strokeStyle='#b9ad7580';b.lineWidth=1;b.beginPath();game.route.plan.nodes.forEach((n,i)=>i?b.lineTo(ox+n.x*scale,oy+n.y*scale):b.moveTo(ox+n.x*scale,oy+n.y*scale));b.stroke();game.miniBase=base;
+ }
+ p.clearRect(0,0,c.width,c.height);p.drawImage(game.miniBase,0,0);
+ const target=game.objective||game.routeGuide;
+ if(target){p.fillStyle='#b4d68c';p.beginPath();p.arc(ox+target.x*scale,oy+target.y*scale,3,0,TAU);p.fill();}
+ for(const e of game.enemies){if(e.state!=='active')continue;
+  if(game.elapsed<game.droneUntil||(e.awakened!==false&&Math.hypot(e.x-game.px,e.y-game.py)<9&&visibility(game.px,game.py,e.x,e.y))){p.fillStyle='#e98b68';p.beginPath();p.arc(ox+e.x*scale,oy+e.y*scale,2.3,0,TAU);p.fill();}
+ }
+ p.save();p.translate(ox+game.px*scale,oy+game.py*scale);p.rotate(game.dir);p.fillStyle='#f4db93';p.beginPath();p.moveTo(6,0);p.lineTo(-4,-4);p.lineTo(-4,4);p.closePath();p.fill();p.restore();
+}
 function loop(now){let dt=Math.min(.06,(now-last)/1000);last=now;if(running&&!paused){simulate(dt);if(window.TV3D?.ready){window.TV3D.render(game);ctx.clearRect(0,0,CW,CH);if(!window.TV3D.ownsWeapon)drawWeapon(ctx,CW,CH);if(game.hitFlash>0){ctx.fillStyle=`rgba(255,95,77,${game.hitFlash*.35})`;ctx.fillRect(0,0,CW,CH);}}else{ctx.clearRect(0,0,CW,CH);ctx.fillStyle='#09264c';ctx.fillRect(0,0,CW,CH);ctx.fillStyle='#fff';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.fillText('WEBGL 3D REQUIRED',CW/2,CH/2);}drawMini();}else if(!running){drawMenuCanvas(now/1000);}requestAnimationFrame(loop);}function drawMenuCanvas(t){let g=ctx.createLinearGradient(0,0,0,CH);g.addColorStop(0,'#78cdfd');g.addColorStop(.55,'#d4faff');g.addColorStop(1,'#5f92b8');ctx.fillStyle=g;ctx.fillRect(0,0,CW,CH);ctx.globalAlpha=.58;drawLandmark(ctx,'tower',CW,CH);ctx.globalAlpha=1;}
 $('buildLabel').textContent=BUILD;
 requestAnimationFrame(loop);

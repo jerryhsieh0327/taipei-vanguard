@@ -1,39 +1,49 @@
-# Taipei Vanguard — Tactical R2 (2026-11-20)
+# Taipei Vanguard — Tactical R3: Ambush Routes
 
-這次更新直接針對三個問題：敵人不會跑閃、人物像方塊、Interact 後又生怪。
+本版將「開局所有敵人一起衝來」改成沿路推進、分段遭遇，並延長八個景點的接近路線。貼圖士兵、跑步與閃避，以及不重生規則均保留。
 
-## 本版玩法
+## 玩起來的變化
 
-- 預設戰役：所有敵人在開局就部署完成。打倒後本局不再補生。第12關的重裝敵人也在開局就在場。
-- Interact 只處理解救、裝置與任務點。戰役進行中，新增敵人的入口會被鎖住。
-- 第8、12關的防守波次移到另外的 OPTIONAL: THREE-WAVE DEFENSE DRILL 按鈕；一般 DEPLOY 不會進入防守波次。防守演練不解鎖戰役進度。
-- 敵人會追擊跑動、側移、受火後延遲閃避、尋找附近遮蔽物、繞過障礙物，並以短點射攻擊。沒有上下亂跳。
-- 人物改為帶貼圖、49根骨骼的士兵模型，使用 Idle / Walk / Run 骨架動畫與動作銜接。倒地後保留，身體最低點落在地面。
-- 換彈有時間；加入3D前景槍械、瞄準視野、後座視覺與較簡潔的戰術介面。
+- 開局不會看見敵人站成一排。每關分四組，每組1–2人，藏在側廊、轉角或遮蔽物後。
+- 前進到該路段時，該組才從藏身處跑出。探頭真正看到守衛，也可能提早驚動該組。
+- 每個敵人只有一份固定身分，倒下後本局不再補生。折返與 Interact 都不會重播已清除的遭遇。
+- 路線延長到約71–79公尺的遊戲距離，包含多次轉彎、側廊、藏身處與最後的景點空間。小地圖、路線進度與轉角指引一併更新。
+- 台北101採商場服務通道；中正紀念堂採側廊與庭園接近線；龍山寺採廟側迴廊；故宮採展廳通道；自由廣場採庭園外圍；大巨蛋採場館服務通道；夜市採側巷接主街；陽明山採觀景步道折返路。
+- 護送人員會沿可通行路線繞過轉角，回到入口。保持靠近，避免讓人員落後。
+- 第8、12關另有明確選擇的防守演練；一般戰役不會自動進入多波防守。
 
-## 更新 GitHub 網站
+延長的側廊與接近線是遊戲化配置，不是實際道路或建築測繪平面圖。原有八個地標的簡化建築保留在路線後段。
 
-1. 解壓縮完整 ZIP。
-2. 將裡面的全部檔案及資料夾上傳到 Repository 根目錄，包含 assets/models、vendor、enemy-ai.js、scene-geometry.js、renderer3d.js、game.js、tactical.css 及 index.html。不要只換 game.js。
-3. 完成 Commit，等待 GitHub Pages 更新後重新整理。右上方必須顯示 TACTICAL R2 · NO RESPAWN，才能確認載入本版。
+## 路線長度
 
-這份交付是更新檔案，沒有直接修改 GitHub 遠端或自動部署網站。入口檔替腳本與樣式加上版本網址，避免沿用上一版快取。遊戲透過靜態網站載入；不要用受限的檔案預覽器開啟 index.html。
+| 景點 | 中心線遊戲距離 |
+| --- | ---: |
+| 台北101 | 75m |
+| 國立中正紀念堂 | 77m |
+| 艋舺龍山寺 | 73m |
+| 國立故宮博物院 | 77m |
+| 自由廣場 | 79m |
+| 台北大巨蛋 | 75m |
+| 饒河街夜市 | 71m |
+| 陽明山 | 77m |
 
-## 操作
+## 更新網站
 
-iPad橫向：左側移動，右側拖曳瞄準，FIRE / AIM / RELOAD / INTERACT。
-桌面：WASD移動、方向鍵轉向、Space開火、R換彈、F互動、Esc暫停。雙擊右側視野區可鎖定滑鼠，之後用滑鼠移動瞄準、左鍵開火；Esc可離開。
+完整包：將 ZIP 內全部內容上傳到 Repository 根目錄。
+R2升級包：將 ZIP 內檔案依相同路徑覆蓋至現有R2，包含新增的 route-layouts.js。
 
-## 驗證
+部署完成後重新開啟網站，右上應顯示 TACTICAL R3 · AMBUSH ROUTES。index.html 位於根目錄，保留 assets 與 vendor 的資料夾結構。本次只準備交付檔案，沒有直接部署到 GitHub Pages。
 
-25項邏輯、流程及AI測試通過。Chromium 157 中驗證八景點的貼圖骨架人物、12關戰役完成且每關只部署一次、兩個明確選擇的防守演練、跑步骨骼改變、側閃位移、24組倒地接地案例，以及鍵盤與模擬觸控 Interact。執行時沒有外部網路資源請求，也沒有瀏覽器或WebGL錯誤。
+## 操作與驗證
 
-邏輯測試：node --test tests/mission-flow.test.cjs
-瀏覽器測試：node tests/tactical-browser.cjs（需Playwright與Chrome/Chromium；可指定CHROME_PATH）
-詳細結果見 tests/mission-results.tap 與 tests/tactical-browser-results.json。
+維持R2操作：iPad橫向左側移動、右側拖曳瞄準，使用FIRE、AIM、RELOAD與INTERACT。桌面使用WASD、Space、R、F、Esc；雙擊視野區可鎖定滑鼠。
 
-## 現階段限制
+30項邏輯與流程測試通過，涵蓋八圖的隱藏配置、碰撞與路線連通、分段出擊、折返不重播、12關實際沿路移動與戰鬥、護送返程、互動防重複、跑閃、換彈、重開與獨立防守演練。瀏覽器另驗證八圖的真實幾何遮擋、跑出藏身處、12關完整流程、觸控Interact、24組倒地接地，沒有外部資源請求或瀏覽器錯誤。
 
-這是更換人物與戰鬥系統的戰術原型，尚未達到 Counter-Strike 的成品品質。八個景點仍是前一版的簡化建築與局部配置，槍械模型和死亡倒地不是正式武器素材或完整物理布娃娃；尚未完成iPad Safari實機效能、戰鬥平衡與操控驗證。自動通關使用測試位置與額外護甲來隔離流程問題，不等於人工無輔助通關。
+測試：node --test tests/route-flow.test.cjs
+瀏覽器檢查：node tests/ambush-browser.cjs（需Playwright與Chrome/Chromium，可指定CHROME_PATH）
+結果：tests/mission-results.tap、tests/ambush-browser-results.json。
 
-模型與第三方程式來源請見 THIRD_PARTY_NOTICES.md；景點資料見 SCENE_REFERENCES.md。
+自動流程測試使用額外護甲，讓驗證聚焦在路線與狀態；並非人工無輔助通關。圖中的開局／第一遭遇預覽使用正常護甲。iPad Safari實機效能、戰鬥平衡與整體成品品質仍待驗證。這仍是戰術原型，並非Counter-Strike同等品質的完成品。
+
+第三方素材與程式來源見THIRD_PARTY_NOTICES.md，原地標參考見SCENE_REFERENCES.md。

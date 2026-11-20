@@ -1,31 +1,23 @@
-# Tactical R2 repair report
+# R3: Progressive ambush encounters and longer routes
 
-## Live-site diagnosis
+## Changes
 
-The GitHub Pages game and entry page were read directly during this repair. The page was loading the prior mission-fix build. Its prepareStage function still created defense enemies when device interaction advanced mission 8 to defense, and still spawned the late heavy unit and defense stage in mission 12. This was the preserved design in the earlier delivery, not evidence that the user had failed to upload the previous update.
+R2's campaign deployed the whole roster along the opening sightline and let every guard detect the player. R3 keeps a fixed, sealed roster but physically positions it in four occluded pockets along an extended approach. Guards remain idle until the player reaches the section or makes genuine visual contact with that group. Activated guards navigate out of the pocket, then retain the existing pursuit, strafe, dodge, cover and burst-fire logic. No enemy is teleported into the camera view or created by Interact.
 
-## Default campaign invariant
+route-layouts.js owns the 64x36 collision grid, 71–79-unit centerline routes, pocket cells, one-shot activation ledger, route projection, guides and visible wall faces. The original 24x24 landmark footprint is translated 36 units along X and connected to the approach. Wall faces are generated from the same cells used for collision and visibility. Each theme has its own proportions and architectural treatment. These approaches are gameplay layouts, not claims about real site plans.
 
-All campaign enemies are created by start() before objectives begin. spawnLocked is then set, and both spawnEnemy() and spawnWave() reject subsequent creation. prepareStage() creates no enemies in any branch. The mission-12 armored leader is included in its seven-person opening roster. Missions 8 and 12 now have terminal/checkpoint objectives after the opening encounter.
+Only one campaign roster-creation event occurs. spawnLocked rejects subsequent campaign creation. An activation event releases existing actors; it does not spawn or revive them. Each group ID can activate once. Route progress is monotonic, so walking back does not re-arm a trigger. Disabled actors remain in the corpse list.
 
-The expected campaign roster totals are 4, 6, 5, 6, 4, 6, 5, 8, 5, 7, 4, 7. Automated checks complete every objective and assert one creation event per campaign mission and final kills equal the original roster. Restarting a mission or explicitly deploying a new mission intentionally creates a new round.
+Pathfinding keys and bounds now use the actual map dimensions. Escort personnel can request paths around blocked turns. Device, rescue and checkpoint coordinates move with the original site footprint, while escort exit coordinates remain at the new entrance. The minimap caches its static background and displays the longer route. Dormant guards are not shown normally; the deliberate scout-drone ability can still reveal their positions.
 
-Three-wave defense is retained behind a separate, explicitly labeled briefing button for missions 8 and 12. That mode has no Interact-driven spawning, and is the only mode allowed to generate later waves. Its three waves contain 3, 4 and 5 enemies; cleared waves advance after the minimum ten-second interval. Success in the drill does not unlock campaign missions.
+## Verification
 
-## Character and movement replacement
+- 30 Node checks pass. Every map has no visible or engaged guard at deployment, navigable pockets and objectives, a connected long route and four encounter sections. Waiting eight seconds does not move or activate the hidden roster.
+- All twelve campaigns are traversed using collision-checked movement, real shooting, encounter AI and objective interactions. Rescue missions escort personnel back along the extended route. Every campaign finishes with exactly one roster-creation event, four unique activated groups and final kills equal to the original roster.
+- Crossing the first gate releases only its one- or two-person team. Guards run out using the same collision grid. Later teams remain stationary. Backtracking and repeated Interact neither replay the encounter nor revive bodies.
+- Stage-entry, stale completion, far/paused/consumed/repeated/result-screen interaction guards, running, delayed dodge, timed reload, intentional restart, terminal failure and timeout remain checked.
+- The separate optional defense drills still produce exactly three intentional waves of 3, 4 and 5; their entry moves to the landmark arena.
+- Chromium 157 additionally raycasts the actual rendered environment mesh to verify physical occlusion of every opening guard on all eight maps. It verifies the transition from zero visible guards to a moving, visible first team, including Run animation clips.
+- Browser checks complete all twelve route flows, recheck backtracking and touch Interact, and verify 24 precise skinned-mesh floor-contact cases. No page/console/WebGL errors or external runtime resource requests are recorded.
 
-The box-built hostile renderer is removed from the playable path. Three.js r170, GLTFLoader, independent skeleton clones, physically based textured materials, character lighting and shadows are local to the package. Each character uses the Soldier mesh and 49-bone rig, Idle/Walk/Run clips, short animation fades, a weapon aiming pose and shot muzzle visibility. Mixamo's source model faces -Z; a model-local rotation aligns it with the game's movement heading. Skinning is initialized before measuring height, and rendered character height is checked in the browser to prevent an incorrectly scaled or invisible model.
-
-Enemy logic is in enemy-ai.js. It supports line-of-sight detection, shot hearing, a short reaction delay before dodging, lateral strafing, run pursuit, nearby cover selection, collision-aware pathfinding, local separation and short bursts with recovery. No logic in that module creates enemies. Simulation x/y coordinates are horizontal map positions, not jumps. Cover is a firing-position/visibility behavior; no crouch or jump animation is claimed.
-
-The grounded death pose freezes its own animation, relaxes limb joints and lowers the transformed skinned mesh to minimum world height 0.012. It is a controlled collapse, not a physics ragdoll. Corpses remain disabled through subsequent objectives.
-
-## Evidence and scope
-
-- 25 Node regression/integration checks pass, including every campaign, hard spawn rejection after deployment, repeated and stale interactions, explicit defenses, AI run/dodge, navigation around a wall, objective connectivity and reload timing.
-- Chromium 157 renders all eight maps with textured SkinnedMesh instances and normal humanoid heights; all twelve campaign paths finish with one creation event each.
-- A live Run action visibly changes leg-bone quaternions between frames; reacting to a shot produces a collision-checked lateral dodge and body lean.
-- 24 precise skinned-mesh death-bound checks contact the floor. Keyboard F and emulated landscape touch Interact are exercised without campaign reinforcements.
-- No external runtime requests, page errors, console errors or WebGL errors are recorded.
-
-Browser campaign tests control positions and armor to test state transitions deterministically. Physical iPad Safari, manual combat balance and hardware frame-rate validation remain outstanding. No GitHub push or deployment was performed.
+Browser and Node campaign runs use extra armor to isolate state/path behavior. Opening and first-contact screenshots use normal armor. A physical iPad Safari performance and manual balance pass remains outstanding. No remote deployment was performed while preparing this release.

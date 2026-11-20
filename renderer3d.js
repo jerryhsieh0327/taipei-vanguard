@@ -2,7 +2,7 @@
 import * as THREE from './vendor/three/three.module.min.js';
 import {GLTFLoader} from './vendor/three/addons/loaders/GLTFLoader.js';
 import {clone as cloneSkeleton} from './vendor/three/addons/utils/SkeletonUtils.js';
-const status={ready:false,loading:true,ownsWeapon:true,build:'TACTICAL-R2',error:null};
+const status={ready:false,loading:true,ownsWeapon:true,build:'TACTICAL-R3',error:null};
 window.TV3D=status;
 const canvas=document.createElement('canvas');canvas.id='world3d';
 canvas.setAttribute('aria-label','Textured tactical Taipei game');document.getElementById('app').prepend(canvas);
@@ -33,12 +33,12 @@ function geometryMesh(data){
  const mesh=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({vertexColors:true,side:THREE.DoubleSide,roughness:.88,metalness:.02}));
  mesh.receiveShadow=true;return mesh;
 }
-function load(idx,grid){
+function load(idx,grid,route){
  lastElapsed=0;
  if(environment){scene.remove(environment);environment.geometry.dispose();environment.material.dispose();}
  for(const entry of entries.values()){scene.remove(entry.root);entry.mixer.stopAllAction();for(const mat of entry.materials)mat.dispose();}
  entries.clear();props.clear();props.userData.signature=null;
- environment=geometryMesh(window.TVSceneGeometry.build(idx,grid));scene.add(environment);
+ environment=geometryMesh(window.TVSceneGeometry.build(idx,grid,route));scene.add(environment);
  const color=idx===6?0x252d42:idx===7?0xa1bdba:idx===5?0x7d888e:0xaac6d1;
  scene.background=new THREE.Color(color);scene.fog=new THREE.Fog(color,38,105);
 }
@@ -93,9 +93,9 @@ function pose(entry,e,dt){
   actions[next]?.setEffectiveTimeScale(next==='Run'?Math.max(.85,(e.locomotionSpeed||3)/3.25):next==='Walk'?1.15:1);
   mixer.update(dt);root.updateMatrixWorld(true);
   if(e.hitAt>0&&bones.Spine2){bones.Spine2.rotation.x+=Math.sin(e.hitAt/.25*Math.PI)*.11;root.updateMatrixWorld(true);}
-  if(!entry.ally&&e.intent!=='run'&&e.intent!=='search'&&e.intent!=='dodge')aimPose(entry);
+  if(!entry.ally&&e.intent!=='run'&&e.intent!=='search'&&e.intent!=='dodge'&&e.intent!=='emerge')aimPose(entry);
   if(e.intent==='dodge')pivot.rotation.z=(e.dodgeSide||1)*-.15;else pivot.rotation.z*=.7;
-  gun.visible=!entry.ally&&e.intent!=='run'&&e.intent!=='search'&&e.intent!=='dodge';
+  gun.visible=!entry.ally&&e.intent!=='run'&&e.intent!=='search'&&e.intent!=='dodge'&&e.intent!=='emerge';
   gun.userData.flash.visible=gun.visible&&e.attackFlash>0;
  }else{
   if(!entry.dead){
@@ -114,6 +114,10 @@ function pose(entry,e,dt){
  }
 }
 function objective(o){
+ if(o.type==='route'){
+  const marker=new THREE.Mesh(new THREE.ConeGeometry(.18,.32,3),new THREE.MeshStandardMaterial({color:0xb8aa78,roughness:1}));
+  marker.rotation.x=Math.PI;marker.position.set(o.x,.4,o.y);props.add(marker);return;
+ }
  const group=new THREE.Group(),metal=new THREE.MeshStandardMaterial({color:0x343d3a,roughness:.65,metalness:.4}),
   light=new THREE.MeshStandardMaterial({color:o.type==='device'?0xb99853:0x649d92,emissive:o.type==='device'?0x5c4213:0x174c3d,emissiveIntensity:.5});
  const box=new THREE.Mesh(new THREE.BoxGeometry(.55,.95,.4),metal);box.position.y=.48;group.add(box);
@@ -139,10 +143,10 @@ function render(game){
   pose(entries.get(key)||makeActor(key,true),{...e,state:'active',moving:!!game.escort,locomotionSpeed:game.escort?2:0,facing:Math.atan2(game.py-e.y,game.px-e.x)},dt);
  }
  for(const [key,entry] of entries)if(!liveKeys.has(key)){scene.remove(entry.root);entry.mixer.stopAllAction();for(const mat of entry.materials)mat.dispose();entries.delete(key);}
- const signature=game.objective?`${game.stage}:${game.stageDone}:${game.objective.type}`:'';
+ const target=game.objective||game.routeGuide,signature=target?`${game.stage}:${game.stageDone}:${target.type}:${target.index??''}`:'';
  if(signature!==props.userData.signature){
   props.traverse(o=>{if(o.isMesh){o.geometry.dispose();o.material.dispose();}});props.clear();props.userData.signature=signature;
-  if(game.objective&&game.objective.type!=='rescue')objective(game.objective);
+  if(target&&target.type!=='rescue')objective(target);
  }
  const bob=game.wasMoving?Math.sin(game.animation)*.006:0;
  weapon.position.set(game.aim?.025:.23,-.25+bob-(game.reloadUntil?Math.sin((game.reloadUntil-game.elapsed)*3)*.07:0),-.45+(game.muzzle?game.muzzle*.45:0));

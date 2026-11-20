@@ -1,0 +1,498 @@
+{
+  "browser": "157.0.8103.79",
+  "build": "TACTICAL R3 · AMBUSH ROUTES",
+  "scenes": [
+    {
+      "initial": {
+        "map": 0,
+        "length": 75,
+        "width": 64,
+        "height": 36,
+        "visible": 0,
+        "engaged": 0,
+        "activated": 0,
+        "roster": 4,
+        "physicalOcclusion": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "glError": 0
+      },
+      "encounter": {
+        "activated": 1,
+        "engaged": 1,
+        "visible": 1,
+        "sawRunning": true,
+        "sawVisible": true,
+        "moved": [
+          2.0844282005603216
+        ],
+        "spawnEvents": 1,
+        "clips": [
+          "Run"
+        ]
+      }
+    },
+    {
+      "initial": {
+        "map": 1,
+        "length": 77,
+        "width": 64,
+        "height": 36,
+        "visible": 0,
+        "engaged": 0,
+        "activated": 0,
+        "roster": 5,
+        "physicalOcclusion": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "glError": 0
+      },
+      "encounter": {
+        "activated": 1,
+        "engaged": 1,
+        "visible": 1,
+        "sawRunning": true,
+        "sawVisible": true,
+        "moved": [
+          2.0844282005603216
+        ],
+        "spawnEvents": 1,
+        "clips": [
+          "Run"
+        ]
+      }
+    },
+    {
+      "initial": {
+        "map": 2,
+        "length": 73,
+        "width": 64,
+        "height": 36,
+        "visible": 0,
+        "engaged": 0,
+        "activated": 0,
+        "roster": 4,
+        "physicalOcclusion": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "glError": 0
+      },
+      "encounter": {
+        "activated": 1,
+        "engaged": 1,
+        "visible": 1,
+        "sawRunning": true,
+        "sawVisible": true,
+        "moved": [
+          2.0844282005603216
+        ],
+        "spawnEvents": 1,
+        "clips": [
+          "Run"
+        ]
+      }
+    },
+    {
+      "initial": {
+        "map": 3,
+        "length": 77,
+        "width": 64,
+        "height": 36,
+        "visible": 0,
+        "engaged": 0,
+        "activated": 0,
+        "roster": 6,
+        "physicalOcclusion": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "glError": 0
+      },
+      "encounter": {
+        "activated": 1,
+        "engaged": 1,
+        "visible": 1,
+        "sawRunning": true,
+        "sawVisible": true,
+        "moved": [
+          1.8311519813567643
+        ],
+        "spawnEvents": 1,
+        "clips": [
+          "Run"
+        ]
+      }
+    },
+    {
+      "initial": {
+        "map": 4,
+        "length": 79,
+        "width": 64,
+        "height": 36,
+        "visible": 0,
+        "engaged": 0,
+        "activated": 0,
+        "roster": 5,
+        "physicalOcclusion": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "glError": 0
+      },
+      "encounter": {
+        "activated": 1,
+        "engaged": 1,
+        "visible": 1,
+        "sawRunning": true,
+        "sawVisible": true,
+        "moved": [
+          2.0844282005603216
+        ],
+        "spawnEvents": 1,
+        "clips": [
+          "Run"
+        ]
+      }
+    },
+    {
+      "initial": {
+        "map": 5,
+        "length": 75,
+        "width": 64,
+        "height": 36,
+        "visible": 0,
+        "engaged": 0,
+        "activated": 0,
+        "roster": 8,
+        "physicalOcclusion": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "glError": 0
+      },
+      "encounter": {
+        "activated": 1,
+        "engaged": 2,
+        "visible": 2,
+        "sawRunning": true,
+        "sawVisible": true,
+        "moved": [
+          1.8311519813567643,
+          1.9498103066936128
+        ],
+        "spawnEvents": 1,
+        "clips": [
+          "Run",
+          "Run"
+        ]
+      }
+    },
+    {
+      "initial": {
+        "map": 6,
+        "length": 71,
+        "width": 64,
+        "height": 36,
+        "visible": 0,
+        "engaged": 0,
+        "activated": 0,
+        "roster": 5,
+        "physicalOcclusion": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "glError": 0
+      },
+      "encounter": {
+        "activated": 1,
+        "engaged": 1,
+        "visible": 1,
+        "sawRunning": true,
+        "sawVisible": true,
+        "moved": [
+          2.0844282005603216
+        ],
+        "spawnEvents": 1,
+        "clips": [
+          "Run"
+        ]
+      }
+    },
+    {
+      "initial": {
+        "map": 7,
+        "length": 77,
+        "width": 64,
+        "height": 36,
+        "visible": 0,
+        "engaged": 0,
+        "activated": 0,
+        "roster": 4,
+        "physicalOcclusion": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "glError": 0
+      },
+      "encounter": {
+        "activated": 1,
+        "engaged": 1,
+        "visible": 1,
+        "sawRunning": true,
+        "sawVisible": true,
+        "moved": [
+          2.0844282005603216
+        ],
+        "spawnEvents": 1,
+        "clips": [
+          "Run"
+        ]
+      }
+    }
+  ],
+  "missions": [
+    {
+      "id": 1,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 75,
+      "progress": 73.19999999999956,
+      "kills": 4,
+      "roster": 4,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 2,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 75,
+      "progress": 74.95999999999952,
+      "kills": 6,
+      "roster": 6,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 3,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 77,
+      "progress": 77,
+      "kills": 5,
+      "roster": 5,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 4,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 77,
+      "progress": 77,
+      "kills": 6,
+      "roster": 6,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 5,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 73,
+      "progress": 72.99999999999952,
+      "kills": 4,
+      "roster": 4,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 6,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 77,
+      "progress": 77,
+      "kills": 6,
+      "roster": 6,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 7,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 79,
+      "progress": 79,
+      "kills": 5,
+      "roster": 5,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 8,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 75,
+      "progress": 75,
+      "kills": 8,
+      "roster": 8,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 9,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 71,
+      "progress": 71,
+      "kills": 5,
+      "roster": 5,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 10,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 71,
+      "progress": 71,
+      "kills": 7,
+      "roster": 7,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 11,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 77,
+      "progress": 77,
+      "kills": 4,
+      "roster": 4,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 12,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "length": 77,
+      "progress": 77,
+      "kills": 7,
+      "roster": 7,
+      "spawnEvents": 1,
+      "encounters": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "backtracking": {
+    "events": 1,
+    "spawns": 1,
+    "stillDown": true
+  },
+  "groundedCases": 24,
+  "defenses": [
+    {
+      "id": 8,
+      "done": true,
+      "kills": 12,
+      "spawns": 3
+    },
+    {
+      "id": 12,
+      "done": true,
+      "kills": 12,
+      "spawns": 3
+    }
+  ],
+  "touchInteract": "passed",
+  "externalRequests": [],
+  "errors": []
+}

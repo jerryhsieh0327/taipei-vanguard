@@ -1,15 +1,25 @@
 {
-  "build": "TACTICAL R2 · NO RESPAWN",
+  "build": "TACTICAL R3 · AMBUSH ROUTES",
   "date": "2026-11-20",
-  "campaign": "opening roster only",
-  "engine": "three.js r170",
+  "campaign": "fixed hidden roster; one-shot route activations",
+  "routeLengths": [
+    75,
+    77,
+    73,
+    77,
+    79,
+    75,
+    71,
+    77
+  ],
   "files": {
-    "game.js": "dd39d5b07df2a97ec5955e1643feb11a300cebb9eaffb859769816096efc21f0",
-    "renderer3d.js": "5b8f4774d210855cc5d0047f5396d70f4fa0fbdbb25744ad74541ccfecb326ac",
-    "enemy-ai.js": "3b7b98c205dc7a43f22d5f2c4cd9da6e96ce40071e33cd6c04af82a5af3089b4",
-    "scene-geometry.js": "4c3110b4bda6d0dc67e9baac22345ffbee84ef78fdfb452c313086aabbd2fc1d",
+    "index.html": "a220925072a218cd79e063432f22f5f5450acdb6554d5e56e7ba8ab97b2d5d00",
+    "game.js": "373d4c80dfd80a1a49ad9584c00d5a2c3a6bf24ad7de966c768477b8aaf3276b",
+    "renderer3d.js": "8c00291acca981a929ecc45cce46bd219696ba67bdc42342fd64abc0cfb78e6d",
+    "enemy-ai.js": "24fca7bc827037c1ae20dec1b53497d253e870d697893ae21c69f0e5c59c37d3",
+    "route-layouts.js": "f0126dd67b2dbe0bdd5ef0cc92048f9fb0b6285ddf17a37d03fce28e4e0cb0c0",
+    "scene-geometry.js": "a572b75044d0eb944373cb35305c93d238086e1e1cc922d558f728fd2f1e0134",
     "landmarks.js": "e0df510f9488ccb8fd770e3c1607cf0d2518fbc399ecc440362e9c544b63244c",
-    "index.html": "5a9a67567842fdc74fdb9ebd7719bc631419835b5b3f93ed68749f085aa2b56a",
     "tactical.css": "f1a9b987740acc41fdc95ac20f64c49b3670b903d9ce3255cf3b189d02d2618d",
     "assets/models/Soldier.glb": "dfb230fc1f942f259dd00281a1186953ad602fc5d69067ce63e24b2aa439736b"
   }

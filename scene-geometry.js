@@ -76,7 +76,8 @@ function addCover(m,grid,theme){
  }
 }
 
-function build(idx,grid){const theme=['tower','memorial','temple','museum','square','dome','night','mountain'][idx];
- const mesh=new Mesh();decor(mesh,theme);addCover(mesh,grid,theme);window.TVSites.build(mesh,theme,Mesh);if(idx===0)sideCity(mesh);
+function build(idx,grid,route){const theme=['tower','memorial','temple','museum','square','dome','night','mountain'][idx];
+ const mesh=new Mesh();decor(mesh,theme);addCover(mesh,route?.siteGrid||grid,theme);window.TVSites.build(mesh,theme,Mesh);if(idx===0)sideCity(mesh);
+ if(route){for(let i=0;i<mesh.a.length;i+=9){mesh.a[i]+=route.plan.offset.x;mesh.a[i+2]+=route.plan.offset.y;}window.TVRoutes.decorate(mesh,grid,route);}
  return new Float32Array(mesh.a);}
 window.TVSceneGeometry={Mesh,build};})();

@@ -1,12 +1,13 @@
 /* Tactical movement on the game's collision grid. No spawning or resurrection. */
 (()=>{'use strict';
 function findPath(sx,sy,tx,ty,passable){
- const start=[Math.floor(sx),Math.floor(sy)],goal=[Math.floor(tx),Math.floor(ty)],key=(x,y)=>y*24+x;
+ const width=passable.bounds?.width||64,height=passable.bounds?.height||36,
+  start=[Math.floor(sx),Math.floor(sy)],goal=[Math.floor(tx),Math.floor(ty)],key=(x,y)=>y*width+x;
  const queue=[start],seen=new Set([key(...start)]),parent=new Map();let found=null;
  for(let i=0;i<queue.length;i++){
   const [x,y]=queue[i];if(x===goal[0]&&y===goal[1]){found=[x,y];break;}
   for(const [nx,ny] of [[x+1,y],[x-1,y],[x,y+1],[x,y-1]]){
-   const k=key(nx,ny);if(nx<1||ny<1||nx>22||ny>22||seen.has(k)||!passable(nx+.5,ny+.5,.28))continue;
+   const k=key(nx,ny);if(nx<1||ny<1||nx>=width-1||ny>=height-1||seen.has(k)||!passable(nx+.5,ny+.5,.28))continue;
    seen.add(k);parent.set(k,[x,y]);queue.push([nx,ny]);
   }
  }
@@ -24,7 +25,7 @@ function react(e,g){
 }
 function seekCover(e,g,world){
  let best=null,score=Infinity;
- for(let y=Math.max(1,Math.floor(e.y)-4);y<Math.min(23,e.y+5);y++)for(let x=Math.max(1,Math.floor(e.x)-4);x<Math.min(23,e.x+5);x++){
+ for(let y=Math.max(1,Math.floor(e.y)-4);y<Math.min((world.passable.bounds?.height||36)-1,e.y+5);y++)for(let x=Math.max(1,Math.floor(e.x)-4);x<Math.min((world.passable.bounds?.width||64)-1,e.x+5);x++){
   const px=x+.5,py=y+.5,d=Math.hypot(px-e.x,py-e.y);
   if(d<.5||!world.passable(px,py,.28)||world.visibility(g.px,g.py,px,py))continue;
   const s=d+Math.abs(Math.hypot(px-g.px,py-g.py)-7)*.15;
@@ -41,6 +42,8 @@ function move(e,vx,vy,speed,dt,passable){
 }
 function update(e,g,dt,world){
  if(e.state!=='active')return;
+ if(e.awakened===false){e.moving=false;e.locomotionSpeed=0;e.intent='ambush-wait';return;}
+ if(e.emergeTarget&&Math.hypot(e.x-e.emergeTarget.x,e.y-e.emergeTarget.y)<.75)e.emergeTarget=null;
  const oldX=e.x,oldY=e.y,d=Math.hypot(e.x-g.px,e.y-g.py),los=world.visibility(e.x,e.y,g.px,g.py);
  e.hitAt=Math.max(0,e.hitAt-dt);e.attackFlash=Math.max(0,(e.attackFlash||0)-dt);
  if(los&&d<19){e.lastSeen={x:g.px,y:g.py};e.alertUntil=g.elapsed+7;}
@@ -53,6 +56,14 @@ function update(e,g,dt,world){
   vx=-uy*e.dodgeSide;vy=ux*e.dodgeSide;speed=3.7;e.intent='dodge';
   // If the chosen side is blocked, dodge to the open side instead.
   if(!world.passable(e.x+vx*.35,e.y+vy*.35,.28)){vx=-vx;vy=-vy;}
+ }else if(e.emergeTarget){
+  let target=e.emergeTarget;e.intent='emerge';
+  if(!world.visibility(e.x,e.y,target.x,target.y)){
+   if(!e.route||g.elapsed>=(e.repathAt||0)){e.route=findPath(e.x,e.y,target.x,target.y,world.passable);e.repathAt=g.elapsed+.5;}
+   while(e.route?.length&&Math.hypot(e.route[0].x-e.x,e.route[0].y-e.y)<.2)e.route.shift();
+   target=e.route?.[0]||target;
+  }
+  vx=target.x-e.x;vy=target.y-e.y;speed=e.kind==='heavy'?2.1:3.25;
  }else if(alert){
   if(g.elapsed>=(e.nextCoverCheck||0)&&e.hp<=e.maxHp*.6&&g.elapsed<(e.underFireUntil||0)){
    e.cover=seekCover(e,g,world);e.nextCoverCheck=g.elapsed+3;e.coverUntil=g.elapsed+3;
@@ -91,7 +102,7 @@ function update(e,g,dt,world){
  if(e.moving)e.phase+=dt*e.locomotionSpeed*3.6;
  e.facing=los?Math.atan2(g.py-e.y,g.px-e.x):e.moving?Math.atan2(e.y-oldY,e.x-oldX):e.facing;
  // Short bursts with recovery, rather than a continuous damage beam.
- if(los&&d<18&&alert&&e.intent!=='dodge'&&e.intent!=='run'&&g.elapsed>=(e.nextShot||0)){
+ if(los&&d<18&&alert&&e.intent!=='dodge'&&e.intent!=='run'&&e.intent!=='emerge'&&g.elapsed>=(e.nextShot||0)){
   e.burstLeft??=3;e.attackFlash=.08;e.burstLeft--;e.shotsFired=(e.shotsFired||0)+1;
   e.nextShot=g.elapsed+(e.burstLeft>0?.15:1.7+Math.random()*.8);
   if(e.burstLeft<=0)e.burstLeft=3;

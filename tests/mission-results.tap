@@ -1,160 +1,190 @@
 TAP version 13
-# Subtest: rescue -> escort never creates an unbriefed enemy wave
-ok 1 - rescue -> escort never creates an unbriefed enemy wave
+# Subtest: map 1: extended route, hidden roster, reachable pockets and objectives
+ok 1 - map 1: extended route, hidden roster, reachable pockets and objectives
   ---
-  duration_ms: 16.8222
+  duration_ms: 31.7054
   type: 'test'
   ...
-# Subtest: multi-device interactions do not spawn or erase enemies
-ok 2 - multi-device interactions do not spawn or erase enemies
+# Subtest: map 3: extended route, hidden roster, reachable pockets and objectives
+ok 2 - map 3: extended route, hidden roster, reachable pockets and objectives
   ---
-  duration_ms: 9.0121
+  duration_ms: 21.0729
   type: 'test'
   ...
-# Subtest: stage entry and stale completion are one-shot; living enemies cannot be skipped
-ok 3 - stage entry and stale completion are one-shot; living enemies cannot be skipped
+# Subtest: map 5: extended route, hidden roster, reachable pockets and objectives
+ok 3 - map 5: extended route, hidden roster, reachable pockets and objectives
   ---
-  duration_ms: 4.2322
+  duration_ms: 20.4727
   type: 'test'
   ...
-# Subtest: interaction ignores far, paused, consumed, rapid and post-result inputs
-ok 4 - interaction ignores far, paused, consumed, rapid and post-result inputs
+# Subtest: map 6: extended route, hidden roster, reachable pockets and objectives
+ok 4 - map 6: extended route, hidden roster, reachable pockets and objectives
   ---
-  duration_ms: 12.9374
+  duration_ms: 21.12
   type: 'test'
   ...
-# Subtest: corpses stay disabled across objectives; restart intentionally resets the mission
-ok 5 - corpses stay disabled across objectives; restart intentionally resets the mission
+# Subtest: map 7: extended route, hidden roster, reachable pockets and objectives
+ok 5 - map 7: extended route, hidden roster, reachable pockets and objectives
   ---
-  duration_ms: 7.7853
+  duration_ms: 20.768
   type: 'test'
   ...
-# Subtest: mission 8: defense retains live threats and completes exactly 3 waves
-ok 6 - mission 8: defense retains live threats and completes exactly 3 waves
+# Subtest: map 8: extended route, hidden roster, reachable pockets and objectives
+ok 6 - map 8: extended route, hidden roster, reachable pockets and objectives
   ---
-  duration_ms: 57.4599
+  duration_ms: 22.3181
   type: 'test'
   ...
-# Subtest: mission 12: defense retains live threats and completes exactly 3 waves
-ok 7 - mission 12: defense retains live threats and completes exactly 3 waves
+# Subtest: map 9: extended route, hidden roster, reachable pockets and objectives
+ok 7 - map 9: extended route, hidden roster, reachable pockets and objectives
   ---
-  duration_ms: 53.9826
+  duration_ms: 25.294
   type: 'test'
   ...
-# Subtest: campaign mission 1 reaches results without unbriefed spawns
-ok 8 - campaign mission 1 reaches results without unbriefed spawns
+# Subtest: map 11: extended route, hidden roster, reachable pockets and objectives
+ok 8 - map 11: extended route, hidden roster, reachable pockets and objectives
   ---
-  duration_ms: 3.6943
+  duration_ms: 21.4739
   type: 'test'
   ...
-# Subtest: campaign mission 2 reaches results without unbriefed spawns
-ok 9 - campaign mission 2 reaches results without unbriefed spawns
+# Subtest: footsteps activate only the first team; it runs from cover through real collision
+ok 9 - footsteps activate only the first team; it runs from cover through real collision
   ---
-  duration_ms: 8.9276
+  duration_ms: 14.6709
   type: 'test'
   ...
-# Subtest: campaign mission 3 reaches results without unbriefed spawns
-ok 10 - campaign mission 3 reaches results without unbriefed spawns
+# Subtest: backtracking and repeated Interact cannot replay an ambush or revive a body
+ok 10 - backtracking and repeated Interact cannot replay an ambush or revive a body
   ---
-  duration_ms: 3.9281
+  duration_ms: 10.7118
   type: 'test'
   ...
-# Subtest: campaign mission 4 reaches results without unbriefed spawns
-ok 11 - campaign mission 4 reaches results without unbriefed spawns
+# Subtest: mission 1: traverse, fight four encounters, finish objectives and escorts
+ok 11 - mission 1: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 8.3369
+  duration_ms: 27.848
   type: 'test'
   ...
-# Subtest: campaign mission 5 reaches results without unbriefed spawns
-ok 12 - campaign mission 5 reaches results without unbriefed spawns
+# Subtest: mission 2: traverse, fight four encounters, finish objectives and escorts
+ok 12 - mission 2: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 4.171
+  duration_ms: 55.8061
   type: 'test'
   ...
-# Subtest: campaign mission 6 reaches results without unbriefed spawns
-ok 13 - campaign mission 6 reaches results without unbriefed spawns
+# Subtest: mission 3: traverse, fight four encounters, finish objectives and escorts
+ok 13 - mission 3: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 3.9886
+  duration_ms: 32.34
   type: 'test'
   ...
-# Subtest: campaign mission 7 reaches results without unbriefed spawns
-ok 14 - campaign mission 7 reaches results without unbriefed spawns
+# Subtest: mission 4: traverse, fight four encounters, finish objectives and escorts
+ok 14 - mission 4: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 3.9104
+  duration_ms: 59.937
   type: 'test'
   ...
-# Subtest: campaign mission 8 reaches results without unbriefed spawns
-ok 15 - campaign mission 8 reaches results without unbriefed spawns
+# Subtest: mission 5: traverse, fight four encounters, finish objectives and escorts
+ok 15 - mission 5: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 7.8141
+  duration_ms: 26.941
   type: 'test'
   ...
-# Subtest: campaign mission 9 reaches results without unbriefed spawns
-ok 16 - campaign mission 9 reaches results without unbriefed spawns
+# Subtest: mission 6: traverse, fight four encounters, finish objectives and escorts
+ok 16 - mission 6: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 6.5624
+  duration_ms: 35.3264
   type: 'test'
   ...
-# Subtest: campaign mission 10 reaches results without unbriefed spawns
-ok 17 - campaign mission 10 reaches results without unbriefed spawns
+# Subtest: mission 7: traverse, fight four encounters, finish objectives and escorts
+ok 17 - mission 7: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 9.7769
+  duration_ms: 32.4692
   type: 'test'
   ...
-# Subtest: campaign mission 11 reaches results without unbriefed spawns
-ok 18 - campaign mission 11 reaches results without unbriefed spawns
+# Subtest: mission 8: traverse, fight four encounters, finish objectives and escorts
+ok 18 - mission 8: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 4.0253
+  duration_ms: 37.179
   type: 'test'
   ...
-# Subtest: campaign mission 12 reaches results without unbriefed spawns
-ok 19 - campaign mission 12 reaches results without unbriefed spawns
+# Subtest: mission 9: traverse, fight four encounters, finish objectives and escorts
+ok 19 - mission 9: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 4.8772
+  duration_ms: 56.763
   type: 'test'
   ...
-# Subtest: every site-specific objective is in a connected, open collision cell
-ok 20 - every site-specific objective is in a connected, open collision cell
+# Subtest: mission 10: traverse, fight four encounters, finish objectives and escorts
+ok 20 - mission 10: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 9.7766
+  duration_ms: 58.0352
   type: 'test'
   ...
-# Subtest: failure and timeout stop defense spawning and interaction
-ok 21 - failure and timeout stop defense spawning and interaction
+# Subtest: mission 11: traverse, fight four encounters, finish objectives and escorts
+ok 21 - mission 11: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 4.6648
+  duration_ms: 33.2805
   type: 'test'
   ...
-# Subtest: campaign spawn lock rejects any later spawn, including explicit combat setup calls
-ok 22 - campaign spawn lock rejects any later spawn, including explicit combat setup calls
+# Subtest: mission 12: traverse, fight four encounters, finish objectives and escorts
+ok 22 - mission 12: traverse, fight four encounters, finish objectives and escorts
   ---
-  duration_ms: 6.2742
+  duration_ms: 51.1067
   type: 'test'
   ...
-# Subtest: AI runs, reacts after a delay, dodges on the ground and respects cover collision
-ok 23 - AI runs, reacts after a delay, dodges on the ground and respects cover collision
+# Subtest: stage setup and stale stage completion remain one-shot
+ok 23 - stage setup and stale stage completion remain one-shot
   ---
-  duration_ms: 3.9891
+  duration_ms: 3.8313
   type: 'test'
   ...
-# Subtest: navigation routes around a blocked corridor rather than walking into it
-ok 24 - navigation routes around a blocked corridor rather than walking into it
+# Subtest: device interactions ignore distance, pause, consumed targets, double taps and results
+ok 24 - device interactions ignore distance, pause, consumed targets, double taps and results
   ---
-  duration_ms: 19.0839
+  duration_ms: 4.1656
   type: 'test'
   ...
-# Subtest: reload takes time and prevents firing until the magazine is ready
-ok 25 - reload takes time and prevents firing until the magazine is ready
+# Subtest: mission 8: explicit defense still has exactly three waves
+ok 25 - mission 8: explicit defense still has exactly three waves
   ---
-  duration_ms: 13.3586
+  duration_ms: 26.3782
   type: 'test'
   ...
-1..25
-# tests 25
+# Subtest: mission 12: explicit defense still has exactly three waves
+ok 26 - mission 12: explicit defense still has exactly three waves
+  ---
+  duration_ms: 26.806
+  type: 'test'
+  ...
+# Subtest: terminal destruction and timeout stop subsequent waves
+ok 27 - terminal destruction and timeout stop subsequent waves
+  ---
+  duration_ms: 6.5087
+  type: 'test'
+  ...
+# Subtest: timed reload still prevents firing until completion
+ok 28 - timed reload still prevents firing until completion
+  ---
+  duration_ms: 4.0476
+  type: 'test'
+  ...
+# Subtest: restart resets route activations intentionally; the armored leader starts hidden in the last pocket
+ok 29 - restart resets route activations intentionally; the armored leader starts hidden in the last pocket
+  ---
+  duration_ms: 8.6607
+  type: 'test'
+  ...
+# Subtest: awakened guards retain running and delayed dodge behavior on the new grid
+ok 30 - awakened guards retain running and delayed dodge behavior on the new grid
+  ---
+  duration_ms: 3.955
+  type: 'test'
+  ...
+1..30
+# tests 30
 # suites 0
-# pass 25
+# pass 30
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 460.0248
+# duration_ms 926.0649
