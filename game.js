@@ -24,9 +24,9 @@ const missions=[
  {name:'Night Lantern Rescue',map:6,diff:'Tight',time:720,story:'The evacuated night market still has trapped vendors. Clear its lantern-lit lanes and rescue the stranded people.',steps:[['combat',5,'Secure the market lanes'],['rescue',0,'Rescue the stranded vendors'],['escort',0,'Guide the vendors to safety']],win:'Rescue and escort the stranded vendors.',lose:'Armor or escort safety reaches zero, or time expires.'},
  {name:'Market Exit Escort',map:6,diff:'Casual',time:780,story:'A wave of hostile machines is blocking the market exit. Remove the electronic lock and lead the evacuation team out.',steps:[['combat',7,'Clear the market exit route'],['disable',1,'Disable the security lock'],['rescue',0,'Find the evacuation team'],['escort',0,'Lead the team out']],win:'Disable the lock and guide the group to safety.',lose:'Armor or escort safety reaches zero, or time expires.'},
  {name:'Mountain Signal Break',map:7,diff:'Casual',time:780,story:'The main relay signal has been traced to a fictional Yangmingshan service station. Clear patrols and disconnect the transmitters.',steps:[['combat',4,'Stop patrol machines on the trail'],['disable',2,'Disconnect both signal relays'],['waypoint',0,'Recover transmission data']],win:'Disconnect both relays and recover transmission data.',lose:'Armor reaches zero or time expires.'},
- {name:'Skyline Final Stand',map:7,diff:'Tight',time:1080,story:'The last signal has moved to a fictional Yangmingshan relay hub. Disable its controllers, stop the heavy unit and restore Taipei’s Skyline Grid.',steps:[['combat',6,'Secure the relay hub approach'],['disable',2,'Disable the main controllers'],['combat',1,'Stop the Veil Heavy Unit'],['defend',3,'Defend the Skyline restoration terminal']],win:'Disable controllers, stop the heavy unit and complete restoration.',lose:'Armor or restoration-terminal safety reaches zero, or time expires.'}
+ {name:'Skyline Final Stand',map:7,diff:'Tight',time:1080,story:'The last signal has moved to a fictional Yangmingshan relay hub. Disable its controllers, stop the heavy unit and defend the restoration terminal through three waves to restore Taipei’s Skyline Grid.',steps:[['combat',6,'Secure the relay hub approach'],['disable',2,'Disable the main controllers'],['combat',1,'Stop the Veil Heavy Unit'],['defend',3,'Defend the Skyline restoration terminal against three waves']],win:'Disable controllers, stop the heavy unit and complete restoration.',lose:'Armor or restoration-terminal safety reaches zero, or time expires.'}
 ];
-const artSprites={};for(const [kind,file] of [['guard','veil-guard.png'],['shield','veil-guard.png'],['bot','veil-bot.png'],['heavy','veil-bot.png']]){const img=new Image();img.src='assets/'+file;artSprites[kind]=img;}const canvas=$('scene'),ctx=canvas.getContext('2d',{alpha:true}); let CW=960,CH=540,DPR=1;
+const artSprites={};const canvas=$('scene'),ctx=canvas.getContext('2d',{alpha:true}); let CW=960,CH=540,DPR=1;
 function resize(){const w=innerWidth,h=innerHeight;canvas.width=Math.min(1280,Math.floor(w*Math.min(devicePixelRatio||1,1.3)));canvas.height=Math.min(720,Math.floor(h*Math.min(devicePixelRatio||1,1.3)));CW=canvas.width;CH=canvas.height;ctx.imageSmoothingEnabled=true;}
 addEventListener('resize',resize);resize();
 let screen='menu', selected=0, running=false, paused=false,game=null, last=performance.now(), screenDepth=[],spriteCache={};
@@ -39,33 +39,106 @@ function brief(i){selected=i;const m=missions[i];show('briefing');$('briefNumber
 $('continueBtn').onclick=()=>brief(Math.max(0,progress.unlocked-1));$('openMissions').onclick=missionSelect;document.querySelectorAll('[data-back]').forEach(x=>x.onclick=()=>screen==='briefing'?missionSelect():show('menu'));$('deployBtn').onclick=start;
 $('soundToggle').onclick=()=>{soundOn=!soundOn;$('soundToggle').textContent=soundOn?'♫ ON':'♫ OFF';beep();};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.();};
 const MAP_W=24,MAP_H=24;
-function makeGrid(theme){let grid=Array.from({length:MAP_H},(_,y)=>Array.from({length:MAP_W},(_,x)=>x===0||y===0||x===23||y===23?1:0));let put=(x,y,v=1)=>{if(x>0&&y>0&&x<23&&y<23)grid[y][x]=v;};
-// Architectural side aisles; the central spine is kept walkable for every campaign objective.
-for(let x=5;x<21;x+=5){for(let y=2;y<22;y++)if((y>=4&&y<=7)||(y>=10&&y<=15)||(y>=18&&y<=20))continue;else put(x,y,1);}
-for(let i=0;i<9;i++){let x=4+i*2,y=i%2?5:19;if(x<22)put(x,y,2);}
-if(theme==='tower'||theme==='dome'||theme==='museum')for(let x=7;x<20;x+=3){put(x,8,3);put(x,16,3);}
-if(theme==='temple'||theme==='memorial'||theme==='square'){for(let x=5;x<21;x+=4){put(x,7,4);put(x,17,4);}}
-if(theme==='night'){for(let x=4;x<22;x+=3){put(x,8,5);put(x,16,5);}}
-if(theme==='mountain')for(let y=3;y<21;y+=4){put(7,y,6);put(18,y+1,6);}
-return grid;}
+function makeGrid(theme){
+// Each landmark has a distinct footprint; all mission objectives remain reachable
+// through the main traversal spine. These are stylized play spaces, not site plans.
+const g=Array.from({length:24},(_,z)=>Array.from({length:24},(_,x)=>x===0||z===0||x===23||z===23?1:0));
+const place=(x,z,v)=>{if(x>1&&x<22&&z>1&&z<22)g[z][x]=v;};
+if(theme==='tower'){
+ // Office/mall atrium: structural columns, paired retail kiosks, elevator banks.
+ for(const x of [6,12,18])for(const z of [4,19])place(x,z,7);
+ for(const x of [8,11,15,18]){place(x,7,8);place(x,17,8);}
+ for(let z=8;z<=16;z++)place(20,z,9);
+}else if(theme==='memorial'){
+ // Monument stair approach: broad central axis, stone planters and low balustrades.
+ for(const x of [4,7,17,20])for(const z of [5,19])place(x,z,10);
+ for(const x of [5,6,7,16,17,18]){place(x,8,11);place(x,16,11);}
+}else if(theme==='temple'){
+ // An open temple courtyard, incense vessel, side columns and protective railings.
+ for(const x of [5,9,15,19]){place(x,3,12);place(x,21,12);}
+ place(12,9,13);for(const x of [6,7,17,18]){place(x,6,14);place(x,18,14);}
+}else if(theme==='museum'){
+ // Gallery lanes with glass display cases and exhibition dividers.
+ for(const z of [5,19])for(const x of [6,10,14,18])place(x,z,15);
+ for(const x of [8,16])for(const z of [8,9,15,16])place(x,z,16);
+}else if(theme==='square'){
+ // Wide open public square, flowerbeds and benches; intentionally few obstacles.
+ for(const z of [5,19])for(const x of [5,10,15,20])place(x,z,17);
+ for(const x of [7,17]){place(x,9,18);place(x,15,18);}
+}else if(theme==='dome'){
+ // Arena concourse: seating bleachers at the sides, inner court stays accessible.
+ for(let x=3;x<22;x++)for(const z of [3,4,20,21])if(x%5)place(x,z,19);
+ for(const x of [9,15]){place(x,6,20);place(x,18,20);}
+}else if(theme==='night'){
+ // A linear night-market aisle flanked by two genuinely different food-stall rows.
+ for(const x of [4,7,10,13,16,19])for(const z of [9,15])place(x,z,21);
+ for(const x of [5,11,17]){place(x,7,22);place(x,17,22);}
+}else if(theme==='mountain'){
+ // Winding lookout path among boulders, shrubs and timber railings.
+ for(const [x,z] of [[5,5],[6,8],[7,17],[8,20],[11,5],[13,19],[16,6],[17,18],[20,8],[20,17]])place(x,z,23);
+ for(let x=3;x<22;x++){place(x,8,24);place(x,16,24);}
+}
+return g;
+}
 function solid(x,y){return !game||!game.grid[Math.floor(y)]||game.grid[Math.floor(y)][Math.floor(x)]>0;}
 function passable(x,y,r=.22){return !solid(x-r,y-r)&&!solid(x+r,y-r)&&!solid(x-r,y+r)&&!solid(x+r,y+r);}
 function visibility(x1,y1,x2,y2){let d=Math.hypot(x2-x1,y2-y1),s=Math.max(1,Math.ceil(d/.14));for(let i=1;i<s;i++){let a=i/s;if(solid(x1+(x2-x1)*a,y1+(y2-y1)*a))return false;}return true;}
 const waypoints=[{x:18.5,y:12.5},{x:18.5,y:11.5},{x:16.5,y:13.5},{x:18.5,y:14.5}];
-function start(){let m=missions[selected];game={id:selected,m,theme:maps[m.map],grid:makeGrid(maps[m.map].theme),px:3.5,py:12.5,dir:0,pitch:0,armor:100,escortHealth:100,terminalHealth:100,ammo:24,reserve:144,weapon:0,aim:false,shieldUntil:0,droneUntil:0,invuln:0,enemies:[],objective:null,stage:0,stageDone:0,kills:0,shots:0,hits:0,devices:0,rescues:0,elapsed:0,remaining:m.time,animation:0,muzzle:0,hitFlash:0,wasMoving:false,objectIndex:0,escort:null,lastFire:-10,spawnCycle:0,defendClock:0};running=true;paused=false;show('playing');window.TV3D?.ready&&window.TV3D.load(m.map,game.grid);prepareStage();beep('win',.09);note(`MISSION ${String(selected+1).padStart(2,'0')}: ${m.name}`,2.5);}
-function spawnEnemy(x,y,kind='guard'){if(solid(x,y))return;game.enemies.push({x,y,kind,hp:kind==='heavy'?10:kind==='shield'?4:kind==='bot'?2:3,phase:Math.random()*6,speed:kind==='heavy'?.13:.22,cool:1+Math.random(),state:'active',hitAt:0});}
+function objectiveAt(type,index=0){
+ const plan=window.TVSites?.plans[game.m.map];
+ const p=type==='device'?plan?.devices[index]:type==='point'?plan?.point:null;
+ return {type,x:p?.[0]??18.5,y:p?.[1]??12.5,active:true};
+}
+function start(){if(!window.TV3D?.ready){alert('3D graphics are unavailable. Please enable WebGL in Safari or Chrome and reload this page.');return;}let m=missions[selected];game={id:selected,m,theme:maps[m.map],grid:makeGrid(maps[m.map].theme),px:3.5,py:12.5,dir:0,pitch:0,armor:100,escortHealth:100,terminalHealth:100,ammo:24,reserve:144,weapon:0,aim:false,shieldUntil:0,droneUntil:0,invuln:0,enemies:[],downeds:[],objective:null,stage:0,preparedStage:-1,stageDone:0,nextInteractAt:0,kills:0,shots:0,hits:0,devices:0,rescues:0,elapsed:0,remaining:m.time,animation:0,muzzle:0,hitFlash:0,wasMoving:false,objectIndex:0,escort:null,lastFire:-10,spawnCycle:0,defendClock:0};running=true;paused=false;show('playing');window.TV3D?.ready&&window.TV3D.load(m.map,game.grid);prepareStage();beep('win',.09);note(`MISSION ${String(selected+1).padStart(2,'0')}: ${m.name}`,2.5);}
+function spawnEnemy(x,y,kind='guard'){if(solid(x,y))return;game.enemies.push({x,y,kind,hp:kind==='heavy'?10:kind==='shield'?4:kind==='bot'?2:3,phase:Math.random()*6,speed:kind==='heavy'?.55:kind==='bot'?.72:.9,moving:false,facing:0,fall:0,cool:1+Math.random(),state:'active',hitAt:0});}
 function spawnWave(n,heavy=false){let slots=[[8.5,12.5],[11.5,11.5],[14.5,13.5],[17.5,11.5],[19.5,14.5],[7.5,14.5],[12.5,14.5],[16.5,10.5],[20.5,12.5],[9.5,10.5]];for(let i=0;i<n;i++){let [x,y]=slots[(game.spawnCycle+i)%slots.length];spawnEnemy(x,y,heavy?'heavy':i%4===2?'shield':i%3===0?'bot':'guard');}game.spawnCycle+=3;}
-function prepareStage(){const st=game.m.steps[game.stage];if(!st){finish(true);return;}game.stageDone=0;game.objectIndex=0;game.objective=null;game.escort=null;game.enemies=[];if(st[0]==='combat')spawnWave(st[1],game.id===11&&game.stage===2);else if(st[0]==='defend'){game.defendClock=0;game.terminalHealth=100;spawnWave(3);}else if(st[0]==='rescue'){game.objective={type:'rescue',x:18.5,y:12.5,active:true};}else if(st[0]==='escort'){game.escort={x:18.5,y:12.5,safety:100};game.objective={type:'exit',x:3.5,y:12.5,active:true};spawnWave(2);}else if(st[0]==='disable'){game.objective={type:'device',x:18.5,y:12.5,active:true};spawnWave(game.m.diff==='Tight'?2:1);}else if(st[0]==='waypoint'){game.objective={type:'point',x:18.5,y:12.5,active:true};}updateHUD();note(st[2],2);}
-function nextStage(){game.stage++;prepareStage();}
+function prepareStage(){
+ if(!running||!game||game.preparedStage===game.stage)return;
+ const st=game.m.steps[game.stage];game.preparedStage=game.stage;
+ game.objective=null;game.escort=null;
+ if(!st){finish(true);return;}
+ game.stageDone=0;game.objectIndex=0;
+ // Keep living threats; defeated actors remain in downeds for the 3D renderer.
+ game.enemies=game.enemies.filter(e=>e.state==='active');
+ // Only explicitly briefed combat and defense stages may create enemies.
+ if(st[0]==='combat')spawnWave(st[1],game.id===11&&game.stage===2);
+ else if(st[0]==='defend'){game.defendClock=0;game.terminalHealth=100;spawnWave(3);}
+ else if(st[0]==='rescue')game.objective=objectiveAt('rescue');
+ else if(st[0]==='escort'){game.escort={x:18.5,y:12.5,safety:100};game.objective={type:'exit',x:3.5,y:12.5,active:true};}
+ else if(st[0]==='disable')game.objective=objectiveAt('device');
+ else if(st[0]==='waypoint')game.objective=objectiveAt('point');
+ updateHUD();note(st[0]==='defend'?`DEFENSE — WAVE 1 / ${st[1]}`:st[2],2);
+}
+function nextStage(expectedStage){
+ if(!running||!game||game.stage!==expectedStage||game.preparedStage!==expectedStage||game.enemies.some(e=>e.state==='active'))return;
+ game.stage++;prepareStage();
+}
 let noticeUntil=0;function note(msg,seconds=1.6){$('notice').textContent=msg;$('notice').style.opacity=1;noticeUntil=performance.now()/1000+seconds;}
-function updateHUD(){if(!game)return;const st=game.m.steps[game.stage];$('hudMission').textContent=`MISSION ${String(game.id+1).padStart(2,'0')} · ${game.theme.name}`;$('hudObjective').textContent=st?st[2]:'Mission Complete';$('hudTimer').textContent=`TIME ${Math.max(0,Math.floor(game.remaining/60)).toString().padStart(2,'0')}:${Math.max(0,Math.floor(game.remaining%60)).toString().padStart(2,'0')}`;$('hudTimer').style.color=game.remaining<60?'#ff907e':'#ffd666';$('armorBar').style.width=`${Math.max(0,game.armor)}%`;$('armorText').textContent=Math.ceil(game.armor);$('armorBar').style.background=game.armor<35?'linear-gradient(90deg,#ed594d,#ffa459)':'linear-gradient(90deg,#31e2a7,#d1fa61)';$('weaponName').textContent=game.weapon?'PULSE SIDEARM':'SKYLINE RIFLE';$('ammoText').textContent=`${game.ammo} / ${game.reserve}`;}
+function updateHUD(){if(!game)return;const st=game.m.steps[game.stage];$('hudMission').textContent=`MISSION ${String(game.id+1).padStart(2,'0')} · ${game.theme.name}`;$('hudObjective').textContent=st?(st[0]==='defend'?`WAVE ${game.stageDone+1} / ${st[1]} · TERMINAL ${Math.ceil(game.terminalHealth)}% · ${st[2]}`:(st[0]!=='combat'&&!game.enemies.some(e=>e.state==='active')?'AREA CLEAR · ':'')+st[2]):'Mission Complete';$('hudTimer').textContent=`TIME ${Math.max(0,Math.floor(game.remaining/60)).toString().padStart(2,'0')}:${Math.max(0,Math.floor(game.remaining%60)).toString().padStart(2,'0')}`;$('hudTimer').style.color=game.remaining<60?'#ff907e':'#ffd666';$('armorBar').style.width=`${Math.max(0,game.armor)}%`;$('armorText').textContent=Math.ceil(game.armor);$('armorBar').style.background=game.armor<35?'linear-gradient(90deg,#ed594d,#ffa459)':'linear-gradient(90deg,#31e2a7,#d1fa61)';$('weaponName').textContent=game.weapon?'PULSE SIDEARM':'SKYLINE RIFLE';$('ammoText').textContent=`${game.ammo} / ${game.reserve}`;}
 function move(dx,dy){if(!running||paused)return;const r=.21;if(passable(game.px+dx,game.py,r))game.px+=dx;if(passable(game.px,game.py+dy,r))game.py+=dy;}
-function shoot(){if(!running||paused||game.elapsed-game.lastFire<(game.weapon?.3:.16))return;game.lastFire=game.elapsed;if(game.ammo<=0){note('RELOAD REQUIRED',1);beep('tap');return;}game.ammo--;game.shots++;game.muzzle=.12;beep('shot',.07);let target=null,angle=game.dir,best=1e6;for(const e of game.enemies){if(e.state!=='active')continue;let dist=Math.hypot(e.x-game.px,e.y-game.py),ad=Math.atan2(e.y-game.py,e.x-game.px)-angle;ad=Math.atan2(Math.sin(ad),Math.cos(ad));const threshold=(game.aim?.075:.11)+(.13/dist);if(Math.abs(ad)<threshold&&dist<21&&dist<best&&visibility(game.px,game.py,e.x,e.y)){target=e;best=dist;}}if(target){game.hits++;target.hp--;target.hitAt=.25;beep('hit',.07);if(target.hp<=0){target.state='disabled';game.kills++;note('HOSTILE UNIT STOPPED!',.85);}else note('DIRECT HIT!',.5);}updateHUD();}
+function shoot(){if(!running||paused||game.elapsed-game.lastFire<(game.weapon?.3:.16))return;game.lastFire=game.elapsed;if(game.ammo<=0){note('RELOAD REQUIRED',1);beep('tap');return;}game.ammo--;game.shots++;game.muzzle=.12;beep('shot',.07);let target=null,angle=game.dir,best=1e6;for(const e of game.enemies){if(e.state!=='active')continue;let dist=Math.hypot(e.x-game.px,e.y-game.py),ad=Math.atan2(e.y-game.py,e.x-game.px)-angle;ad=Math.atan2(Math.sin(ad),Math.cos(ad));const threshold=(game.aim?.075:.11)+(.13/dist);if(Math.abs(ad)<threshold&&dist<21&&dist<best&&visibility(game.px,game.py,e.x,e.y)){target=e;best=dist;}}if(target){game.hits++;target.hp--;target.hitAt=.25;beep('hit',.07);if(target.hp<=0){target.state='disabled';target.fall=0;target.moving=false;game.downeds.push(target);game.kills++;note('HOSTILE UNIT STOPPED!',.85);}else note('DIRECT HIT!',.5);}updateHUD();}
 function reload(){if(!game||paused)return;let max=game.weapon?12:24;let take=Math.min(max-game.ammo,game.reserve);if(take<=0)return;game.ammo+=take;game.reserve-=take;note('RELOADED',.9);beep();updateHUD();}
 function switchWeapon(){if(!game)return;game.weapon=1-game.weapon;game.ammo=Math.min(game.ammo,game.weapon?12:24);note(game.weapon?'PULSE SIDEARM':'SKYLINE RIFLE',1);updateHUD();}
 function tool(name){if(!game||paused)return;if(name==='shield'){game.shieldUntil=game.elapsed+7;note('HALO SHIELD ACTIVE',1.5);beep('win',.08);}else if(name==='drone'){game.droneUntil=game.elapsed+12;note('SCOUT WING: TARGETS MARKED',1.5);beep('win',.08);}else if(name==='device'){interact();}}
-function nearObjective(){let o=game?.objective;if(!o)return false;return Math.hypot(game.px-o.x,game.py-o.y)<1.9;}
-function interact(){if(!game||paused||!game.objective)return;const st=game.m.steps[game.stage],type=st[0];if(!nearObjective()){note('MOVE CLOSER TO THE OBJECTIVE',1);return;}if(type==='rescue'){game.rescues++;note('RESCUE SUCCESSFUL!',1.3);beep('win');nextStage();}else if(type==='disable'){game.devices++;game.stageDone++;note('DEVICE DISABLED!',1.3);beep('win');if(game.stageDone>=st[1])nextStage();else {game.objective={type:'device',x:game.stageDone%2?14.5:18.5,y:12.5};game.enemies=[];spawnWave(1);}}else if(type==='escort'){if(Math.hypot(game.escort.x-game.objective.x,game.escort.y-game.objective.y)<2.5){note('ESCORT COMPLETE!',1.5);game.rescues++;nextStage();}else note('WAIT FOR YOUR ESCORT',1.1);}else if(type==='waypoint'){note('CHECKPOINT REACHED!',1.2);nextStage();}}
+function nearObjective(){let o=game?.objective;if(!o?.active)return false;return Math.hypot(game.px-o.x,game.py-o.y)<1.9;}
+function interact(){
+ if(!running||!game||paused||!game.objective?.active||game.elapsed<game.nextInteractAt)return;
+ const stage=game.stage,st=game.m.steps[stage],o=game.objective;
+ if(!st)return;
+ if(!nearObjective()){note('MOVE CLOSER TO THE OBJECTIVE',1);return;}
+ if(game.enemies.some(e=>e.state==='active')){note('CLEAR HOSTILE UNITS FIRST',1);return;}
+ if(st[0]==='escort'&&(!game.escort||Math.hypot(game.escort.x-o.x,game.escort.y-o.y)>=2.5)){note('WAIT FOR YOUR ESCORT',1.1);return;}
+ // Consume this target once. A short simulation-time guard also absorbs a
+ // double tap when the following stage has a target at the same position.
+ o.active=false;game.nextInteractAt=game.elapsed+.3;
+ if(st[0]==='rescue'){game.rescues++;note('RESCUE SUCCESSFUL!',1.3);beep('win');nextStage(stage);}
+ else if(st[0]==='disable'){
+  game.devices++;game.stageDone++;note('DEVICE DISABLED!',1.3);beep('win');
+  if(game.stageDone>=st[1])nextStage(stage);
+  else game.objective=objectiveAt('device',game.stageDone);
+ }else if(st[0]==='escort'){note('ESCORT COMPLETE!',1.5);game.rescues++;nextStage(stage);}
+ else if(st[0]==='waypoint'){note('CHECKPOINT REACHED!',1.2);nextStage(stage);}
+}
 function finish(success){if(!running)return;running=false;show('results');$('resultIcon').textContent=success?'★':'↻';$('resultIcon').style.color=success?'#ffcf51':'#ff8e8e';$('resultTitle').textContent=success?'MISSION COMPLETE!':'MISSION FAILED';$('resultSub').textContent=success?`${game.m.name} — Taipei mission secured.`:'The mission objective was not completed. Try again!';let score=Math.max(1,Math.min(3,Math.round(3-(game.armor<40?1:0)-(game.hits/Math.max(1,game.shots)<.25?1:0))));if(success){progress.stars[game.id]=Math.max(progress.stars[game.id]||0,score);progress.unlocked=Math.max(progress.unlocked,Math.min(12,game.id+2));save();beep('win',.14);}else beep('damage',.12);$('resultStats').innerHTML=`<div><b>${Math.floor(game.elapsed/60)}:${Math.floor(game.elapsed%60).toString().padStart(2,'0')}</b><small>TIME</small></div><div><b>${game.kills}</b><small>UNITS STOPPED</small></div><div><b>${game.shots?Math.round(game.hits/game.shots*100):0}%</b><small>ACCURACY</small></div><div><b>${game.rescues}</b><small>RESCUES</small></div><div><b>${game.devices}</b><small>DEVICES</small></div><div><b>${success?'★'.repeat(score):'—'}</b><small>RATING</small></div>`;$('resultPrimary').textContent=success&&game.id<11?'NEXT MISSION':'TRY AGAIN';$('resultPrimary').onclick=()=>success&&game.id<11?brief(game.id+1):start();$('resultSecondary').onclick=missionSelect;}
 function pause(){if(!running)return;paused=!paused;$('pauseOverlay').hidden=!paused;}
 $('pauseBtn').onclick=pause;$('resumeBtn').onclick=pause;$('restartBtn').onclick=()=>{paused=false;start();};$('quitBtn').onclick=()=>{paused=false;running=false;missionSelect();};$('reloadBtn').onclick=reload;$('switchBtn').onclick=switchWeapon;$('aimBtn').onclick=()=>{if(game){game.aim=!game.aim;$('aimBtn').style.borderColor=game.aim?'#ffe15e':'';}};$('interactBtn').onclick=interact;document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>tool(b.dataset.tool));
@@ -79,8 +152,30 @@ addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight
 function simulate(dt){if(!game||paused||!running)return;dt=Math.min(dt,.05);game.elapsed+=dt;game.remaining-=dt;game.animation+=dt*(game.wasMoving?8:1.4);game.muzzle=Math.max(0,game.muzzle-dt);game.hitFlash=Math.max(0,game.hitFlash-dt);if(game.remaining<=0){finish(false);return;}
 if(keys.has('arrowleft'))game.dir-=dt*1.8;if(keys.has('arrowright'))game.dir+=dt*1.8;
 let forward=(keys.has('w')||keys.has('arrowup')?1:0)-(keys.has('s')||keys.has('arrowdown')?1:0)-moveInput.y;let side=(keys.has('d')?1:0)-(keys.has('a')?1:0)+moveInput.x;let magnitude=Math.hypot(forward,side);game.wasMoving=magnitude>.08;if(magnitude>1){forward/=magnitude;side/=magnitude;}let sp=(keys.has('shift')?4.1:3.2)*dt;move(Math.cos(game.dir)*forward*sp+Math.cos(game.dir+Math.PI/2)*side*sp,Math.sin(game.dir)*forward*sp+Math.sin(game.dir+Math.PI/2)*side*sp);if(firing)shoot();
-for(const e of game.enemies){if(e.state!=='active')continue;e.phase+=dt;e.hitAt=Math.max(0,e.hitAt-dt);let d=Math.hypot(e.x-game.px,e.y-game.py);if(d>1.6&&d<7&&visibility(game.px,game.py,e.x,e.y)){let vx=(game.px-e.x)/d,vy=(game.py-e.y)/d,step=e.speed*dt;if(passable(e.x+vx*step,e.y+vy*step,.28)){e.x+=vx*step;e.y+=vy*step;}}e.cool-=dt;if(d<9&&e.cool<=0&&visibility(game.px,game.py,e.x,e.y)){e.cool=(game.m.diff==='Tight'?2.1:3.6)+Math.random()*1.7;let damage=(game.m.diff==='Tight'?5:3.3)*(game.elapsed<game.shieldUntil?.25:1);game.armor-=damage;game.hitFlash=.18;beep('damage',.026);if(game.armor<=0){game.armor=0;finish(false);return;}}}
-const st=game.m.steps[game.stage];if(st){if(st[0]==='combat'&&game.enemies.length&&game.enemies.every(e=>e.state!=='active')){nextStage();}else if(st[0]==='waypoint'&&nearObjective()){nextStage();}else if(st[0]==='defend'){game.defendClock+=dt;if(game.defendClock>=10){game.defendClock=0;game.stageDone++;game.enemies=[];if(game.stageDone>=st[1])nextStage();else{spawnWave(3+game.stageDone);note(`WAVE ${game.stageDone+1} INCOMING!`,1.3);}}else if(game.enemies.some(e=>e.state==='active')){game.terminalHealth-=dt*(game.m.diff==='Tight'?.55:.3)*game.enemies.filter(e=>e.state==='active').length;if(game.terminalHealth<=0){finish(false);return;}}}else if(st[0]==='escort'&&game.escort){const o=game.escort,d=Math.hypot(game.px-o.x,game.py-o.y);if(d>1.3&&d<9){let ux=(game.px-o.x)/d,uy=(game.py-o.y)/d,step=2.35*dt;if(passable(o.x+ux*step,o.y+uy*step,.3)){o.x+=ux*step;o.y+=uy*step;}}if(game.enemies.some(e=>e.state==='active')){o.safety-=dt*.4;if(o.safety<=0){finish(false);return;}}if(Math.hypot(o.x-game.objective.x,o.y-game.objective.y)<2.2&&Math.hypot(game.px-game.objective.x,game.py-game.objective.y)<2.8)nextStage();}}
+for(const e of game.enemies){if(e.state!=='active')continue;e.hitAt=Math.max(0,e.hitAt-dt);e.moving=false;let d=Math.hypot(e.x-game.px,e.y-game.py);e.facing=Math.atan2(game.py-e.y,game.px-e.x);if(d>2.2&&d<12&&visibility(game.px,game.py,e.x,e.y)){let vx=(game.px-e.x)/d,vy=(game.py-e.y)/d,step=e.speed*dt;if(passable(e.x+vx*step,e.y+vy*step,.28)){e.x+=vx*step;e.y+=vy*step;e.moving=true;}}if(e.moving)e.phase+=dt*5.6;else e.phase+=dt*.12;e.cool-=dt;if(d<9&&e.cool<=0&&visibility(game.px,game.py,e.x,e.y)){e.cool=(game.m.diff==='Tight'?2.1:3.6)+Math.random()*1.7;let damage=(game.m.diff==='Tight'?5:3.3)*(game.elapsed<game.shieldUntil?.25:1);game.armor-=damage;game.hitFlash=.18;beep('damage',.026);if(game.armor<=0){game.armor=0;finish(false);return;}}}
+for(const e of game.downeds)e.fall=Math.min(1,e.fall+dt*2.0);if(game.downeds.length>22)game.downeds.splice(0,game.downeds.length-22);
+const stage=game.stage,st=game.m.steps[stage];
+if(st){
+ if(st[0]==='combat'&&game.enemies.length&&game.enemies.every(e=>e.state!=='active'))nextStage(stage);
+ else if(st[0]==='waypoint'&&nearObjective())nextStage(stage);
+ else if(st[0]==='defend'){
+  game.defendClock=Math.min(10,game.defendClock+dt);
+  const active=game.enemies.filter(e=>e.state==='active');
+  if(active.length){
+   game.terminalHealth-=dt*(game.m.diff==='Tight'?.55:.3)*active.length;
+   if(game.terminalHealth<=0){finish(false);return;}
+  }else if(game.defendClock>=10){
+   game.defendClock=0;game.stageDone++;
+   if(game.stageDone>=st[1])nextStage(stage);
+   else{game.enemies=game.enemies.filter(e=>e.state==='active');spawnWave(3+game.stageDone);note(`DEFENSE — WAVE ${game.stageDone+1} / ${st[1]}`,1.8);}
+  }
+ }else if(st[0]==='escort'&&game.escort){
+  const o=game.escort,d=Math.hypot(game.px-o.x,game.py-o.y);
+  if(d>1.3&&d<9){let ux=(game.px-o.x)/d,uy=(game.py-o.y)/d,step=2.35*dt;if(passable(o.x+ux*step,o.y+uy*step,.3)){o.x+=ux*step;o.y+=uy*step;}}
+  if(game.enemies.some(e=>e.state==='active')){o.safety-=dt*.4;if(o.safety<=0){finish(false);return;}}
+  if(Math.hypot(o.x-game.objective.x,o.y-game.objective.y)<2.2&&Math.hypot(game.px-game.objective.x,game.py-game.objective.y)<2.8)nextStage(stage);
+ }
+}
 if(game.ammo===0&&game.reserve===0){game.reserve=48;note('EMERGENCY AMMO SUPPLY!',1.3);}updateHUD();let it=game.objective&&nearObjective();$('interactBtn').style.display=it?'block':'none';$('missionPrompt').style.display=it?'block':'none';$('missionPrompt').textContent=it?(game.objective.type==='device'?'TAP INTERACT — DISABLE DEVICE':game.objective.type==='rescue'?'TAP INTERACT — RESCUE':game.objective.type==='exit'?'ESCORT TO THE EXIT':'CHECKPOINT REACHED'):'';if(performance.now()/1000>noticeUntil)$('notice').style.opacity=0;
 }
 // Painted character sprites, lighting and decorative landmark skyline are original procedural artwork.
@@ -133,6 +228,6 @@ shape([[196,18],[195,-19],[259,-28],[273,12],[257,45],[211,44]],'#ffae34');shape
 p.fillStyle='#fff';p.font='900 19px system-ui';p.textAlign='center';p.fillText(game.weapon?'PULSE SIDEARM':'SKYLINE RIFLE',190,77);p.strokeStyle='#124273';p.lineWidth=4;p.shadowBlur=0;p.restore();
 if(game.muzzle){p.save();let fx=x+420*sc,fy=y+82*sc;p.translate(fx,fy);p.rotate(game.elapsed*2);p.fillStyle='#fffce0';p.strokeStyle='#ff9c2c';p.lineWidth=3;p.beginPath();for(let i=0;i<16;i++){let a=i*TAU/16,r=i%2===0?35*sc:12*sc;p.lineTo(Math.cos(a)*r,Math.sin(a)*r);}p.closePath();p.fill();p.stroke();p.restore();}}
 function drawMini(){if(!game)return;let c=$('minimap'),p=c.getContext('2d'),s=c.width/24;p.clearRect(0,0,c.width,c.height);p.fillStyle='#0c2a53';p.fillRect(0,0,c.width,c.height);for(let y=0;y<24;y++)for(let x=0;x<24;x++)if(game.grid[y][x]){p.fillStyle=game.grid[y][x]===1?'#5284a8':'#7897a7';p.fillRect(x*s,y*s,s-.4,s-.4);}if(game.objective){p.fillStyle='#6effa8';p.beginPath();p.arc(game.objective.x*s,game.objective.y*s,5,0,TAU);p.fill();}for(let e of game.enemies){if(e.state==='active'&&(game.elapsed<game.droneUntil||Math.hypot(e.x-game.px,e.y-game.py)<7)){p.fillStyle='#ff7265';p.beginPath();p.arc(e.x*s,e.y*s,3,0,TAU);p.fill();}}p.save();p.translate(game.px*s,game.py*s);p.rotate(game.dir);p.fillStyle='#ffda56';p.beginPath();p.moveTo(8,0);p.lineTo(-5,-5);p.lineTo(-5,5);p.closePath();p.fill();p.restore();}
-function loop(now){let dt=Math.min(.06,(now-last)/1000);last=now;if(running&&!paused){simulate(dt);if(window.TV3D?.ready){window.TV3D.render(game);ctx.clearRect(0,0,CW,CH);drawWeapon(ctx,CW,CH);if(game.hitFlash>0){ctx.fillStyle=`rgba(255,95,77,${game.hitFlash*.35})`;ctx.fillRect(0,0,CW,CH);}}else drawWorld();drawMini();}else if(!running){drawMenuCanvas(now/1000);}requestAnimationFrame(loop);}function drawMenuCanvas(t){let g=ctx.createLinearGradient(0,0,0,CH);g.addColorStop(0,'#78cdfd');g.addColorStop(.55,'#d4faff');g.addColorStop(1,'#5f92b8');ctx.fillStyle=g;ctx.fillRect(0,0,CW,CH);ctx.globalAlpha=.58;drawLandmark(ctx,'tower',CW,CH);ctx.globalAlpha=1;}
+function loop(now){let dt=Math.min(.06,(now-last)/1000);last=now;if(running&&!paused){simulate(dt);if(window.TV3D?.ready){window.TV3D.render(game);ctx.clearRect(0,0,CW,CH);drawWeapon(ctx,CW,CH);if(game.hitFlash>0){ctx.fillStyle=`rgba(255,95,77,${game.hitFlash*.35})`;ctx.fillRect(0,0,CW,CH);}}else{ctx.clearRect(0,0,CW,CH);ctx.fillStyle='#09264c';ctx.fillRect(0,0,CW,CH);ctx.fillStyle='#fff';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.fillText('WEBGL 3D REQUIRED',CW/2,CH/2);}drawMini();}else if(!running){drawMenuCanvas(now/1000);}requestAnimationFrame(loop);}function drawMenuCanvas(t){let g=ctx.createLinearGradient(0,0,0,CH);g.addColorStop(0,'#78cdfd');g.addColorStop(.55,'#d4faff');g.addColorStop(1,'#5f92b8');ctx.fillStyle=g;ctx.fillRect(0,0,CW,CH);ctx.globalAlpha=.58;drawLandmark(ctx,'tower',CW,CH);ctx.globalAlpha=1;}
 requestAnimationFrame(loop);
 })();

@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: rescue -> escort never creates an unbriefed enemy wave
+ok 1 - rescue -> escort never creates an unbriefed enemy wave
+  ---
+  duration_ms: 8.8923
+  type: 'test'
+  ...
+# Subtest: multi-device interactions do not spawn or erase enemies
+ok 2 - multi-device interactions do not spawn or erase enemies
+  ---
+  duration_ms: 3.5487
+  type: 'test'
+  ...
+# Subtest: stage entry and stale completion are one-shot; living enemies cannot be skipped
+ok 3 - stage entry and stale completion are one-shot; living enemies cannot be skipped
+  ---
+  duration_ms: 2.0344
+  type: 'test'
+  ...
+# Subtest: interaction ignores far, paused, consumed, rapid and post-result inputs
+ok 4 - interaction ignores far, paused, consumed, rapid and post-result inputs
+  ---
+  duration_ms: 7.211
+  type: 'test'
+  ...
+# Subtest: corpses stay disabled across objectives; restart intentionally resets the mission
+ok 5 - corpses stay disabled across objectives; restart intentionally resets the mission
+  ---
+  duration_ms: 3.4333
+  type: 'test'
+  ...
+# Subtest: mission 8: defense retains live threats and completes exactly 3 waves
+ok 6 - mission 8: defense retains live threats and completes exactly 3 waves
+  ---
+  duration_ms: 23.4726
+  type: 'test'
+  ...
+# Subtest: mission 12: defense retains live threats and completes exactly 3 waves
+ok 7 - mission 12: defense retains live threats and completes exactly 3 waves
+  ---
+  duration_ms: 23.176
+  type: 'test'
+  ...
+# Subtest: campaign mission 1 reaches results without unbriefed spawns
+ok 8 - campaign mission 1 reaches results without unbriefed spawns
+  ---
+  duration_ms: 2.5232
+  type: 'test'
+  ...
+# Subtest: campaign mission 2 reaches results without unbriefed spawns
+ok 9 - campaign mission 2 reaches results without unbriefed spawns
+  ---
+  duration_ms: 5.5769
+  type: 'test'
+  ...
+# Subtest: campaign mission 3 reaches results without unbriefed spawns
+ok 10 - campaign mission 3 reaches results without unbriefed spawns
+  ---
+  duration_ms: 3.3936
+  type: 'test'
+  ...
+# Subtest: campaign mission 4 reaches results without unbriefed spawns
+ok 11 - campaign mission 4 reaches results without unbriefed spawns
+  ---
+  duration_ms: 5.2236
+  type: 'test'
+  ...
+# Subtest: campaign mission 5 reaches results without unbriefed spawns
+ok 12 - campaign mission 5 reaches results without unbriefed spawns
+  ---
+  duration_ms: 2.2436
+  type: 'test'
+  ...
+# Subtest: campaign mission 6 reaches results without unbriefed spawns
+ok 13 - campaign mission 6 reaches results without unbriefed spawns
+  ---
+  duration_ms: 2.4951
+  type: 'test'
+  ...
+# Subtest: campaign mission 7 reaches results without unbriefed spawns
+ok 14 - campaign mission 7 reaches results without unbriefed spawns
+  ---
+  duration_ms: 2.9145
+  type: 'test'
+  ...
+# Subtest: campaign mission 8 reaches results without unbriefed spawns
+ok 15 - campaign mission 8 reaches results without unbriefed spawns
+  ---
+  duration_ms: 17.0329
+  type: 'test'
+  ...
+# Subtest: campaign mission 9 reaches results without unbriefed spawns
+ok 16 - campaign mission 9 reaches results without unbriefed spawns
+  ---
+  duration_ms: 4.7662
+  type: 'test'
+  ...
+# Subtest: campaign mission 10 reaches results without unbriefed spawns
+ok 17 - campaign mission 10 reaches results without unbriefed spawns
+  ---
+  duration_ms: 5.4809
+  type: 'test'
+  ...
+# Subtest: campaign mission 11 reaches results without unbriefed spawns
+ok 18 - campaign mission 11 reaches results without unbriefed spawns
+  ---
+  duration_ms: 3.2713
+  type: 'test'
+  ...
+# Subtest: campaign mission 12 reaches results without unbriefed spawns
+ok 19 - campaign mission 12 reaches results without unbriefed spawns
+  ---
+  duration_ms: 17.2715
+  type: 'test'
+  ...
+# Subtest: every site-specific objective is in a connected, open collision cell
+ok 20 - every site-specific objective is in a connected, open collision cell
+  ---
+  duration_ms: 7.2889
+  type: 'test'
+  ...
+# Subtest: failure and timeout stop defense spawning and interaction
+ok 21 - failure and timeout stop defense spawning and interaction
+  ---
+  duration_ms: 5.8355
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 265.6625

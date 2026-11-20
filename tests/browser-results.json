@@ -1,0 +1,158 @@
+{
+  "browser": "157.0.8103.79",
+  "scenes": [
+    {
+      "map": 0,
+      "stage": 0,
+      "enemies": 4,
+      "vertices": 20046,
+      "glError": 0,
+      "pixels": 42
+    },
+    {
+      "map": 1,
+      "stage": 0,
+      "enemies": 5,
+      "vertices": 29868,
+      "glError": 0,
+      "pixels": 23
+    },
+    {
+      "map": 2,
+      "stage": 0,
+      "enemies": 4,
+      "vertices": 22614,
+      "glError": 0,
+      "pixels": 30
+    },
+    {
+      "map": 3,
+      "stage": 0,
+      "enemies": 6,
+      "vertices": 29166,
+      "glError": 0,
+      "pixels": 30
+    },
+    {
+      "map": 4,
+      "stage": 0,
+      "enemies": 5,
+      "vertices": 27570,
+      "glError": 0,
+      "pixels": 21
+    },
+    {
+      "map": 5,
+      "stage": 0,
+      "enemies": 8,
+      "vertices": 52728,
+      "glError": 0,
+      "pixels": 52
+    },
+    {
+      "map": 6,
+      "stage": 0,
+      "enemies": 5,
+      "vertices": 55050,
+      "glError": 0,
+      "pixels": 41
+    },
+    {
+      "map": 7,
+      "stage": 0,
+      "enemies": 4,
+      "vertices": 32205,
+      "glError": 0,
+      "pixels": 42
+    }
+  ],
+  "missions": [
+    {
+      "id": 1,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 4,
+      "devices": 0
+    },
+    {
+      "id": 2,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 6,
+      "devices": 0
+    },
+    {
+      "id": 3,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 5,
+      "devices": 1
+    },
+    {
+      "id": 4,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 6,
+      "devices": 0
+    },
+    {
+      "id": 5,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 4,
+      "devices": 1
+    },
+    {
+      "id": 6,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 6,
+      "devices": 2
+    },
+    {
+      "id": 7,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 5,
+      "devices": 2
+    },
+    {
+      "id": 8,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 20,
+      "devices": 1
+    },
+    {
+      "id": 9,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 5,
+      "devices": 0
+    },
+    {
+      "id": 10,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 7,
+      "devices": 1
+    },
+    {
+      "id": 11,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 4,
+      "devices": 2
+    },
+    {
+      "id": 12,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 19,
+      "devices": 2
+    }
+  ],
+  "groundedActorCases": 16,
+  "touchInteract": "passed",
+  "errors": []
+}
