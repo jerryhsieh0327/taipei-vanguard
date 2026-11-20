@@ -1,55 +1,45 @@
-# Taipei Vanguard: Skyline Alert — Playable Web Campaign V1
+# Taipei Vanguard: Skyline Alert — 3D rebuild (development build)
 
-A self-contained, English-language single-player browser FPS designed for landscape iPad Safari. All twelve missions and eight specified Taipei map themes are included. No sign-in, ads, network API, third-party JS library, or purchase system.
+This build replaces the earlier ray-cast/paper-sprite gameplay scene with a custom, offline WebGL 3D renderer. The game retains its twelve mission definitions, all eight Taipei map names, English HUD, touch controls, original tools, and local progress.
 
-## Run and publish
+## Launch / deployment
 
-- **GitHub Pages:** Upload the *contents* of this directory to the root of a GitHub repository, then enable Pages from the main branch root. Open the resulting HTTPS URL in iPad Safari. All asset references are relative.
-- **Add to Home Screen:** In iPad Safari use Share → Add to Home Screen. The supplied manifest and icons provide an app-like launch experience. The game loads without network calls after static files are available; it does not currently include an offline service-worker cache, so an initial network connection and cached files may be required for later launches.
-- **Other static hosting:** Upload the entire folder unchanged to any static web host.
-- Opening `index.html` directly may work on some desktop browsers, but Safari's local-file rules vary. Static hosting is the supported method.
-
-## Gameplay
-
-Use left touch pad to move. Drag in the right-side view area to turn; tap FIRE to shoot. Aim, Reload, Switch, Shield, Drone and Arc Key are visible in the HUD. When an objective is near, an INTERACT button appears. Rescue targets and disable consoles are marked on the mini-map. Escort personnel follow when nearby. Enemies deal non-graphic damage, never blood effects. Completing a mission unlocks the next and saves stars in browser localStorage.
-
-Desktop testing: WASD / arrows for motion and turning, Space to shoot, R to reload, F interact, Q shield, E drone, 1/2 weapons, Shift for faster movement, Esc to pause.
-
-## Included campaign (latest approved mapping)
-
-| # | Mission | Location | Difficulty |
-|---|---|---|---|
-| 01 | Tower Lobby Sweep | Taipei 101 | Casual |
-| 02 | Express Lift Rescue | Taipei 101 | Tight |
-| 03 | Memorial Hall Approach | National Chiang Kai-shek Memorial Hall | Casual |
-| 04 | Honor Gate Escort | National Chiang Kai-shek Memorial Hall | Tight |
-| 05 | Temple Courtyard Watch | Mengjia Longshan Temple | Casual |
-| 06 | Palace Archive Lockdown | National Palace Museum | Tight |
-| 07 | Liberty Route Clear | Liberty Square | Casual |
-| 08 | Dome Concourse Push | Taipei Dome | Tight |
-| 09 | Night Lantern Rescue | Raohe Street Night Market | Tight |
-| 10 | Market Exit Escort | Raohe Street Night Market | Casual |
-| 11 | Mountain Signal Break | Yangmingshan | Casual |
-| 12 | Skyline Final Stand | Yangmingshan | Tight |
-
-## Implementation notes and limitations
-
-- This is an **independently playable 2.5D canvas ray-cast FPS**, not a WebGL/Unity-quality true 3D production. Distinct landmark facades are procedurally painted and supplemented by small thumbnail crops from the *two user-provided approved art samples*. The image references represent stylistic concepts, not fully modeled authentic landmark interiors.
-- Dynamic hostile units, shooting, hits, armor, aiming, collision, mission objectives, rescues, escorts, timed device interactions, defense waves, HUD, procedural landmark silhouettes, touch controls, generated Web Audio effects and save progress are included.
-- The story, dialogue and mission labels are English. No external resources are loaded by the code.
-- Combat rules and mission flows are implemented at an arcade level; advanced NPC pathfinding, detailed environmental art, story cutscenes, professional animation, fully voiced dialogue, and detailed building geometry are not yet available.
-- Audio begins only after a user action when permitted by browser autoplay policies.
-- This build has been checked in a Chromium browser for opening every mission, starting play, and pausing. A live iPad Safari device QA pass has **not** been performed.
+Upload the whole folder (including `assets`) to the root of a GitHub Pages repository and enable Pages. Open its HTTPS URL using iPad Safari in landscape. No API keys, logins, microtransactions, ads, or network game services are required. Do not launch by opening `index.html` directly in a restricted file viewer; use GitHub Pages or another static website.
 
 ## Files
 
-- `index.html` — main entry point and interactive screens
-- `style.css` — UI, touch layouts, responsive styles
-- `game.js` — renderer, simulation, all 12 missions, input, audio, saves
-- `manifest.webmanifest` — web-app manifest
-- `assets/icon.svg`, `assets/icon-180.png`, `assets/icon-512.png` — original app icons
-- `assets/approved-fps.png`, `assets/approved-briefing.png` — provided approved reference artwork (also used on menu)
-- `assets/landmark-1.png` … `assets/landmark-8.png` — eight thumbnail crops from the approved briefing artwork
-- `assets/veil-guard.png`, `assets/veil-bot.png` — character cutouts from the approved FPS artwork
+- `index.html`: game page, HUD, briefing, result and pause screens
+- `style.css`: responsive touch interface, landscape layout
+- `game.js`: twelve original mission definitions, touch controls, weapons, enemies, objectives, simulation, progress and original fallback renderer
+- `renderer3d.js`: local dependency-free WebGL renderer, procedural 3D landmarks and enemy meshes
+- `manifest.webmanifest`: standalone installation metadata
+- `assets/landmark-1.jpg` through `assets/landmark-8.jpg`: eight approved-style background/briefing plates in the specified order
+- `assets/approved-fps.png` and `assets/approved-briefing.png`: approved art direction references used in menu screens
+- `assets/icon.svg`, `icon-180.png`, `icon-512.png`: installation icons
 
-All files remain local to this package. Copyrights for user-supplied imagery remain with their respective owners.
+## 3D features
+
+Perspective camera with horizontal and vertical look; WebGL depth testing; fully dimensional meshes and geometry; collision and movement maintained from the game simulation; generated articulated 3D hostile figures/robots that animate limbs, visibly take hits, and remain as inert 3D shapes when defeated; 3D cover, trees, paving, exterior architecture and landmarks. The first-person weapon and HUD are layered over the 3D view for touchscreen responsiveness. Gunshots use Web Audio procedural synthesis.
+
+## Important limitations
+
+This is a **first 3D development build**, not yet a finished high-fidelity 3D production game. Landmark geometry is a stylized procedural interpretation; it does not reconstruct verified building dimensions, actual street connectivity, architectural interiors, or survey-accurate layouts. The concept-art environment plates are used for mission selection, not as the only playable environment. Full visual fidelity to the approved artwork requires custom textured 3D assets and further environment and character art work.
+
+The 3D engine requires a browser that supports WebGL. If WebGL is disabled, the original 2.5D renderer serves as a compatibility fallback; it cannot satisfy the new visual-quality target. We verified JavaScript syntax and the baseline menu and mission flow in a desktop browser, but headless sandbox graphics restrictions prevented rendering verification of WebGL output. **A physical iPad Safari QA pass, combat testing on every mission, and performance profiling remain necessary** before calling this production-ready.
+
+## Gameplay
+
+Landscape iPad: left virtual joystick to move; drag right-side look area horizontally/vertically to aim; FIRE, AIM, RELOAD and SWITCH buttons; ARC KEY / SHIELD / DRONE; INTERACT appears near objectives. Keyboard (desktop testing): WASD, arrows, Space to shoot, R to reload, F to interact, 1/2 switch weapons, Q shield, E drone, Esc pause.
+
+## Map and mission roster
+
+1. Taipei 101 — Tower Lobby Sweep, Express Lift Rescue
+2. National Chiang Kai-shek Memorial Hall — Memorial Hall Approach, Honor Gate Escort
+3. Mengjia Longshan Temple — Temple Courtyard Watch
+4. National Palace Museum — Palace Archive Lockdown
+5. Liberty Square — Liberty Route Clear
+6. Taipei Dome — Dome Concourse Push
+7. Raohe Street Night Market — Night Lantern Rescue, Market Exit Escort
+8. Yangmingshan — Mountain Signal Break, Skyline Final Stand
+
+All eight environments are different procedural 3D scene variants, including independent Memorial Hall and Liberty Square construction.
