@@ -1,0 +1,289 @@
+{
+  "browser": "157.0.8103.79",
+  "asset": {
+    "ready": true,
+    "error": null,
+    "asset": {
+      "name": "Mixamo Soldier",
+      "clips": [
+        "Idle",
+        "Run",
+        "TPose",
+        "Walk"
+      ],
+      "textured": true,
+      "skinned": true
+    }
+  },
+  "scenes": [
+    {
+      "map": 0,
+      "mode": "campaign",
+      "roster": 4,
+      "spawnEvents": 1,
+      "meshes": 8,
+      "maps": 8,
+      "bones": 196,
+      "minHeight": 1.805032005207476,
+      "maxHeight": 1.8563534252991325,
+      "glError": 0,
+      "metrics": {
+        "actors": 4,
+        "skinnedMeshes": 8,
+        "drawCalls": 66,
+        "triangles": 53102
+      }
+    },
+    {
+      "map": 1,
+      "mode": "campaign",
+      "roster": 5,
+      "spawnEvents": 1,
+      "meshes": 10,
+      "maps": 10,
+      "bones": 245,
+      "minHeight": 1.8050352372959375,
+      "maxHeight": 1.8563671304912819,
+      "glError": 0,
+      "metrics": {
+        "actors": 5,
+        "skinnedMeshes": 10,
+        "drawCalls": 69,
+        "triangles": 67768
+      }
+    },
+    {
+      "map": 2,
+      "mode": "campaign",
+      "roster": 4,
+      "spawnEvents": 1,
+      "meshes": 8,
+      "maps": 8,
+      "bones": 196,
+      "minHeight": 1.805032005207475,
+      "maxHeight": 1.8563534252991332,
+      "glError": 0,
+      "metrics": {
+        "actors": 4,
+        "skinnedMeshes": 8,
+        "drawCalls": 66,
+        "triangles": 53958
+      }
+    },
+    {
+      "map": 3,
+      "mode": "campaign",
+      "roster": 6,
+      "spawnEvents": 1,
+      "meshes": 12,
+      "maps": 12,
+      "bones": 294,
+      "minHeight": 1.8050320052074766,
+      "maxHeight": 1.8563534252991305,
+      "glError": 0,
+      "metrics": {
+        "actors": 6,
+        "skinnedMeshes": 12,
+        "drawCalls": 90,
+        "triangles": 79214
+      }
+    },
+    {
+      "map": 4,
+      "mode": "campaign",
+      "roster": 5,
+      "spawnEvents": 1,
+      "meshes": 10,
+      "maps": 10,
+      "bones": 245,
+      "minHeight": 1.8040171949922525,
+      "maxHeight": 1.8518060217046597,
+      "glError": 0,
+      "metrics": {
+        "actors": 5,
+        "skinnedMeshes": 10,
+        "drawCalls": 69,
+        "triangles": 67002
+      }
+    },
+    {
+      "map": 5,
+      "mode": "campaign",
+      "roster": 8,
+      "spawnEvents": 1,
+      "meshes": 16,
+      "maps": 16,
+      "bones": 392,
+      "minHeight": 1.7893277294021337,
+      "maxHeight": 1.8563534252991305,
+      "glError": 0,
+      "metrics": {
+        "actors": 8,
+        "skinnedMeshes": 16,
+        "drawCalls": 114,
+        "triangles": 110140
+      }
+    },
+    {
+      "map": 6,
+      "mode": "campaign",
+      "roster": 5,
+      "spawnEvents": 1,
+      "meshes": 10,
+      "maps": 10,
+      "bones": 245,
+      "minHeight": 1.8050320052074766,
+      "maxHeight": 1.8563534252991305,
+      "glError": 0,
+      "metrics": {
+        "actors": 5,
+        "skinnedMeshes": 10,
+        "drawCalls": 69,
+        "triangles": 76162
+      }
+    },
+    {
+      "map": 7,
+      "mode": "campaign",
+      "roster": 4,
+      "spawnEvents": 1,
+      "meshes": 8,
+      "maps": 8,
+      "bones": 196,
+      "minHeight": 1.8050320052074766,
+      "maxHeight": 1.8563534252991305,
+      "glError": 0,
+      "metrics": {
+        "actors": 4,
+        "skinnedMeshes": 8,
+        "drawCalls": 66,
+        "triangles": 57155
+      }
+    }
+  ],
+  "animation": {
+    "run": "Run",
+    "legChange": 0.22043720278593576,
+    "dodge": "dodge",
+    "dodgeSpeed": 3.699999999999995,
+    "lean": -0.15
+  },
+  "missions": [
+    {
+      "id": 1,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 4,
+      "roster": 4,
+      "spawns": 1
+    },
+    {
+      "id": 2,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 6,
+      "roster": 6,
+      "spawns": 1
+    },
+    {
+      "id": 3,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 5,
+      "roster": 5,
+      "spawns": 1
+    },
+    {
+      "id": 4,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 6,
+      "roster": 6,
+      "spawns": 1
+    },
+    {
+      "id": 5,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 4,
+      "roster": 4,
+      "spawns": 1
+    },
+    {
+      "id": 6,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 6,
+      "roster": 6,
+      "spawns": 1
+    },
+    {
+      "id": 7,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 5,
+      "roster": 5,
+      "spawns": 1
+    },
+    {
+      "id": 8,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 8,
+      "roster": 8,
+      "spawns": 1
+    },
+    {
+      "id": 9,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 5,
+      "roster": 5,
+      "spawns": 1
+    },
+    {
+      "id": 10,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 7,
+      "roster": 7,
+      "spawns": 1
+    },
+    {
+      "id": 11,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 4,
+      "roster": 4,
+      "spawns": 1
+    },
+    {
+      "id": 12,
+      "done": true,
+      "title": "MISSION COMPLETE!",
+      "kills": 7,
+      "roster": 7,
+      "spawns": 1
+    }
+  ],
+  "groundedActorCases": 24,
+  "defenses": [
+    {
+      "id": 8,
+      "done": true,
+      "mode": "defense",
+      "kills": 12,
+      "spawnEvents": 3
+    },
+    {
+      "id": 12,
+      "done": true,
+      "mode": "defense",
+      "kills": 12,
+      "spawnEvents": 3
+    }
+  ],
+  "touchInteract": "passed",
+  "externalRequests": [],
+  "errors": []
+}

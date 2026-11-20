@@ -22,17 +22,18 @@ function loadGame(){
     localStorage:{getItem:()=>null,setItem(){}},
     addEventListener:(name,fn)=>listeners.set(name,fn),window:{TV3D:{ready:true,load(){}}}};
   vm.createContext(sandbox);
+  vm.runInContext(fs.readFileSync(path.join(__dirname,'../enemy-ai.js'),'utf8'),sandbox);
   vm.runInContext(fs.readFileSync(path.join(__dirname,'../landmarks.js'),'utf8'),sandbox);
   const filename=path.resolve(process.env.GAME_SOURCE||path.join(__dirname,'../game.js'));
   let source=fs.readFileSync(filename,'utf8');
   const end=source.lastIndexOf('})();');
   assert.ok(end>0);
-  source=source.slice(0,end)+`globalThis.testGame={missions,start,prepareStage,nextStage,
+  source=source.slice(0,end)+`globalThis.testGame={missions,start,prepareStage,nextStage,spawnWave,spawnEnemy,passable,visibility,
     interact,simulate,shoot,reload,pause,tool,finish,keys,get game(){return game;},
     get running(){return running;},get paused(){return paused;},get progress(){return progress;},
-    deploy(id){selected=id;soundOn=false;start();}};`+source.slice(end);
+    deploy(id,mode='campaign'){selected=id;soundOn=false;start(mode);}};`+source.slice(end);
   vm.runInContext(source,sandbox,{filename});
-  const api=sandbox.testGame;api.nodes=nodes;api.listeners=listeners;api.plans=sandbox.window.TVSites.plans;
+  const api=sandbox.testGame;api.nodes=nodes;api.listeners=listeners;api.plans=sandbox.window.TVSites.plans;api.tactics=sandbox.window.TVTactics;
   return api;
 }
 function active(g){return g.enemies.filter(e=>e.state==='active');}
@@ -107,7 +108,7 @@ test('corpses stay disabled across objectives; restart intentionally resets the 
   assert.equal(api.game.downeds.length,0);assert.equal(active(api.game).length,6);
 });
 for(const id of [7,11])test(`mission ${id+1}: defense retains live threats and completes exactly 3 waves`,()=>{
-  const api=loadGame();api.deploy(id);const g=api.game;g.armor=100000;
+  const api=loadGame();api.deploy(id,'defense');const g=api.game;g.armor=100000;
   while(g.m.steps[g.stage][0]!=='defend'){
     if(g.m.steps[g.stage][0]==='combat'){clearWithWeapon(api);tick(api);}
     else{atObjective(api);api.interact();tick(api,.35);}
@@ -141,6 +142,8 @@ for(let id=0;id<12;id++)test(`campaign mission ${id+1} reaches results without u
   assert.equal(api.nodes.get('resultTitle').textContent,'MISSION COMPLETE!');
   assert.equal(g.stage,g.m.steps.length);assert.equal(active(g).length,0);
   assert.equal(api.progress.unlocked,Math.min(12,id+2));
+  assert.equal(g.spawnEvents.length,1,'the entire campaign roster must be created at deployment');
+  assert.equal(g.spawnEvents[0].count,g.m.steps[0][1]);
 });
 test('every site-specific objective is in a connected, open collision cell',()=>{
  const api=loadGame();
@@ -157,12 +160,47 @@ test('every site-specific objective is in a connected, open collision cell',()=>
 });
 test('failure and timeout stop defense spawning and interaction',()=>{
  for(const reason of ['terminal','timer']){
-  const api=loadGame();api.deploy(7);const g=api.game;g.armor=100000;
-  clearWithWeapon(api);tick(api);atObjective(api);api.interact();
+  const api=loadGame();api.deploy(7,'defense');const g=api.game;g.armor=100000;
   assert.equal(g.m.steps[g.stage][0],'defend');const cycle=g.spawnCycle;
   if(reason==='terminal')g.terminalHealth=.001;else g.remaining=.001;
   tick(api);assert.equal(api.running,false);
   tick(api,31);api.interact();api.prepareStage();
   assert.equal(g.spawnCycle,cycle);assert.equal(api.nodes.get('resultTitle').textContent,'MISSION FAILED');
  }
+});
+test('campaign spawn lock rejects any later spawn, including explicit combat setup calls',()=>{
+ const api=loadGame();api.deploy(11);const g=api.game;
+ assert.equal(g.enemies.length,7);assert.equal(g.enemies.filter(e=>e.kind==='heavy').length,1);
+ assert.equal(api.spawnWave(5),false);assert.equal(api.spawnEnemy(10.5,12.5),false);
+ clearWithWeapon(api);tick(api);const ids=g.downeds.map(e=>e.id).join(',');
+ for(let n=0;n<2;n++){atObjective(api);api.interact();tick(api,.35);assert.equal(active(g).length,0);}
+ assert.equal(g.downeds.map(e=>e.id).join(','),ids);assert.equal(g.spawnEvents.length,1);
+ assert.equal(api.spawnWave(3,true),false);
+});
+test('AI runs, reacts after a delay, dodges on the ground and respects cover collision',()=>{
+ const api=loadGame();api.deploy(0);const g=api.game,e=g.enemies[0];g.armor=100000;
+ for(const other of g.enemies)if(other!==e)other.state='disabled';
+ e.x=16.5;e.y=12.5;tick(api,.2);
+ assert.equal(e.intent,'run');assert.ok(e.locomotionSpeed>2.8);
+ e.x=8.5;e.y=12.5;api.tactics.react(e,g);const beforeY=e.y;
+ tick(api,.4);assert.equal(e.intent,'dodge');assert.ok(Math.abs(e.y-beforeY)>.2);
+ assert.ok(api.passable(e.x,e.y,.28));assert.equal(e.state,'active');
+});
+test('navigation routes around a blocked corridor rather than walking into it',()=>{
+ const api=loadGame();api.deploy(0);const g=api.game;
+ g.grid=Array.from({length:24},(_,y)=>Array.from({length:24},(_,x)=>x===0||y===0||x===23||y===23?1:0));
+ for(let y=9;y<=14;y++)g.grid[y][8]=1;
+ const path=api.tactics.findPath(11.5,12.5,3.5,12.5,api.passable);
+ assert.ok(path.length>8);assert.ok(path.every(p=>api.passable(p.x,p.y,.28)));
+ assert.ok(path.some(p=>p.y<9||p.y>14));
+ const e=g.enemies[0];g.enemies=[e];e.x=11.5;e.y=12.5;g.shotNoiseUntil=100;g.armor=100000;
+ tick(api,7);assert.ok(api.visibility(e.x,e.y,g.px,g.py),'enemy should route to a clear firing position');
+ assert.ok(Math.hypot(e.x-11.5,e.y-12.5)>2);
+ assert.ok(api.passable(e.x,e.y,.28));
+});
+test('reload takes time and prevents firing until the magazine is ready',()=>{
+ const api=loadGame();api.deploy(0);const g=api.game;g.ammo=0;const reserve=g.reserve;
+ api.reload();assert.equal(g.ammo,0);assert.ok(g.reloadUntil>g.elapsed);
+ api.shoot();assert.equal(g.shots,0);tick(api,1);assert.equal(g.ammo,0);
+ tick(api,.7);assert.equal(g.ammo,30);assert.equal(g.reserve,reserve-30);assert.equal(g.reloadUntil,0);
 });

@@ -1,0 +1,16 @@
+{
+  "build": "TACTICAL R2 · NO RESPAWN",
+  "date": "2026-11-20",
+  "campaign": "opening roster only",
+  "engine": "three.js r170",
+  "files": {
+    "game.js": "dd39d5b07df2a97ec5955e1643feb11a300cebb9eaffb859769816096efc21f0",
+    "renderer3d.js": "5b8f4774d210855cc5d0047f5396d70f4fa0fbdbb25744ad74541ccfecb326ac",
+    "enemy-ai.js": "3b7b98c205dc7a43f22d5f2c4cd9da6e96ce40071e33cd6c04af82a5af3089b4",
+    "scene-geometry.js": "4c3110b4bda6d0dc67e9baac22345ffbee84ef78fdfb452c313086aabbd2fc1d",
+    "landmarks.js": "e0df510f9488ccb8fd770e3c1607cf0d2518fbc399ecc440362e9c544b63244c",
+    "index.html": "5a9a67567842fdc74fdb9ebd7719bc631419835b5b3f93ed68749f085aa2b56a",
+    "tactical.css": "f1a9b987740acc41fdc95ac20f64c49b3670b903d9ce3255cf3b189d02d2618d",
+    "assets/models/Soldier.glb": "dfb230fc1f942f259dd00281a1186953ad602fc5d69067ce63e24b2aa439736b"
+  }
+}
