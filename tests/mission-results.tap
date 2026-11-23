@@ -1,190 +1,292 @@
 TAP version 13
-# Subtest: map 1: extended route, hidden roster, reachable pockets and objectives
-ok 1 - map 1: extended route, hidden roster, reachable pockets and objectives
+# Subtest: Space starts a ballistic jump without shooting or consuming ammo
+ok 1 - Space starts a ballistic jump without shooting or consuming ammo
   ---
-  duration_ms: 31.7054
+  duration_ms: 30.8612
   type: 'test'
   ...
-# Subtest: map 3: extended route, hidden roster, reachable pockets and objectives
-ok 2 - map 3: extended route, hidden roster, reachable pockets and objectives
+# Subtest: holding Space and repeated presses cannot relaunch in midair or auto-hop on landing
+ok 2 - holding Space and repeated presses cannot relaunch in midair or auto-hop on landing
   ---
-  duration_ms: 21.0729
+  duration_ms: 18.4625
   type: 'test'
   ...
-# Subtest: map 5: extended route, hidden roster, reachable pockets and objectives
-ok 3 - map 5: extended route, hidden roster, reachable pockets and objectives
+# Subtest: jump is blocked in menus, pause and results; pausing freezes the airborne state
+ok 3 - jump is blocked in menus, pause and results; pausing freezes the airborne state
   ---
-  duration_ms: 20.4727
+  duration_ms: 22.2585
   type: 'test'
   ...
-# Subtest: map 6: extended route, hidden roster, reachable pockets and objectives
-ok 4 - map 6: extended route, hidden roster, reachable pockets and objectives
+# Subtest: jumping cannot cross authored walls and low market awnings stop the head
+ok 4 - jumping cannot cross authored walls and low market awnings stop the head
   ---
-  duration_ms: 21.12
+  duration_ms: 21.8838
   type: 'test'
   ...
-# Subtest: map 7: extended route, hidden roster, reachable pockets and objectives
-ok 5 - map 7: extended route, hidden roster, reachable pockets and objectives
+# Subtest: left mouse fires immediately without pointer lock, holds to repeat, and releases to stop
+ok 5 - left mouse fires immediately without pointer lock, holds to repeat, and releases to stop
   ---
-  duration_ms: 20.768
+  duration_ms: 18.9754
   type: 'test'
   ...
-# Subtest: map 8: extended route, hidden roster, reachable pockets and objectives
-ok 6 - map 8: extended route, hidden roster, reachable pockets and objectives
+# Subtest: releasing Space while holding left mouse does not interrupt firing
+ok 6 - releasing Space while holding left mouse does not interrupt firing
   ---
-  duration_ms: 22.3181
+  duration_ms: 16.3071
   type: 'test'
   ...
-# Subtest: map 9: extended route, hidden roster, reachable pockets and objectives
-ok 7 - map 9: extended route, hidden roster, reachable pockets and objectives
+# Subtest: mouse firing ignores UI buttons, right click, touch-look and inactive gameplay
+ok 7 - mouse firing ignores UI buttons, right click, touch-look and inactive gameplay
   ---
-  duration_ms: 25.294
+  duration_ms: 14.5126
   type: 'test'
   ...
-# Subtest: map 11: extended route, hidden roster, reachable pockets and objectives
-ok 8 - map 11: extended route, hidden roster, reachable pockets and objectives
+# Subtest: pointer cancellation, lost lock, blur and pause stop held firing
+ok 8 - pointer cancellation, lost lock, blur and pause stop held firing
   ---
-  duration_ms: 21.4739
+  duration_ms: 17.159
   type: 'test'
   ...
-# Subtest: footsteps activate only the first team; it runs from cover through real collision
-ok 9 - footsteps activate only the first team; it runs from cover through real collision
+# Subtest: touch FIRE still works and releasing the look finger does not stop the fire finger
+ok 9 - touch FIRE still works and releasing the look finger does not stop the fire finger
   ---
-  duration_ms: 14.6709
+  duration_ms: 19.1824
   type: 'test'
   ...
-# Subtest: backtracking and repeated Interact cannot replay an ambush or revive a body
-ok 10 - backtracking and repeated Interact cannot replay an ambush or revive a body
+# Subtest: airborne shots use the raised eye height, rather than the old ground-level trajectory
+ok 10 - airborne shots use the raised eye height, rather than the old ground-level trajectory
   ---
-  duration_ms: 10.7118
+  duration_ms: 14.941
   type: 'test'
   ...
-# Subtest: mission 1: traverse, fight four encounters, finish objectives and escorts
-ok 11 - mission 1: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 1: authored topology, hidden guards, reachable objectives and flanks
+ok 11 - mission 1: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 27.848
+  duration_ms: 81.2526
   type: 'test'
   ...
-# Subtest: mission 2: traverse, fight four encounters, finish objectives and escorts
-ok 12 - mission 2: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 2: authored topology, hidden guards, reachable objectives and flanks
+ok 12 - mission 2: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 55.8061
+  duration_ms: 66.079
   type: 'test'
   ...
-# Subtest: mission 3: traverse, fight four encounters, finish objectives and escorts
-ok 13 - mission 3: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 3: authored topology, hidden guards, reachable objectives and flanks
+ok 13 - mission 3: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 32.34
+  duration_ms: 60.53
   type: 'test'
   ...
-# Subtest: mission 4: traverse, fight four encounters, finish objectives and escorts
-ok 14 - mission 4: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 4: authored topology, hidden guards, reachable objectives and flanks
+ok 14 - mission 4: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 59.937
+  duration_ms: 56.168
   type: 'test'
   ...
-# Subtest: mission 5: traverse, fight four encounters, finish objectives and escorts
-ok 15 - mission 5: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 5: authored topology, hidden guards, reachable objectives and flanks
+ok 15 - mission 5: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 26.941
+  duration_ms: 45.1526
   type: 'test'
   ...
-# Subtest: mission 6: traverse, fight four encounters, finish objectives and escorts
-ok 16 - mission 6: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 6: authored topology, hidden guards, reachable objectives and flanks
+ok 16 - mission 6: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 35.3264
+  duration_ms: 59.0867
   type: 'test'
   ...
-# Subtest: mission 7: traverse, fight four encounters, finish objectives and escorts
-ok 17 - mission 7: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 7: authored topology, hidden guards, reachable objectives and flanks
+ok 17 - mission 7: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 32.4692
+  duration_ms: 64.3652
   type: 'test'
   ...
-# Subtest: mission 8: traverse, fight four encounters, finish objectives and escorts
-ok 18 - mission 8: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 8: authored topology, hidden guards, reachable objectives and flanks
+ok 18 - mission 8: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 37.179
+  duration_ms: 52.538
   type: 'test'
   ...
-# Subtest: mission 9: traverse, fight four encounters, finish objectives and escorts
-ok 19 - mission 9: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 9: authored topology, hidden guards, reachable objectives and flanks
+ok 19 - mission 9: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 56.763
+  duration_ms: 42.3999
   type: 'test'
   ...
-# Subtest: mission 10: traverse, fight four encounters, finish objectives and escorts
-ok 20 - mission 10: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 10: authored topology, hidden guards, reachable objectives and flanks
+ok 20 - mission 10: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 58.0352
+  duration_ms: 41.2755
   type: 'test'
   ...
-# Subtest: mission 11: traverse, fight four encounters, finish objectives and escorts
-ok 21 - mission 11: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 11: authored topology, hidden guards, reachable objectives and flanks
+ok 21 - mission 11: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 33.2805
+  duration_ms: 34.097
   type: 'test'
   ...
-# Subtest: mission 12: traverse, fight four encounters, finish objectives and escorts
-ok 22 - mission 12: traverse, fight four encounters, finish objectives and escorts
+# Subtest: mission 12: authored topology, hidden guards, reachable objectives and flanks
+ok 22 - mission 12: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 51.1067
+  duration_ms: 41.9497
   type: 'test'
   ...
-# Subtest: stage setup and stale stage completion remain one-shot
-ok 23 - stage setup and stale stage completion remain one-shot
+# Subtest: eight sites have different collision topology; all twelve missions have different routes
+ok 23 - eight sites have different collision topology; all twelve missions have different routes
   ---
-  duration_ms: 3.8313
+  duration_ms: 131.6423
   type: 'test'
   ...
-# Subtest: device interactions ignore distance, pause, consumed targets, double taps and results
-ok 24 - device interactions ignore distance, pause, consumed targets, double taps and results
+# Subtest: mission 1: collision movement, shooting, site objectives and evacuation
+ok 24 - mission 1: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 4.1656
+  duration_ms: 240.8843
   type: 'test'
   ...
-# Subtest: mission 8: explicit defense still has exactly three waves
-ok 25 - mission 8: explicit defense still has exactly three waves
+# Subtest: mission 2: collision movement, shooting, site objectives and evacuation
+ok 25 - mission 2: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 26.3782
+  duration_ms: 224.9307
   type: 'test'
   ...
-# Subtest: mission 12: explicit defense still has exactly three waves
-ok 26 - mission 12: explicit defense still has exactly three waves
+# Subtest: mission 3: collision movement, shooting, site objectives and evacuation
+ok 26 - mission 3: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 26.806
+  duration_ms: 187.2101
   type: 'test'
   ...
-# Subtest: terminal destruction and timeout stop subsequent waves
-ok 27 - terminal destruction and timeout stop subsequent waves
+# Subtest: mission 4: collision movement, shooting, site objectives and evacuation
+ok 27 - mission 4: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 6.5087
+  duration_ms: 197.7585
   type: 'test'
   ...
-# Subtest: timed reload still prevents firing until completion
-ok 28 - timed reload still prevents firing until completion
+# Subtest: mission 5: collision movement, shooting, site objectives and evacuation
+ok 28 - mission 5: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 4.0476
+  duration_ms: 195.1209
   type: 'test'
   ...
-# Subtest: restart resets route activations intentionally; the armored leader starts hidden in the last pocket
-ok 29 - restart resets route activations intentionally; the armored leader starts hidden in the last pocket
+# Subtest: mission 6: collision movement, shooting, site objectives and evacuation
+ok 29 - mission 6: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 8.6607
+  duration_ms: 255.3099
   type: 'test'
   ...
-# Subtest: awakened guards retain running and delayed dodge behavior on the new grid
-ok 30 - awakened guards retain running and delayed dodge behavior on the new grid
+# Subtest: mission 7: collision movement, shooting, site objectives and evacuation
+ok 30 - mission 7: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 3.955
+  duration_ms: 287.8333
   type: 'test'
   ...
-1..30
-# tests 30
+# Subtest: mission 8: collision movement, shooting, site objectives and evacuation
+ok 31 - mission 8: collision movement, shooting, site objectives and evacuation
+  ---
+  duration_ms: 244.2786
+  type: 'test'
+  ...
+# Subtest: mission 9: collision movement, shooting, site objectives and evacuation
+ok 32 - mission 9: collision movement, shooting, site objectives and evacuation
+  ---
+  duration_ms: 304.4179
+  type: 'test'
+  ...
+# Subtest: mission 10: collision movement, shooting, site objectives and evacuation
+ok 33 - mission 10: collision movement, shooting, site objectives and evacuation
+  ---
+  duration_ms: 265.2018
+  type: 'test'
+  ...
+# Subtest: mission 11: collision movement, shooting, site objectives and evacuation
+ok 34 - mission 11: collision movement, shooting, site objectives and evacuation
+  ---
+  duration_ms: 167.5751
+  type: 'test'
+  ...
+# Subtest: mission 12: collision movement, shooting, site objectives and evacuation
+ok 35 - mission 12: collision movement, shooting, site objectives and evacuation
+  ---
+  duration_ms: 298.906
+  type: 'test'
+  ...
+# Subtest: proximity gates do not awaken distant teams from accumulated route progress
+ok 36 - proximity gates do not awaken distant teams from accumulated route progress
+  ---
+  duration_ms: 25.842
+  type: 'test'
+  ...
+# Subtest: Interact, backtracking, stage preparation and restarts cannot revive campaign enemies
+ok 37 - Interact, backtracking, stage preparation and restarts cannot revive campaign enemies
+  ---
+  duration_ms: 300.1004
+  type: 'test'
+  ...
+# Subtest: a bomb needs four continuous seconds; release, movement, firing, jumping and damage reset progress
+ok 38 - a bomb needs four continuous seconds; release, movement, firing, jumping and damage reset progress
+  ---
+  duration_ms: 22.9725
+  type: 'test'
+  ...
+# Subtest: remote dormant guards do not block rescue or bomb interaction; nearby visible guards do
+ok 39 - remote dormant guards do not block rescue or bomb interaction; nearby visible guards do
+  ---
+  duration_ms: 23.57
+  type: 'test'
+  ...
+# Subtest: second bomb is distinct and double taps cannot disarm it or spawn guards
+ok 40 - second bomb is distinct and double taps cannot disarm it or spawn guards
+  ---
+  duration_ms: 21.3083
+  type: 'test'
+  ...
+# Subtest: bomb timer fails while armed, stops after disposal, and pause freezes it
+ok 41 - bomb timer fails while armed, stops after disposal, and pause freezes it
+  ---
+  duration_ms: 22.5042
+  type: 'test'
+  ...
+# Subtest: rescue, escort and exit positions come from the specific site, not a shared final point
+ok 42 - rescue, escort and exit positions come from the specific site, not a shared final point
+  ---
+  duration_ms: 10.7892
+  type: 'test'
+  ...
+# Subtest: guard tactics differ: sentry holds an angle, flanker uses its authored branch, rusher closes distance
+ok 43 - guard tactics differ: sentry holds an angle, flanker uses its authored branch, rusher closes distance
+  ---
+  duration_ms: 17.7366
+  type: 'test'
+  ...
+# Subtest: ponds block walking but do not act as opaque walls
+ok 44 - ponds block walking but do not act as opaque walls
+  ---
+  duration_ms: 12.3645
+  type: 'test'
+  ...
+# Subtest: touch cancellation and pause cancel held bomb disposal
+ok 45 - touch cancellation and pause cancel held bomb disposal
+  ---
+  duration_ms: 16.4046
+  type: 'test'
+  ...
+# Subtest: mission 8: optional defense retains exactly three explicit waves
+ok 46 - mission 8: optional defense retains exactly three explicit waves
+  ---
+  duration_ms: 19.0411
+  type: 'test'
+  ...
+# Subtest: mission 12: optional defense retains exactly three explicit waves
+ok 47 - mission 12: optional defense retains exactly three explicit waves
+  ---
+  duration_ms: 16.4732
+  type: 'test'
+  ...
+1..47
+# tests 47
 # suites 0
-# pass 30
+# pass 47
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 926.0649
+# duration_ms 4312.9442

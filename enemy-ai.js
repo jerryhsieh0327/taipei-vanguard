@@ -46,7 +46,8 @@ function update(e,g,dt,world){
  if(e.emergeTarget&&Math.hypot(e.x-e.emergeTarget.x,e.y-e.emergeTarget.y)<.75)e.emergeTarget=null;
  const oldX=e.x,oldY=e.y,d=Math.hypot(e.x-g.px,e.y-g.py),los=world.visibility(e.x,e.y,g.px,g.py);
  e.hitAt=Math.max(0,e.hitAt-dt);e.attackFlash=Math.max(0,(e.attackFlash||0)-dt);
- if(los&&d<19){e.lastSeen={x:g.px,y:g.py};e.alertUntil=g.elapsed+7;}
+ const role=e.tactic||'crossfire',range=role==='anchor'?23:role==='rush'?12:18;
+ if(los&&d<range+2){e.lastSeen={x:g.px,y:g.py};e.alertUntil=g.elapsed+7;}
  if(g.elapsed<(g.shotNoiseUntil||0)&&d<17){e.lastSeen={x:g.px,y:g.py};e.alertUntil=g.elapsed+7;}
  const alert=g.elapsed<(e.alertUntil||0);
  let vx=0,vy=0,speed=0;e.crouching=false;
@@ -64,6 +65,15 @@ function update(e,g,dt,world){
    target=e.route?.[0]||target;
   }
   vx=target.x-e.x;vy=target.y-e.y;speed=e.kind==='heavy'?2.1:3.25;
+ }else if(role==='flank'&&e.flankIndex<e.flankRoute.length){
+  // Authored side routes go around this site's actual hall, stall row or core.
+  let target=e.flankRoute[e.flankIndex];e.intent='flank';
+  if(Math.hypot(e.x-target.x,e.y-target.y)<.6){e.flankIndex++;e.route=null;}
+  else{
+   if(!e.route||g.elapsed>=(e.repathAt||0)){e.route=findPath(e.x,e.y,target.x,target.y,world.passable);e.repathAt=g.elapsed+.6;}
+   while(e.route?.length&&Math.hypot(e.route[0].x-e.x,e.route[0].y-e.y)<.2)e.route.shift();
+   target=e.route?.[0]||target;vx=target.x-e.x;vy=target.y-e.y;speed=3.1;
+  }
  }else if(alert){
   if(g.elapsed>=(e.nextCoverCheck||0)&&e.hp<=e.maxHp*.6&&g.elapsed<(e.underFireUntil||0)){
    e.cover=seekCover(e,g,world);e.nextCoverCheck=g.elapsed+3;e.coverUntil=g.elapsed+3;
@@ -72,7 +82,13 @@ function update(e,g,dt,world){
   if(e.cover&&g.elapsed<e.coverUntil){
    target=e.cover;e.intent='cover';
    if(Math.hypot(target.x-e.x,target.y-e.y)<.5){target=null;e.intent='hold-cover';}
-  }else if(!los||d>9){target=e.lastSeen;e.intent=los?'run':'search';}
+  }else if(role==='anchor'&&los&&d>4&&d<range){
+   // Sentries cover the doorway/terrace instead of chasing around the map.
+   e.intent='hold-angle';
+  }else if(role==='patrol'&&!los){
+   const c=g.route.plan.encounters[e.encounterId],p=c?.gate||e.home;
+   target=Math.hypot(e.x-p.x,e.y-p.y)>1?p:e.lastSeen;e.intent='patrol';
+  }else if(!los||d>(role==='rush'?4.5:role==='anchor'?16:9)){target=e.lastSeen;e.intent=los?'run':'search';}
   else if(d<3){vx=(e.x-g.px)/(d||1);vy=(e.y-g.py)/(d||1);speed=2.3;e.intent='retreat';}
   else{
    if(g.elapsed>=(e.nextStrafe||0)){e.strafeSide=(e.strafeSide||1)*-1;e.nextStrafe=g.elapsed+.8+Math.random()*.7;}
@@ -102,10 +118,11 @@ function update(e,g,dt,world){
  if(e.moving)e.phase+=dt*e.locomotionSpeed*3.6;
  e.facing=los?Math.atan2(g.py-e.y,g.px-e.x):e.moving?Math.atan2(e.y-oldY,e.x-oldX):e.facing;
  // Short bursts with recovery, rather than a continuous damage beam.
- if(los&&d<18&&alert&&e.intent!=='dodge'&&e.intent!=='run'&&e.intent!=='emerge'&&g.elapsed>=(e.nextShot||0)){
-  e.burstLeft??=3;e.attackFlash=.08;e.burstLeft--;e.shotsFired=(e.shotsFired||0)+1;
-  e.nextShot=g.elapsed+(e.burstLeft>0?.15:1.7+Math.random()*.8);
-  if(e.burstLeft<=0)e.burstLeft=3;
+ if(los&&d<range&&alert&&e.intent!=='dodge'&&e.intent!=='run'&&e.intent!=='emerge'&&g.elapsed>=(e.nextShot||0)){
+  const burst=role==='anchor'?2:role==='rush'?4:3;
+  e.burstLeft??=burst;e.attackFlash=.08;e.burstLeft--;e.shotsFired=(e.shotsFired||0)+1;
+  e.nextShot=g.elapsed+(e.burstLeft>0?.15:(role==='anchor'?2.2:1.7)+Math.random()*.8);
+  if(e.burstLeft<=0)e.burstLeft=burst;
   const chance=Math.max(.15,.72-d*.025-(g.wasMoving?.15:0)-(e.moving?.1:0));
   if(Math.random()<chance){
    const damage=(g.m.diff==='Tight'?5:3.5)*(g.elapsed<g.shieldUntil?.25:1);

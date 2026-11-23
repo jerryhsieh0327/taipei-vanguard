@@ -1,26 +1,22 @@
 {
-  "build": "TACTICAL R3 · AMBUSH ROUTES",
-  "date": "2026-11-20",
-  "campaign": "fixed hidden roster; one-shot route activations",
-  "routeLengths": [
-    75,
-    77,
-    73,
-    77,
-    79,
-    75,
-    71,
-    77
-  ],
+  "build": "TACTICAL R4 · SITE MISSIONS",
+  "date": "2026-11-23",
+  "sites": 8,
+  "missions": 12,
+  "distinctDeployments": 12,
+  "testsPassed": 47,
+  "campaign": "sealed roster, one-shot site proximity encounters",
   "files": {
-    "index.html": "a220925072a218cd79e063432f22f5f5450acdb6554d5e56e7ba8ab97b2d5d00",
-    "game.js": "373d4c80dfd80a1a49ad9584c00d5a2c3a6bf24ad7de966c768477b8aaf3276b",
-    "renderer3d.js": "8c00291acca981a929ecc45cce46bd219696ba67bdc42342fd64abc0cfb78e6d",
-    "enemy-ai.js": "24fca7bc827037c1ae20dec1b53497d253e870d697893ae21c69f0e5c59c37d3",
-    "route-layouts.js": "f0126dd67b2dbe0bdd5ef0cc92048f9fb0b6285ddf17a37d03fce28e4e0cb0c0",
-    "scene-geometry.js": "a572b75044d0eb944373cb35305c93d238086e1e1cc922d558f728fd2f1e0134",
-    "landmarks.js": "e0df510f9488ccb8fd770e3c1607cf0d2518fbc399ecc440362e9c544b63244c",
-    "tactical.css": "f1a9b987740acc41fdc95ac20f64c49b3670b903d9ce3255cf3b189d02d2618d",
+    "index.html": "36b83345f535b9c917c466884c590e28db3ea62f2945928019bdb61cd4f3c5cb",
+    "game.js": "c98d08d4cd24a4dd9113ac92922c890d58db7b895270a3782b6954e0e733e77e",
+    "site-plans.js": "de9bf67e7c54929c6a9a858d662b7204f8c574575a8cd66517a63c90c8aa8926",
+    "route-layouts.js": "600fb29e81de742b9c1afaaafe4315d560d3bbca51fcf382ed11c5115daa9df5",
+    "enemy-ai.js": "e4b7359db706662137d80a19befacb24c5fca3f8181303ff6421800dc1c8a09c",
+    "renderer3d.js": "e6f0c78143f03d99a5e25fbc81d6022e907a9fb10d4eed5df717826f698ecd32",
+    "scene-geometry.js": "5524d367f54e57a03d663704fcba92c40f009a585821d88840f3a083e5199f5e",
+    "landmarks.js": "8cf9ea84970afafbfaba61767494b538b684c72b80438b440b3c80bac1adc573",
+    "style.css": "2b41c1fa6fd0447ee29c915369f3d3068e838ff033aced9d0244b658b60a4b95",
+    "tactical.css": "4a13ebd1e2d98a5dd5981f0b8934b5568b179e2e4ab474c0afc696675d4535a9",
     "assets/models/Soldier.glb": "dfb230fc1f942f259dd00281a1186953ad602fc5d69067ce63e24b2aa439736b"
   }
 }

@@ -2,7 +2,7 @@
 import * as THREE from './vendor/three/three.module.min.js';
 import {GLTFLoader} from './vendor/three/addons/loaders/GLTFLoader.js';
 import {clone as cloneSkeleton} from './vendor/three/addons/utils/SkeletonUtils.js';
-const status={ready:false,loading:true,ownsWeapon:true,build:'TACTICAL-R3',error:null};
+const status={ready:false,loading:true,ownsWeapon:true,build:'TACTICAL-R4',error:null};
 window.TV3D=status;
 const canvas=document.createElement('canvas');canvas.id='world3d';
 canvas.setAttribute('aria-label','Textured tactical Taipei game');document.getElementById('app').prepend(canvas);
@@ -118,8 +118,19 @@ function objective(o){
   const marker=new THREE.Mesh(new THREE.ConeGeometry(.18,.32,3),new THREE.MeshStandardMaterial({color:0xb8aa78,roughness:1}));
   marker.rotation.x=Math.PI;marker.position.set(o.x,.4,o.y);props.add(marker);return;
  }
+ if(o.type==='bomb'){
+  const group=new THREE.Group(),body=new THREE.MeshStandardMaterial({color:0x605645,roughness:.8}),red=new THREE.MeshStandardMaterial({color:0xc94736,emissive:0x7c1e12,emissiveIntensity:.65});
+  const box=new THREE.Mesh(new THREE.BoxGeometry(.8,.3,.55),body);box.position.y=.18;group.add(box);
+  const panel=new THREE.Mesh(new THREE.BoxGeometry(.3,.025,.18),red);panel.position.set(0,.35,0);group.add(panel);
+  const mark=new THREE.Mesh(new THREE.ConeGeometry(.13,.26,8),red);mark.position.y=1.45;mark.rotation.z=Math.PI;group.add(mark);
+  group.position.set(o.x,0,o.y);props.add(group);return;
+ }
+ if(o.type==='exit'||o.type==='point'){
+  const ring=new THREE.Mesh(new THREE.RingGeometry(.8,1.05,32),new THREE.MeshBasicMaterial({color:0x7faf8d,side:THREE.DoubleSide}));
+  ring.rotation.x=-Math.PI/2;ring.position.set(o.x,.02,o.y);props.add(ring);return;
+ }
  const group=new THREE.Group(),metal=new THREE.MeshStandardMaterial({color:0x343d3a,roughness:.65,metalness:.4}),
-  light=new THREE.MeshStandardMaterial({color:o.type==='device'?0xb99853:0x649d92,emissive:o.type==='device'?0x5c4213:0x174c3d,emissiveIntensity:.5});
+  light=new THREE.MeshStandardMaterial({color:['bomb','device'].includes(o.type)?0xb99853:0x649d92,emissive:['bomb','device'].includes(o.type)?0x5c4213:0x174c3d,emissiveIntensity:.5});
  const box=new THREE.Mesh(new THREE.BoxGeometry(.55,.95,.4),metal);box.position.y=.48;group.add(box);
  const panel=new THREE.Mesh(new THREE.BoxGeometry(.03,.28,.28),light);panel.position.set(-.3,.72,0);group.add(panel);
  const marker=new THREE.Mesh(new THREE.ConeGeometry(.12,.22,8),light);marker.position.y=1.6;marker.rotation.z=Math.PI;group.add(marker);
@@ -132,9 +143,9 @@ function render(game){
  if(canvas.width!==Math.round(width*pixel)||canvas.height!==Math.round(height*pixel)){
   renderer.setPixelRatio(pixel);renderer.setSize(width,height,false);camera.aspect=width/height;
  }
- camera.fov=game.aim?42:64;camera.updateProjectionMatrix();camera.position.set(game.px,1.65,game.py);
+ camera.fov=game.aim?42:64;camera.updateProjectionMatrix();const eyeHeight=1.65+(game.jumpHeight||0);camera.position.set(game.px,eyeHeight,game.py);
  const pitch=(game.pitch||0)+(game.recoil||0)*.35;
- camera.lookAt(game.px+Math.cos(game.dir)*Math.cos(pitch),1.65+Math.sin(pitch),game.py+Math.sin(game.dir)*Math.cos(pitch));
+ camera.lookAt(game.px+Math.cos(game.dir)*Math.cos(pitch),eyeHeight+Math.sin(pitch),game.py+Math.sin(game.dir)*Math.cos(pitch));
  const dt=Math.max(0,Math.min(.1,game.elapsed-lastElapsed));lastElapsed=game.elapsed;
  const actors=[...new Set(game.enemies.concat(game.downeds))],liveKeys=new Set();
  for(const e of actors){const key='enemy-'+e.id;liveKeys.add(key);pose(entries.get(key)||makeActor(key),e,dt);}
@@ -143,10 +154,11 @@ function render(game){
   pose(entries.get(key)||makeActor(key,true),{...e,state:'active',moving:!!game.escort,locomotionSpeed:game.escort?2:0,facing:Math.atan2(game.py-e.y,game.px-e.x)},dt);
  }
  for(const [key,entry] of entries)if(!liveKeys.has(key)){scene.remove(entry.root);entry.mixer.stopAllAction();for(const mat of entry.materials)mat.dispose();entries.delete(key);}
- const target=game.objective||game.routeGuide,signature=target?`${game.stage}:${game.stageDone}:${target.type}:${target.index??''}`:'';
+ const target=game.objective,guide=game.routeGuide,signature=`${game.stage}:${game.stageDone}:${target?.type}:${guide?.index??''}`;
  if(signature!==props.userData.signature){
   props.traverse(o=>{if(o.isMesh){o.geometry.dispose();o.material.dispose();}});props.clear();props.userData.signature=signature;
   if(target&&target.type!=='rescue')objective(target);
+  if(guide)objective(guide);
  }
  const bob=game.wasMoving?Math.sin(game.animation)*.006:0;
  weapon.position.set(game.aim?.025:.23,-.25+bob-(game.reloadUntil?Math.sin((game.reloadUntil-game.elapsed)*3)*.07:0),-.45+(game.muzzle?game.muzzle*.45:0));

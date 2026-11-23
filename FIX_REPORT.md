@@ -1,23 +1,21 @@
-# R3: Progressive ambush encounters and longer routes
+# R4 site mission change report
 
-## Changes
+## Cause
 
-R2's campaign deployed the whole roster along the opening sightline and let every guard detect the player. R3 keeps a fixed, sealed roster but physically positions it in four occluded pockets along an extended approach. Guards remain idle until the player reaches the section or makes genuine visual contact with that group. Activated guards navigate out of the pocket, then retain the existing pursuit, strafe, dodge, cover and burst-fire logic. No enemy is teleported into the camera view or created by Interact.
+R3.1 route-layouts.js generated the same U-shaped route for every map from turnX, lowY and returnX. Three side pockets were generated from the same normal-vector formula, followed by a shared final screen. game.js then used largely shared end-of-map objective positions and a global living-enemy gate. Different decor did not produce different level structure or mission decisions.
 
-route-layouts.js owns the 64x36 collision grid, 71–79-unit centerline routes, pocket cells, one-shot activation ledger, route projection, guides and visible wall faces. The original 24x24 landmark footprint is translated 36 units along X and connected to the approach. Wall faces are generated from the same cells used for collision and visibility. Each theme has its own proportions and architectural treatment. These approaches are gameplay layouts, not claims about real site plans.
+## Change
 
-Only one campaign roster-creation event occurs. spawnLocked rejects subsequent campaign creation. An activation event releases existing actors; it does not spawn or revive them. Each group ID can activate once. Route progress is monotonic, so walking back does not re-arm a trigger. Disabled actors remain in the corpse list.
+site-plans.js now authors rooms, connecting paths, physical features, entry/exit points, objective positions, guard hiding cells, proximity gates, emergence targets and optional flank paths per site. All twelve missions have different suggested routes and guard deployments. The 101 observation mission uses a separate playable 89F ring; repeat memorial, night-market and mountain missions use alternate guard deployments. Minimap/design lines are expanded through actual walkable cells, so they do not cut through buildings.
 
-Pathfinding keys and bounds now use the actual map dimensions. Escort personnel can request paths around blocked turns. Device, rescue and checkpoint coordinates move with the original site footprint, while escort exit coordinates remain at the new entrance. The minimap caches its static background and displays the longer route. Dormant guards are not shown normally; the deliberate scout-drone ability can still reveal their positions.
+route-layouts.js creates collision and matching visible occluders from those plans. Proximity gates and real visual contact replace accumulated-distance activation. The sealed campaign roster and one-shot encounter ledger remain in force. Water blocks movement but does not block sight. Tactics add sentry holds, authored flanks, close-range rushes and patrol movement while preserving dodge, pathfinding and burst recovery.
 
-## Verification
+game.js places mission-specific hostage, bomb and extraction objectives. Mission completion requires disposal/escort and evacuation. Remote guards no longer gate objectives globally; nearby visible threats block interaction. Bombs require four uninterrupted seconds, reset on release/movement/jump/fire/damage, and retain an independent armed countdown. Escort extraction checks both the player and ally positions. Optional defense remains explicitly selected and retains three waves.
 
-- 30 Node checks pass. Every map has no visible or engaged guard at deployment, navigable pockets and objectives, a connected long route and four encounter sections. Waiting eight seconds does not move or activate the hidden roster.
-- All twelve campaigns are traversed using collision-checked movement, real shooting, encounter AI and objective interactions. Rescue missions escort personnel back along the extended route. Every campaign finishes with exactly one roster-creation event, four unique activated groups and final kills equal to the original roster.
-- Crossing the first gate releases only its one- or two-person team. Guards run out using the same collision grid. Later teams remain stationary. Backtracking and repeated Interact neither replay the encounter nor revive bodies.
-- Stage-entry, stale completion, far/paused/consumed/repeated/result-screen interaction guards, running, delayed dodge, timed reload, intentional restart, terminal failure and timeout remain checked.
-- The separate optional defense drills still produce exactly three intentional waves of 3, 4 and 5; their entry moves to the landmark arena.
-- Chromium 157 additionally raycasts the actual rendered environment mesh to verify physical occlusion of every opening guard on all eight maps. It verifies the transition from zero visible guards to a moving, visible first team, including Run animation clips.
-- Browser checks complete all twelve route flows, recheck backtracking and touch Interact, and verify 24 precise skinned-mesh floor-contact cases. No page/console/WebGL errors or external runtime resource requests are recorded.
+renderer3d.js displays bomb cases, evacuation rings and route breadcrumbs separately. Visible landmark roofs, halls, stadium seats/roof, market gates and observation windows supplement the new layouts. Libraries and the Soldier model are unchanged.
 
-Browser and Node campaign runs use extra armor to isolate state/path behavior. Opening and first-contact screenshots use normal armor. A physical iPad Safari performance and manual balance pass remains outstanding. No remote deployment was performed while preparing this release.
+## Validation and limits
+
+47 Node checks pass. Chromium checks all twelve missions, physical raycast occlusion of every opening guard, actual collision movement/shooting/objective completion, keyboard/mouse controls, four-second desktop and emulated-touch disposal, body ground contact and optional defenses. Page errors and external runtime requests are empty. Test actors receive increased armor for flow coverage; this is not a difficulty balance or device performance certification. Physical iPad testing remains outstanding.
+
+SCENE_DESIGN.md distinguishes sourced architecture from fictional gameplay. The game still uses simplified procedural geometry, flat-grid movement and separate mission zones for tower floors. No website deployment was performed.

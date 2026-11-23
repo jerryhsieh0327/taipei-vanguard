@@ -1,3 +1,7 @@
+# R4 research and layout update
+
+See SCENE_DESIGN.md for the 2026-11-23 research, source links, per-site mission designs and scope. The earlier silhouette reference notes are retained below.
+
 # 八個台北景點：本次建築與場地配置
 
 依本次選定範圍，先完成「八個景點可辨識的建築與場地配置」。模型是依資料建立的簡化 3D 幾何；場地尺度為遊戲壓縮，任務中的裝置、敵人與救援事件是虛構設定。不是照片貼成的背景，也不是測繪精度、照片級或完整內部空間復原。官方資料作為建築與地形參考，本次沒有下載或重散布官方攝影素材。

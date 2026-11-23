@@ -1,0 +1,673 @@
+{
+  "build": "TACTICAL R4 · SITE MISSIONS",
+  "browser": "157.0.8103.79",
+  "desktopControls": {
+    "spaceJump": "passed",
+    "cameraFollowsJump": "passed",
+    "spaceDoesNotShoot": "passed",
+    "leftClick": "passed",
+    "heldFire": "passed",
+    "spaceReleaseKeepsFire": "passed",
+    "mouseReleaseStopsFire": "passed",
+    "uiDoesNotFire": "passed",
+    "autoPointerLock": true
+  },
+  "desktopDefuse": "passed",
+  "touchDefuse": "passed",
+  "touchFire": "passed",
+  "touchLookDoesNotFire": "passed",
+  "scenes": [
+    {
+      "id": 1,
+      "map": 0,
+      "name": "101 MALL ATRIUM",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 6,
+        "skinnedMeshes": 12,
+        "drawCalls": 148,
+        "triangles": 84560
+      }
+    },
+    {
+      "id": 2,
+      "map": 0,
+      "name": "101 · 89F OBSERVATION RING",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 7,
+        "skinnedMeshes": 14,
+        "drawCalls": 169,
+        "triangles": 112994
+      }
+    },
+    {
+      "id": 3,
+      "map": 1,
+      "name": "MEMORIAL · GARDEN / TERRACE",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 7,
+        "skinnedMeshes": 14,
+        "drawCalls": 169,
+        "triangles": 101146
+      }
+    },
+    {
+      "id": 4,
+      "map": 1,
+      "name": "MEMORIAL · GARDEN / TERRACE",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 7,
+        "skinnedMeshes": 14,
+        "drawCalls": 72,
+        "triangles": 110956
+      }
+    },
+    {
+      "id": 5,
+      "map": 2,
+      "name": "LONGSHAN · THREE COURTS",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 7,
+        "skinnedMeshes": 14,
+        "drawCalls": 73,
+        "triangles": 118034
+      }
+    },
+    {
+      "id": 6,
+      "map": 3,
+      "name": "PALACE · EXHIBITION WINGS",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 8,
+        "skinnedMeshes": 16,
+        "drawCalls": 190,
+        "triangles": 119736
+      }
+    },
+    {
+      "id": 7,
+      "map": 4,
+      "name": "LIBERTY · TWO HALL FLANKS",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 6,
+        "skinnedMeshes": 12,
+        "drawCalls": 68,
+        "triangles": 81252
+      }
+    },
+    {
+      "id": 8,
+      "map": 5,
+      "name": "DOME · CONCOURSE / FIELD",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 8,
+        "skinnedMeshes": 16,
+        "drawCalls": 110,
+        "triangles": 129936
+      }
+    },
+    {
+      "id": 9,
+      "map": 6,
+      "name": "RAOHE · STALLS / SIDE ALLEYS",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 7,
+        "skinnedMeshes": 14,
+        "drawCalls": 149,
+        "triangles": 122562
+      }
+    },
+    {
+      "id": 10,
+      "map": 6,
+      "name": "RAOHE · STALLS / SIDE ALLEYS",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 8,
+        "skinnedMeshes": 16,
+        "drawCalls": 152,
+        "triangles": 122602
+      }
+    },
+    {
+      "id": 11,
+      "map": 7,
+      "name": "YANGMINGSHAN · ROCK / BAMBOO",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 6,
+        "skinnedMeshes": 12,
+        "drawCalls": 91,
+        "triangles": 141848
+      }
+    },
+    {
+      "id": 12,
+      "map": 7,
+      "name": "YANGMINGSHAN · ROCK / BAMBOO",
+      "physicalOcclusion": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "visible": 0,
+      "engaged": 0,
+      "glError": 0,
+      "metrics": {
+        "actors": 8,
+        "skinnedMeshes": 16,
+        "drawCalls": 110,
+        "triangles": 153506
+      }
+    }
+  ],
+  "missions": [
+    {
+      "id": 1,
+      "success": true,
+      "kills": 6,
+      "roster": 6,
+      "shots": 18,
+      "bombs": 1,
+      "bombTotal": 1,
+      "rescues": 0,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "RETAIL SHUTTER"
+        },
+        {
+          "id": 1,
+          "label": "ATRIUM NORTH PIER"
+        },
+        {
+          "id": 2,
+          "label": "LIFT CORE RECESS"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 2,
+      "success": true,
+      "kills": 7,
+      "roster": 7,
+      "shots": 21,
+      "bombs": 0,
+      "bombTotal": 0,
+      "rescues": 1,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "LIFT RECESS"
+        },
+        {
+          "id": 1,
+          "label": "NORTH WINDOW PIER"
+        },
+        {
+          "id": 2,
+          "label": "EAST CORE CORNER"
+        },
+        {
+          "id": 3,
+          "label": "SOUTH OBSERVATION BAY"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 3,
+      "success": true,
+      "kills": 7,
+      "roster": 7,
+      "shots": 21,
+      "bombs": 2,
+      "bombTotal": 2,
+      "rescues": 0,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "GARDEN MOON WINDOW"
+        },
+        {
+          "id": 2,
+          "label": "COLONNADE RETURN"
+        },
+        {
+          "id": 1,
+          "label": "POND FAR BANK"
+        },
+        {
+          "id": 3,
+          "label": "TERRACE SIDE WALL"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 4,
+      "success": true,
+      "kills": 7,
+      "roster": 7,
+      "shots": 21,
+      "bombs": 0,
+      "bombTotal": 0,
+      "rescues": 1,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "NORTH WINDOW RECESS"
+        },
+        {
+          "id": 1,
+          "label": "EAST GARDEN RETURN"
+        },
+        {
+          "id": 3,
+          "label": "GUIDE HOLDING BAY"
+        },
+        {
+          "id": 2,
+          "label": "TERRACE EAST LANDING"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 5,
+      "success": true,
+      "kills": 7,
+      "roster": 7,
+      "shots": 21,
+      "bombs": 0,
+      "bombTotal": 0,
+      "rescues": 1,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "DRAGON GATE PILLARS"
+        },
+        {
+          "id": 1,
+          "label": "INCENSE COURT SCREEN"
+        },
+        {
+          "id": 2,
+          "label": "EAST HU-LONG RETURN"
+        },
+        {
+          "id": 3,
+          "label": "REAR HALL DOOR"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 6,
+      "success": true,
+      "kills": 8,
+      "roster": 8,
+      "shots": 24,
+      "bombs": 2,
+      "bombTotal": 2,
+      "rescues": 0,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "WEST DISPLAY RETURN"
+        },
+        {
+          "id": 1,
+          "label": "CENTRAL PARTITION"
+        },
+        {
+          "id": 2,
+          "label": "EAST GALLERY DOOR"
+        },
+        {
+          "id": 3,
+          "label": "ARCHIVE CASES"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 7,
+      "success": true,
+      "kills": 6,
+      "roster": 6,
+      "shots": 18,
+      "bombs": 2,
+      "bombTotal": 2,
+      "rescues": 0,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "THEATRE COLUMN LINE"
+        },
+        {
+          "id": 2,
+          "label": "EAST GARDEN HEDGE"
+        },
+        {
+          "id": 1,
+          "label": "CONCERT HALL SERVICE DOOR"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 8,
+      "success": true,
+      "kills": 8,
+      "roster": 8,
+      "shots": 24,
+      "bombs": 2,
+      "bombTotal": 2,
+      "rescues": 0,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "ENTRY TURNSTILE RECESS"
+        },
+        {
+          "id": 1,
+          "label": "PLAYER TUNNEL"
+        },
+        {
+          "id": 2,
+          "label": "DUGOUT END"
+        },
+        {
+          "id": 3,
+          "label": "BULLPEN GATE"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 9,
+      "success": true,
+      "kills": 7,
+      "roster": 7,
+      "shots": 21,
+      "bombs": 0,
+      "bombTotal": 0,
+      "rescues": 1,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "EAST GRILL SHUTTER"
+        },
+        {
+          "id": 1,
+          "label": "MID-STREET CROSS GAP"
+        },
+        {
+          "id": 2,
+          "label": "REAR SHOP ALLEY"
+        },
+        {
+          "id": 3,
+          "label": "VENDOR COURT DOOR"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 10,
+      "success": true,
+      "kills": 8,
+      "roster": 8,
+      "shots": 24,
+      "bombs": 1,
+      "bombTotal": 1,
+      "rescues": 1,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 1,
+          "label": "CROSS-LANE STALL"
+        },
+        {
+          "id": 2,
+          "label": "SHOP LOADING RECESS"
+        },
+        {
+          "id": 0,
+          "label": "EAST CART SCREEN"
+        },
+        {
+          "id": 3,
+          "label": "REAR-COURT SHUTTER"
+        }
+      ],
+      "stage": 3,
+      "steps": 3
+    },
+    {
+      "id": 11,
+      "success": true,
+      "kills": 3,
+      "roster": 6,
+      "shots": 9,
+      "bombs": 0,
+      "bombTotal": 0,
+      "rescues": 1,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "BAMBOO BANK"
+        },
+        {
+          "id": 3,
+          "label": "LOOKOUT BACK WALL"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    },
+    {
+      "id": 12,
+      "success": true,
+      "kills": 8,
+      "roster": 8,
+      "shots": 27,
+      "bombs": 2,
+      "bombTotal": 2,
+      "rescues": 0,
+      "spawns": 1,
+      "encounters": [
+        {
+          "id": 0,
+          "label": "LOWER ROCK SHELTER"
+        },
+        {
+          "id": 2,
+          "label": "VIEWING SPUR"
+        },
+        {
+          "id": 3,
+          "label": "LOOKOUT NORTH BANK"
+        },
+        {
+          "id": 1,
+          "label": "BAMBOO SIDE PATROL"
+        }
+      ],
+      "stage": 2,
+      "steps": 2
+    }
+  ],
+  "groundedBodies": 32,
+  "defenses": [
+    {
+      "id": 8,
+      "success": true,
+      "spawns": 3,
+      "kills": 12
+    },
+    {
+      "id": 12,
+      "success": true,
+      "spawns": 3,
+      "kills": 12
+    }
+  ],
+  "errors": [],
+  "externalRequests": []
+}

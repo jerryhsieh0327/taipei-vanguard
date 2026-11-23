@@ -76,8 +76,14 @@ function addCover(m,grid,theme){
  }
 }
 
-function build(idx,grid,route){const theme=['tower','memorial','temple','museum','square','dome','night','mountain'][idx];
- const mesh=new Mesh();decor(mesh,theme);addCover(mesh,route?.siteGrid||grid,theme);window.TVSites.build(mesh,theme,Mesh);if(idx===0)sideCity(mesh);
- if(route){for(let i=0;i<mesh.a.length;i+=9){mesh.a[i]+=route.plan.offset.x;mesh.a[i+2]+=route.plan.offset.y;}window.TVRoutes.decorate(mesh,grid,route);}
- return new Float32Array(mesh.a);}
+function build(idx,grid,route){
+ const theme=['tower','memorial','temple','museum','square','dome','night','mountain'][idx],mesh=new Mesh();
+ window.TVRoutes.decorate(mesh,grid,route);
+ if(!route.plan.name.includes('89F')){
+  const backdrop=new Mesh();window.TVSites.build(backdrop,theme,Mesh);
+  for(let i=0;i<backdrop.a.length;i+=9){backdrop.a[i]+=65;backdrop.a[i+2]+=8;}
+  mesh.a.push(...[]);for(const v of backdrop.a)mesh.a.push(v);
+ }
+ return new Float32Array(mesh.a);
+}
 window.TVSceneGeometry={Mesh,build};})();

@@ -218,5 +218,5 @@ function mountain(m,Mesh){
 }
 function det(i){const n=Math.sin(i*74.37+2.1)*41231;return n-Math.floor(n);}
 const builders={tower,memorial,temple,museum,square:liberty,dome,night:nightMarket,mountain};
-window.TVSites={plans,build(m,theme,Mesh){builders[theme](m,Mesh);}};
+window.TVSites={plans,sign,roof,octRoof,append,build(m,theme,Mesh){builders[theme](m,Mesh);}};
 })();

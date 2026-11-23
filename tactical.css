@@ -15,3 +15,7 @@ button.secondary{background:linear-gradient(#3e4b43,#26352c)}button:disabled{opa
 .menu-art:before{filter:saturate(.65)}.brief-rules>div,.brief-text,.result-card,.pause-card{background:#1b2d23ef;border-color:#6f846e}.difficulty{background:#647b61}.panel-screen{background:#18271fde}
 #defenseBtn{margin-top:10px;font-size:11px;min-height:40px}#defenseBtn[hidden]{display:none!important}
 @media(max-height:550px){.hud-top{top:55px}#hostileCount{top:112px;font-size:10px}}
+
+.desktopHelp,#desktopControls{display:none}
+@media(hover:hover) and (pointer:fine){.touchHelp{display:none}.desktopHelp{display:inline}#desktopControls{display:block;position:absolute;top:166px;left:50%;transform:translateX(-50%);color:#d2dbc5;background:#17251bc7;padding:4px 10px;border-radius:3px;font-size:10px;letter-spacing:.4px;white-space:nowrap;pointer-events:none}}
+@media(hover:hover) and (pointer:fine) and (max-height:550px){#desktopControls{top:140px}}
