@@ -1,22 +1,24 @@
 {
-  "build": "TACTICAL R4 · SITE MISSIONS",
+  "build": "TACTICAL R5 · OPEN CITY",
   "date": "2026-11-23",
   "sites": 8,
   "missions": 12,
-  "distinctDeployments": 12,
-  "testsPassed": 47,
-  "campaign": "sealed roster, one-shot site proximity encounters",
+  "checks": 49,
+  "browserMissions": 12,
+  "bodyGroundCases": 48,
+  "civilianRunPoses": 25,
   "files": {
-    "index.html": "36b83345f535b9c917c466884c590e28db3ea62f2945928019bdb61cd4f3c5cb",
-    "game.js": "c98d08d4cd24a4dd9113ac92922c890d58db7b895270a3782b6954e0e733e77e",
-    "site-plans.js": "de9bf67e7c54929c6a9a858d662b7204f8c574575a8cd66517a63c90c8aa8926",
-    "route-layouts.js": "600fb29e81de742b9c1afaaafe4315d560d3bbca51fcf382ed11c5115daa9df5",
+    "index.html": "5faf3b3e22bf1c48a1d17fbaa6dc6bfa36b6a82decd76fe0dc20a74f11ea9288",
+    "game.js": "6d3d7de9f2417a35e72e1887487f0c8ca1c67f22fdf9bc1a676e61fe7bdbda33",
+    "renderer3d.js": "855a2a366fb291ef9c45351df94a00589ec76b164a99295ab6b409f0b036459a",
+    "city-scene.js": "d312e0ec221b6514f64c1622ad74c290e570de6215a6c5cf5db9be1d5b0ab906",
+    "character-wardrobe.js": "2a3fc7c46f2f07c377cdc58dcadea5c400e2f9f94b6b5ca95b4c7546c0ed3f6e",
+    "character-styles.js": "4dc9330e1cab94dcf054521c77314257d33a169b864a6ae844c39c20a1dbf482",
+    "site-plans.js": "c0a3e1d0ddc96d577cd666d86e379cf9648ad1d6e67a0a4e549ff931b239fc31",
+    "route-layouts.js": "9956b45f23084f1272dd53ae04d77155e8f71ee613450ad491e00f8bef985eb6",
     "enemy-ai.js": "e4b7359db706662137d80a19befacb24c5fca3f8181303ff6421800dc1c8a09c",
-    "renderer3d.js": "e6f0c78143f03d99a5e25fbc81d6022e907a9fb10d4eed5df717826f698ecd32",
-    "scene-geometry.js": "5524d367f54e57a03d663704fcba92c40f009a585821d88840f3a083e5199f5e",
-    "landmarks.js": "8cf9ea84970afafbfaba61767494b538b684c72b80438b440b3c80bac1adc573",
-    "style.css": "2b41c1fa6fd0447ee29c915369f3d3068e838ff033aced9d0244b658b60a4b95",
-    "tactical.css": "4a13ebd1e2d98a5dd5981f0b8934b5568b179e2e4ab474c0afc696675d4535a9",
-    "assets/models/Soldier.glb": "dfb230fc1f942f259dd00281a1186953ad602fc5d69067ce63e24b2aa439736b"
+    "tactical.css": "eb75ed3aba0ff0f607505cbe258e95406f652af9189ed141edfea5c27d3dccbf",
+    "assets/models/Soldier.glb": "dfb230fc1f942f259dd00281a1186953ad602fc5d69067ce63e24b2aa439736b",
+    "assets/models/CasualWalker.glb": "ed578eebe688843f684391719158a08bf454665fd63f16df6b4745a57cffda9f"
   }
 }

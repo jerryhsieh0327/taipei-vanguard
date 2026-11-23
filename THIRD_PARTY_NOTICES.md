@@ -17,6 +17,33 @@ Mixamo usage information: https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.
 
 Adobe's Mixamo FAQ permits royalty-free use of its characters and animations in video games. The model is not asserted to be covered by the Three.js software MIT license. No Counter-Strike or Valve model, sound or texture is included.
 
-## Existing supplied art and site geometry
+## Casual Walker civilian model (R5)
+
+Model: Casual Walker v1, LOD1, by tevy. License: CC0 1.0 (public domain).
+Author, preview and license: https://tevy.dev/models/casual-walker
+Pinned asset: https://tevy.dev/models/casual-walker/v1/lod1.glb
+CC0 legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+The model is used as a civilian body/rig/texture base. Clothing overlays, aprons,
+caps, floral pattern, accessories, body variation and runtime animation adaptation
+are original additions for this game. Neither model is a Counter-Strike asset.
+
+## Local compressed-model decoders (R5)
+
+KTX2Loader, WorkerPool and ColorSpaces are vendored from Three.js r170 under its
+MIT license. Imports were adjusted to local paths.
+
+- Basis Universal transcoder, Apache-2.0: vendor/licenses/BasisUniversal-APACHE2.txt
+  https://github.com/BinomialLLC/basis_universal
+- Meshoptimizer decoder, MIT: vendor/licenses/Meshoptimizer-MIT.txt
+  https://github.com/zeux/meshoptimizer
+- ktx-parse, MIT: vendor/licenses/KTX-Parse-MIT.txt
+  https://github.com/donmccurdy/ktx-parse
+- zstddec and embedded decoder notices: vendor/licenses/Zstddec-MIT.txt
+  https://github.com/donmccurdy/zstddec
+
+These dependencies are bundled locally. No external CDN is used at runtime.
+
+## Supplied imagery
 
 The original approved imagery remains unchanged. Rights to user-supplied imagery remain with their respective owners. The existing game geometry is retained as simplified Taipei site studies; references and limitations are listed in SCENE_REFERENCES.md.

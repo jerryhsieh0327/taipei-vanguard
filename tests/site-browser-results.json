@@ -1,5 +1,5 @@
 {
-  "build": "TACTICAL R4 · SITE MISSIONS",
+  "build": "TACTICAL R5 · OPEN CITY",
   "browser": "157.0.8103.79",
   "desktopControls": {
     "spaceJump": "passed",
@@ -20,7 +20,7 @@
     {
       "id": 1,
       "map": 0,
-      "name": "101 MALL ATRIUM",
+      "name": "101 · XINYI BOULEVARD",
       "physicalOcclusion": [
         true,
         true,
@@ -29,20 +29,22 @@
         true,
         true
       ],
+      "openFraction": 0.7217881944444444,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 6,
-        "skinnedMeshes": 12,
-        "drawCalls": 148,
-        "triangles": 84560
+        "skinnedMeshes": 10,
+        "drawCalls": 174,
+        "triangles": 120472
       }
     },
     {
       "id": 2,
       "map": 0,
-      "name": "101 · 89F OBSERVATION RING",
+      "name": "101 · 89F SKYLINE WINDOWS",
       "physicalOcclusion": [
         true,
         true,
@@ -52,20 +54,22 @@
         true,
         true
       ],
+      "openFraction": 0.8758680555555556,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 14,
-        "drawCalls": 169,
-        "triangles": 112994
+        "skinnedMeshes": 13,
+        "drawCalls": 152,
+        "triangles": 93073
       }
     },
     {
       "id": 3,
       "map": 1,
-      "name": "MEMORIAL · GARDEN / TERRACE",
+      "name": "MEMORIAL · OPEN FORECOURT",
       "physicalOcclusion": [
         true,
         true,
@@ -75,20 +79,22 @@
         true,
         true
       ],
+      "openFraction": 0.8159722222222222,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 14,
-        "drawCalls": 169,
-        "triangles": 101146
+        "skinnedMeshes": 7,
+        "drawCalls": 193,
+        "triangles": 121451
       }
     },
     {
       "id": 4,
       "map": 1,
-      "name": "MEMORIAL · GARDEN / TERRACE",
+      "name": "MEMORIAL · OPEN FORECOURT",
       "physicalOcclusion": [
         true,
         true,
@@ -98,20 +104,22 @@
         true,
         true
       ],
+      "openFraction": 0.8159722222222222,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 14,
-        "drawCalls": 72,
-        "triangles": 110956
+        "skinnedMeshes": 8,
+        "drawCalls": 83,
+        "triangles": 127050
       }
     },
     {
       "id": 5,
       "map": 2,
-      "name": "LONGSHAN · THREE COURTS",
+      "name": "LONGSHAN · TEMPLE FORECOURT",
       "physicalOcclusion": [
         true,
         true,
@@ -121,20 +129,22 @@
         true,
         true
       ],
+      "openFraction": 0.8353587962962963,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 14,
-        "drawCalls": 73,
-        "triangles": 118034
+        "skinnedMeshes": 8,
+        "drawCalls": 211,
+        "triangles": 125298
       }
     },
     {
       "id": 6,
       "map": 3,
-      "name": "PALACE · EXHIBITION WINGS",
+      "name": "PALACE · GARDEN / OPEN GALLERIES",
       "physicalOcclusion": [
         true,
         true,
@@ -145,20 +155,22 @@
         true,
         true
       ],
+      "openFraction": 0.8725405092592593,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 8,
-        "skinnedMeshes": 16,
-        "drawCalls": 190,
-        "triangles": 119736
+        "skinnedMeshes": 8,
+        "drawCalls": 194,
+        "triangles": 124470
       }
     },
     {
       "id": 7,
       "map": 4,
-      "name": "LIBERTY · TWO HALL FLANKS",
+      "name": "LIBERTY · CIVIC SQUARE",
       "physicalOcclusion": [
         true,
         true,
@@ -167,20 +179,22 @@
         true,
         true
       ],
+      "openFraction": 0.8075810185185185,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 6,
-        "skinnedMeshes": 12,
-        "drawCalls": 68,
-        "triangles": 81252
+        "skinnedMeshes": 6,
+        "drawCalls": 172,
+        "triangles": 109110
       }
     },
     {
       "id": 8,
       "map": 5,
-      "name": "DOME · CONCOURSE / FIELD",
+      "name": "DOME · BASEBALL BOWL",
       "physicalOcclusion": [
         true,
         true,
@@ -191,20 +205,22 @@
         true,
         true
       ],
+      "openFraction": 0.7203414351851852,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 8,
-        "skinnedMeshes": 16,
-        "drawCalls": 110,
-        "triangles": 129936
+        "skinnedMeshes": 8,
+        "drawCalls": 132,
+        "triangles": 111540
       }
     },
     {
       "id": 9,
       "map": 6,
-      "name": "RAOHE · STALLS / SIDE ALLEYS",
+      "name": "RAOHE · LIVING MARKET STREET",
       "physicalOcclusion": [
         true,
         true,
@@ -214,20 +230,22 @@
         true,
         true
       ],
+      "openFraction": 0.63671875,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 14,
-        "drawCalls": 149,
-        "triangles": 122562
+        "skinnedMeshes": 8,
+        "drawCalls": 220,
+        "triangles": 174298
       }
     },
     {
       "id": 10,
       "map": 6,
-      "name": "RAOHE · STALLS / SIDE ALLEYS",
+      "name": "RAOHE · LIVING MARKET STREET",
       "physicalOcclusion": [
         true,
         true,
@@ -238,20 +256,22 @@
         true,
         true
       ],
+      "openFraction": 0.63671875,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 8,
-        "skinnedMeshes": 16,
-        "drawCalls": 152,
-        "triangles": 122602
+        "skinnedMeshes": 8,
+        "drawCalls": 296,
+        "triangles": 176118
       }
     },
     {
       "id": 11,
       "map": 7,
-      "name": "YANGMINGSHAN · ROCK / BAMBOO",
+      "name": "YANGMINGSHAN · OPEN VOLCANIC TRAIL",
       "physicalOcclusion": [
         true,
         true,
@@ -260,20 +280,22 @@
         true,
         true
       ],
+      "openFraction": 0.9142071759259259,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 6,
-        "skinnedMeshes": 12,
-        "drawCalls": 91,
-        "triangles": 141848
+        "skinnedMeshes": 7,
+        "drawCalls": 171,
+        "triangles": 140877
       }
     },
     {
       "id": 12,
       "map": 7,
-      "name": "YANGMINGSHAN · ROCK / BAMBOO",
+      "name": "YANGMINGSHAN · OPEN VOLCANIC TRAIL",
       "physicalOcclusion": [
         true,
         true,
@@ -284,14 +306,16 @@
         true,
         true
       ],
+      "openFraction": 0.9142071759259259,
+      "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 8,
-        "skinnedMeshes": 16,
-        "drawCalls": 110,
-        "triangles": 153506
+        "skinnedMeshes": 8,
+        "drawCalls": 171,
+        "triangles": 149718
       }
     }
   ],
@@ -309,15 +333,15 @@
       "encounters": [
         {
           "id": 0,
-          "label": "RETAIL SHUTTER"
+          "label": "LOADING VAN"
         },
         {
           "id": 1,
-          "label": "ATRIUM NORTH PIER"
+          "label": "PODIUM CORNER"
         },
         {
           "id": 2,
-          "label": "LIFT CORE RECESS"
+          "label": "LIFT ENTRANCE SCREEN"
         }
       ],
       "stage": 2,
@@ -335,20 +359,20 @@
       "spawns": 1,
       "encounters": [
         {
+          "id": 2,
+          "label": "WEST LIFT BAY"
+        },
+        {
           "id": 0,
-          "label": "LIFT RECESS"
+          "label": "SOUTH CORE RETURN"
         },
         {
           "id": 1,
-          "label": "NORTH WINDOW PIER"
-        },
-        {
-          "id": 2,
-          "label": "EAST CORE CORNER"
+          "label": "EAST WINDOW EXHIBIT"
         },
         {
           "id": 3,
-          "label": "SOUTH OBSERVATION BAY"
+          "label": "NORTH LIFT CORNER"
         }
       ],
       "stage": 2,
@@ -357,29 +381,25 @@
     {
       "id": 3,
       "success": true,
-      "kills": 7,
+      "kills": 5,
       "roster": 7,
-      "shots": 21,
+      "shots": 15,
       "bombs": 2,
       "bombTotal": 2,
       "rescues": 0,
       "spawns": 1,
       "encounters": [
         {
-          "id": 0,
-          "label": "GARDEN MOON WINDOW"
+          "id": 1,
+          "label": "SOUTH TREE GROVE"
         },
         {
           "id": 2,
-          "label": "COLONNADE RETURN"
-        },
-        {
-          "id": 1,
-          "label": "POND FAR BANK"
+          "label": "TERRACE SIDE WALL"
         },
         {
           "id": 3,
-          "label": "TERRACE SIDE WALL"
+          "label": "STONE SCREEN"
         }
       ],
       "stage": 2,
@@ -398,19 +418,19 @@
       "encounters": [
         {
           "id": 0,
-          "label": "NORTH WINDOW RECESS"
+          "label": "NORTH GARDEN"
         },
         {
           "id": 1,
-          "label": "EAST GARDEN RETURN"
+          "label": "PAVILION RETURN"
         },
         {
           "id": 3,
-          "label": "GUIDE HOLDING BAY"
+          "label": "GARDEN EXIT"
         },
         {
           "id": 2,
-          "label": "TERRACE EAST LANDING"
+          "label": "EAST TERRACE"
         }
       ],
       "stage": 2,
@@ -429,19 +449,19 @@
       "encounters": [
         {
           "id": 0,
-          "label": "DRAGON GATE PILLARS"
+          "label": "FRONT HALL DRAGON DOOR"
         },
         {
           "id": 1,
-          "label": "INCENSE COURT SCREEN"
-        },
-        {
-          "id": 2,
-          "label": "EAST HU-LONG RETURN"
+          "label": "CENTRAL HALL CORNER"
         },
         {
           "id": 3,
-          "label": "REAR HALL DOOR"
+          "label": "EAST HU-LONG"
+        },
+        {
+          "id": 2,
+          "label": "REAR COURT SCREEN"
         }
       ],
       "stage": 2,
@@ -460,19 +480,19 @@
       "encounters": [
         {
           "id": 0,
-          "label": "WEST DISPLAY RETURN"
+          "label": "GARDEN VEHICLE"
         },
         {
           "id": 1,
-          "label": "CENTRAL PARTITION"
+          "label": "WEST GALLERY DOOR"
         },
         {
           "id": 2,
-          "label": "EAST GALLERY DOOR"
+          "label": "PARTITION RETURN"
         },
         {
           "id": 3,
-          "label": "ARCHIVE CASES"
+          "label": "EAST GALLERY DOOR"
         }
       ],
       "stage": 2,
@@ -491,15 +511,15 @@
       "encounters": [
         {
           "id": 0,
-          "label": "THEATRE COLUMN LINE"
+          "label": "CONCERT HALL SIDE"
         },
         {
           "id": 2,
-          "label": "EAST GARDEN HEDGE"
+          "label": "SERVICE VAN"
         },
         {
           "id": 1,
-          "label": "CONCERT HALL SERVICE DOOR"
+          "label": "THEATRE SIDE"
         }
       ],
       "stage": 2,
@@ -518,19 +538,19 @@
       "encounters": [
         {
           "id": 0,
-          "label": "ENTRY TURNSTILE RECESS"
+          "label": "WEST DUGOUT"
         },
         {
           "id": 1,
-          "label": "PLAYER TUNNEL"
+          "label": "EAST DUGOUT"
         },
         {
           "id": 2,
-          "label": "DUGOUT END"
+          "label": "BULLPEN SCREEN"
         },
         {
           "id": 3,
-          "label": "BULLPEN GATE"
+          "label": "FIELD ACCESS"
         }
       ],
       "stage": 2,
@@ -539,9 +559,9 @@
     {
       "id": 9,
       "success": true,
-      "kills": 7,
+      "kills": 5,
       "roster": 7,
-      "shots": 21,
+      "shots": 15,
       "bombs": 0,
       "bombTotal": 0,
       "rescues": 1,
@@ -549,19 +569,15 @@
       "encounters": [
         {
           "id": 0,
-          "label": "EAST GRILL SHUTTER"
+          "label": "FOOD DELIVERY VAN"
         },
         {
           "id": 1,
-          "label": "MID-STREET CROSS GAP"
-        },
-        {
-          "id": 2,
-          "label": "REAR SHOP ALLEY"
+          "label": "NORTH ARCADE"
         },
         {
           "id": 3,
-          "label": "VENDOR COURT DOOR"
+          "label": "VENDOR ALLEY"
         }
       ],
       "stage": 2,
@@ -579,20 +595,20 @@
       "spawns": 1,
       "encounters": [
         {
-          "id": 1,
-          "label": "CROSS-LANE STALL"
+          "id": 0,
+          "label": "DELIVERY REAR"
         },
         {
           "id": 2,
-          "label": "SHOP LOADING RECESS"
+          "label": "TEMPLE END"
         },
         {
-          "id": 0,
-          "label": "EAST CART SCREEN"
+          "id": 1,
+          "label": "NORTH AWNING"
         },
         {
           "id": 3,
-          "label": "REAR-COURT SHUTTER"
+          "label": "REAR SHOP DOOR"
         }
       ],
       "stage": 3,
@@ -601,9 +617,9 @@
     {
       "id": 11,
       "success": true,
-      "kills": 3,
+      "kills": 6,
       "roster": 6,
-      "shots": 9,
+      "shots": 18,
       "bombs": 0,
       "bombTotal": 0,
       "rescues": 1,
@@ -611,11 +627,19 @@
       "encounters": [
         {
           "id": 0,
-          "label": "BAMBOO BANK"
+          "label": "LOWER ROCK BANK"
+        },
+        {
+          "id": 1,
+          "label": "MIDDLE ROCK SPUR"
+        },
+        {
+          "id": 2,
+          "label": "VOLCANIC OUTCROP"
         },
         {
           "id": 3,
-          "label": "LOOKOUT BACK WALL"
+          "label": "LOOKOUT ROCK"
         }
       ],
       "stage": 2,
@@ -634,7 +658,11 @@
       "encounters": [
         {
           "id": 0,
-          "label": "LOWER ROCK SHELTER"
+          "label": "BAMBOO BRANCH"
+        },
+        {
+          "id": 1,
+          "label": "RIDGE SHELTER"
         },
         {
           "id": 2,
@@ -642,18 +670,626 @@
         },
         {
           "id": 3,
-          "label": "LOOKOUT NORTH BANK"
-        },
-        {
-          "id": 1,
-          "label": "BAMBOO SIDE PATROL"
+          "label": "LOOKOUT BACK ROCK"
         }
       ],
       "stage": 2,
       "steps": 2
     }
   ],
-  "groundedBodies": 32,
+  "characters": [
+    {
+      "id": 1,
+      "looks": [
+        {
+          "family": "tactical",
+          "variant": 0,
+          "seed": 0,
+          "skin": "#d2a080",
+          "shirt": "#554e3b",
+          "pants": "#50564a",
+          "height": 1.74,
+          "width": 1.04,
+          "hair": "#211d1b",
+          "hat": null,
+          "apron": false,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        },
+        {
+          "family": "tactical",
+          "variant": 1,
+          "seed": 1,
+          "skin": "#b98563",
+          "shirt": "#303e3e",
+          "pants": "#3d414b",
+          "height": 1.83,
+          "width": 1.12,
+          "hair": "#45392a",
+          "hat": null,
+          "apron": false,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        },
+        {
+          "family": "tactical",
+          "variant": 2,
+          "seed": 2,
+          "skin": "#e1b799",
+          "shirt": "#71634d",
+          "pants": "#333c40",
+          "height": 1.9,
+          "width": 0.94,
+          "hair": "#151617",
+          "hat": null,
+          "apron": false,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        }
+      ],
+      "rigs": [
+        {
+          "bones": 49,
+          "skins": 2
+        },
+        {
+          "bones": 49,
+          "skins": 2
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "looks": [
+        {
+          "family": "gang",
+          "variant": 0,
+          "seed": 0,
+          "skin": "#d2a080",
+          "shirt": "#502d43",
+          "pants": "#50564a",
+          "height": 1.74,
+          "width": 1.04,
+          "hair": "#211d1b",
+          "hat": null,
+          "apron": false,
+          "floral": true,
+          "tank": false,
+          "chain": true,
+          "glasses": true,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        },
+        {
+          "family": "gang",
+          "variant": 1,
+          "seed": 1,
+          "skin": "#b98563",
+          "shirt": "#1c2830",
+          "pants": "#3d414b",
+          "height": 1.83,
+          "width": 1.12,
+          "hair": "#45392a",
+          "hat": null,
+          "apron": false,
+          "floral": false,
+          "tank": true,
+          "chain": true,
+          "glasses": true,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        },
+        {
+          "family": "gang",
+          "variant": 2,
+          "seed": 2,
+          "skin": "#e1b799",
+          "shirt": "#e7dfce",
+          "pants": "#333c40",
+          "height": 1.9,
+          "width": 0.94,
+          "hair": "#151617",
+          "hat": null,
+          "apron": false,
+          "floral": false,
+          "tank": false,
+          "chain": true,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        }
+      ],
+      "rigs": [
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "looks": [
+        {
+          "family": "vendor",
+          "variant": 0,
+          "seed": 0,
+          "skin": "#d2a080",
+          "shirt": "#b16438",
+          "pants": "#50564a",
+          "height": 1.74,
+          "width": 1.04,
+          "hair": "#211d1b",
+          "hat": "cap",
+          "apron": true,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        },
+        {
+          "family": "vendor",
+          "variant": 1,
+          "seed": 1,
+          "skin": "#b98563",
+          "shirt": "#e8dfc4",
+          "pants": "#3d414b",
+          "height": 1.83,
+          "width": 1.12,
+          "hair": "#45392a",
+          "hat": "chef",
+          "apron": true,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        },
+        {
+          "family": "vendor",
+          "variant": 2,
+          "seed": 2,
+          "skin": "#e1b799",
+          "shirt": "#394f50",
+          "pants": "#333c40",
+          "height": 1.9,
+          "width": 0.94,
+          "hair": "#151617",
+          "hat": "cap",
+          "apron": true,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        }
+      ],
+      "rigs": [
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "looks": [
+        {
+          "family": "hiker",
+          "variant": 0,
+          "seed": 0,
+          "skin": "#d2a080",
+          "shirt": "#be622c",
+          "pants": "#50564a",
+          "height": 1.74,
+          "width": 1.04,
+          "hair": "#211d1b",
+          "hat": "cap",
+          "apron": false,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        },
+        {
+          "family": "hiker",
+          "variant": 1,
+          "seed": 1,
+          "skin": "#b98563",
+          "shirt": "#3e6776",
+          "pants": "#3d414b",
+          "height": 1.83,
+          "width": 1.12,
+          "hair": "#45392a",
+          "hat": "cap",
+          "apron": false,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        },
+        {
+          "family": "hiker",
+          "variant": 2,
+          "seed": 2,
+          "skin": "#e1b799",
+          "shirt": "#6c7440",
+          "pants": "#333c40",
+          "height": 1.9,
+          "width": 0.94,
+          "hair": "#151617",
+          "hat": "cap",
+          "apron": false,
+          "floral": false,
+          "tank": false,
+          "chain": false,
+          "glasses": false,
+          "armed": true,
+          "armband": "#a53e31",
+          "heavy": false
+        }
+      ],
+      "rigs": [
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        }
+      ]
+    }
+  ],
+  "runningPoses": [
+    {
+      "minY": 0.008000000000000094,
+      "head": 1.5259637893466915,
+      "leg": [
+        0.286310601015658,
+        -0.003123623971429365,
+        -0.0044888554597563544,
+        0.9581184504736214
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000014,
+      "head": 1.5774357980034746,
+      "leg": [
+        0.508036940267915,
+        -0.035866417217546936,
+        -0.03678772026210202,
+        0.8598010748761638
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000007,
+      "head": 1.49264441045483,
+      "leg": [
+        0.485545375207297,
+        -0.059505028359339046,
+        -0.06036523247986304,
+        0.8700924627538669
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.00800000000000009,
+      "head": 1.4357990043861804,
+      "leg": [
+        0.21150359213167047,
+        -0.016731505544748313,
+        -0.03230069448820371,
+        0.9767000238744631
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.007999999999999924,
+      "head": 1.3871123286454783,
+      "leg": [
+        0.19510024930438413,
+        0.0009430317991724088,
+        -0.00998974704628925,
+        0.9807319476394627
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000007,
+      "head": 1.4019084682767429,
+      "leg": [
+        0.399046419131219,
+        -0.0044622862084492685,
+        0.015942454024530116,
+        0.9167812644882213
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.007999999999999952,
+      "head": 1.3791271120948398,
+      "leg": [
+        0.5022960946781442,
+        -0.012070513822403966,
+        0.004920662356489808,
+        0.8645974339438753
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.00800000000000009,
+      "head": 1.3940574212286647,
+      "leg": [
+        0.40512310619464786,
+        -0.03608434283890174,
+        -0.044330930023352116,
+        0.9124735430952967
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000021,
+      "head": 1.4495218817689377,
+      "leg": [
+        0.28908715891983994,
+        -0.03808486964828297,
+        -0.06478600355676847,
+        0.9543484419343256
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000104,
+      "head": 1.4888765243687947,
+      "leg": [
+        0.32014542179459493,
+        -0.005020884995317892,
+        -0.04846253843234848,
+        0.9461147432620265
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000063,
+      "head": 1.4192191432982635,
+      "leg": [
+        0.487913327095138,
+        -0.044853422084646946,
+        -0.07637555574129594,
+        0.8683867287757894
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000063,
+      "head": 1.3911717068340108,
+      "leg": [
+        0.6937212334110578,
+        -0.029708647577634997,
+        -0.06275561065959262,
+        0.7168890928401657
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000035,
+      "head": 1.4041592606360747,
+      "leg": [
+        0.8231898701492562,
+        -0.02060469848997678,
+        -0.0417160952378091,
+        0.5658565402438972
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000118,
+      "head": 1.374294619831778,
+      "leg": [
+        0.8888328455501253,
+        -0.018868939517767924,
+        -0.04278707783697245,
+        0.45583920997018745
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.00799999999999998,
+      "head": 1.3796591092247612,
+      "leg": [
+        0.865118888632382,
+        -0.004661262904058551,
+        -0.01005249734997165,
+        0.5014444652003149
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000021,
+      "head": 1.4335900019183374,
+      "leg": [
+        0.7459699864403089,
+        -0.03381720903230501,
+        -0.034133185269876846,
+        0.6642440167760131
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000021,
+      "head": 1.4937170456597677,
+      "leg": [
+        0.5441499329360963,
+        -0.062034856534574655,
+        -0.062052913622394144,
+        0.8343871918260874
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000132,
+      "head": 1.451842209322995,
+      "leg": [
+        0.2653246432509868,
+        -0.03174489675266074,
+        -0.04184823294544022,
+        0.9627272714373996
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000063,
+      "head": 1.376845538345075,
+      "leg": [
+        0.17772793408769544,
+        0.0011316928958321577,
+        -0.01342467544941654,
+        0.9839874215724352
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.00799999999999998,
+      "head": 1.4036388680449907,
+      "leg": [
+        0.35909334909854973,
+        -0.0011367689354032941,
+        0.012746204691603757,
+        0.9332139154585394
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.00799999999999998,
+      "head": 1.385600287558431,
+      "leg": [
+        0.4905838931200351,
+        -0.011499206857339938,
+        0.011018333247316946,
+        0.871248421867739
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.00799999999999998,
+      "head": 1.3836750888219438,
+      "leg": [
+        0.4379115745042351,
+        -0.030660455592752038,
+        -0.03396567038039003,
+        0.8978528505554381
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000063,
+      "head": 1.4342507673303695,
+      "leg": [
+        0.3027001890808401,
+        -0.04306718415744892,
+        -0.06653849303105508,
+        0.9497844134534448
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000007,
+      "head": 1.48717396210585,
+      "leg": [
+        0.3043435789537754,
+        -0.009737203554210644,
+        -0.050847499545831086,
+        0.9511544167493887
+      ],
+      "clip": "Run"
+    },
+    {
+      "minY": 0.008000000000000049,
+      "head": 1.4389250300445924,
+      "leg": [
+        0.4351254324241923,
+        -0.04256113389966977,
+        -0.07147882579514335,
+        0.8965183468116373
+      ],
+      "clip": "Run"
+    }
+  ],
+  "elevations": [
+    {
+      "id": 2,
+      "ground": 2.625,
+      "cameraY": 4.275
+    },
+    {
+      "id": 5,
+      "ground": 2.4,
+      "cameraY": 4.05
+    },
+    {
+      "id": 10,
+      "ground": 1.8601356501336372,
+      "cameraY": 3.510135650133637
+    }
+  ],
+  "groundedBodies": 48,
   "defenses": [
     {
       "id": 8,

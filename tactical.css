@@ -1,4 +1,5 @@
 /* Restrained tactical HUD; stable accessible input controls. */
+#gameHUD::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse,transparent 48%,#a6272877);opacity:var(--damage,0)}
 :root{--gold:#d7c09b;--cyan:#a8b7ad;--shadow:0 5px 20px #0008;font-family:Arial,"Microsoft JhengHei",sans-serif}
 button{border:1px solid #78867c;border-radius:4px;background:linear-gradient(#3a443f,#232a27);box-shadow:0 3px 10px #0007;text-shadow:none;font-weight:700}
 button.primary{background:linear-gradient(#b4a583,#8e805f);border:1px solid #d8caa5;color:#131b17}

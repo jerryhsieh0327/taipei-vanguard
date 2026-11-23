@@ -1,21 +1,9 @@
-# R4 site mission change report
+# R5 change report
 
-## Cause
+R4 filled all unused grid cells with tall solid walls. Although its suggested routes differed, the player still moved through a sequence of narrow corridors, while distant landmark facades did not define the playable space. R5 starts from open floor and blocks only authored physical objects. The new renderer builds streets, continuous shop frontage, surfaces, trees, urban details, landmark masses, open courts, a baseball bowl and distant terrain. No maze/void walls are rendered. Ground elevation drives the camera, actors, markers and shot height. The old opaque menu canvas is hidden during gameplay so it cannot obscure a freshly loaded 3D view; damage feedback uses the HUD vignette.
 
-R3.1 route-layouts.js generated the same U-shaped route for every map from turnX, lowY and returnX. Three side pockets were generated from the same normal-vector formula, followed by a shared final screen. game.js then used largely shared end-of-map objective positions and a global living-enemy gate. Different decor did not produce different level structure or mission decisions.
+The Soldier remains for tactical variants. A CC0 civilian skinned model adds a second body/face/rig base. Original modular aprons, headgear, floral clothing, tank top, chain, glasses, color and proportion changes create site-specific roles. The run clip is retargeted to the largest source skeleton, uses actual sanitized bone names and named tracks bound to the scene, and keeps the civilian hip height. Runtime shoe-vertex sampling plants the feet. Wardrobe geometry follows the skeleton and is included in corpse-ground bounds. Allies are unarmed.
 
-## Change
+Campaign spawn locking, one-shot encounter activation, four-second disposal, local threat checks and escort extraction remain. Independent defense waves remain opt-in. Opening guards were checked with actual 3D raycasts; hiding positions that relied on gaps in foliage or a doorway were moved behind physical architecture/rocks.
 
-site-plans.js now authors rooms, connecting paths, physical features, entry/exit points, objective positions, guard hiding cells, proximity gates, emergence targets and optional flank paths per site. All twelve missions have different suggested routes and guard deployments. The 101 observation mission uses a separate playable 89F ring; repeat memorial, night-market and mountain missions use alternate guard deployments. Minimap/design lines are expanded through actual walkable cells, so they do not cut through buildings.
-
-route-layouts.js creates collision and matching visible occluders from those plans. Proximity gates and real visual contact replace accumulated-distance activation. The sealed campaign roster and one-shot encounter ledger remain in force. Water blocks movement but does not block sight. Tactics add sentry holds, authored flanks, close-range rushes and patrol movement while preserving dodge, pathfinding and burst recovery.
-
-game.js places mission-specific hostage, bomb and extraction objectives. Mission completion requires disposal/escort and evacuation. Remote guards no longer gate objectives globally; nearby visible threats block interaction. Bombs require four uninterrupted seconds, reset on release/movement/jump/fire/damage, and retain an independent armed countdown. Escort extraction checks both the player and ally positions. Optional defense remains explicitly selected and retains three waves.
-
-renderer3d.js displays bomb cases, evacuation rings and route breadcrumbs separately. Visible landmark roofs, halls, stadium seats/roof, market gates and observation windows supplement the new layouts. Libraries and the Soldier model are unchanged.
-
-## Validation and limits
-
-47 Node checks pass. Chromium checks all twelve missions, physical raycast occlusion of every opening guard, actual collision movement/shooting/objective completion, keyboard/mouse controls, four-second desktop and emulated-touch disposal, body ground contact and optional defenses. Page errors and external runtime requests are empty. Test actors receive increased armor for flow coverage; this is not a difficulty balance or device performance certification. Physical iPad testing remains outstanding.
-
-SCENE_DESIGN.md distinguishes sourced architecture from fictional gameplay. The game still uses simplified procedural geometry, flat-grid movement and separate mission zones for tower floors. No website deployment was performed.
+49 Node checks and the complete 12-mission Chromium suite pass, including live input, real run joint variation, shoe ground contact, 48 corpse bounds and elevated cameras. Errors and external runtime requests are empty. Flow actors receive high test armor; human difficulty balance and physical iPad performance still need playtesting. These are stylized procedural scenes, not measured or scanned replicas. No site deployment was performed.

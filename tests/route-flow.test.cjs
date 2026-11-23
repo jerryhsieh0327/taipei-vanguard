@@ -2,7 +2,9 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const {loadGame,living,engaged,tick,navigate,traverse,complete,clearForStateTest,defuse}=require('./game-harness.cjs');
 for(let id=0;id<12;id++)test(`mission ${id+1}: authored topology, hidden guards, reachable objectives and flanks`,()=>{
  const a=loadGame();a.deploy(id);const g=a.game,p=g.route.plan;
- assert.equal(g.grid.length,48);assert.equal(g.grid[0].length,64);assert.equal(living(g).length,g.m.roster);
+ assert.equal(g.grid.length,72);assert.equal(g.grid[0].length,96);assert.equal(living(g).length,g.m.roster);
+ assert.equal(g.grid.flat().filter(v=>v===31).length,0,'no generated maze wall tiles');
+ assert.ok(g.grid.flat().filter(v=>v===0).length/(96*72)>.55,'most of the map remains open ground');
  assert.equal(engaged(g).length,0);assert.equal(g.encounterEvents.length,0);
  assert.ok(living(g).every(e=>!a.visibility(g.px,g.py,e.x,e.y)));
  for(const target of [...p.nodes,...g.enemies,p.hostage,...p.bombs,p.extraction,...p.encounters.flatMap(c=>[c.exit,...c.flank])]){
@@ -86,8 +88,8 @@ test('guard tactics differ: sentry holds an angle, flanker uses its authored bra
  e.tactic='flank';e.flankRoute=[{x:37.5,y:27.5}];e.flankIndex=0;tick(a,.2);assert.equal(e.intent,'flank');assert.ok(e.locomotionSpeed>2);
 });
 test('ponds block walking but do not act as opaque walls',()=>{
- const a=loadGame();a.deploy(2);assert.equal(a.passable(22.5,28.5),false);
- assert.equal(a.visibility(16.5,28.5,29.5,28.5),true);
+ const a=loadGame();a.deploy(2);assert.equal(a.passable(22.5,18.5),false);
+ assert.equal(a.visibility(15.5,18.5,31.5,18.5),true);
 });
 test('touch cancellation and pause cancel held bomb disposal',()=>{
  const a=loadGame();a.deploy(0);clearForStateTest(a);const g=a.game;g.px=g.objective.x;g.py=g.objective.y;
@@ -99,4 +101,16 @@ for(const id of [7,11])test(`mission ${id+1}: optional defense retains exactly t
  const a=loadGame();a.deploy(id,'defense');const g=a.game;g.armor=100000;
  for(let i=0;i<3;i++){assert.equal(living(g).length,3+i);assert.ok(living(g).every(e=>a.passable(e.x,e.y,.28)));clearForStateTest(a);tick(a,10.1);}
  assert.equal(a.running,false);assert.equal(g.spawnEvents.length,3);assert.equal(g.kills,12);assert.equal(a.progress.unlocked,1);
+});
+test('vendor, gang and tactical silhouettes have distinct clothing and headgear',()=>{
+ const cases=[[0,'tactical'],[4,'gang'],[8,'vendor'],[10,'hiker']];
+ for(const [id,family] of cases){const a=loadGame();a.deploy(id);const looks=a.game.enemies.map(e=>e.appearance);assert.ok(looks.every(l=>l.family===family&&l.armed));assert.equal(new Set(looks.map(l=>l.variant)).size,3);
+  if(family==='vendor')assert.ok(looks.every(l=>l.apron)&&looks.some(l=>l.hat==='chef'));
+  if(family==='gang')assert.ok(looks.some(l=>l.floral)&&looks.some(l=>l.tank)&&looks.every(l=>l.chain));
+ }
+});
+test('memorial steps, museum terrace and mountain slopes carry real floor elevations',()=>{
+ const a=loadGame();a.deploy(2);assert.ok(a.game.route.floorAt(64,27)>2);assert.equal(a.game.route.floorAt(51,27),0);
+ a.deploy(5);assert.equal(a.game.route.floorAt(52,25),2.4);assert.equal(a.game.route.floorAt(52,51),0);
+ a.deploy(10);assert.ok(Math.abs(a.game.route.floorAt(80,18)-a.game.route.floorAt(18,60))>.5);
 });

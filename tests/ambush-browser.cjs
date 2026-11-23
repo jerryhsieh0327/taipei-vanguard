@@ -8,7 +8,7 @@ async function main(){
  const source=fs.readFileSync(path.join(root,'game.js'),'utf8'),end=source.lastIndexOf('})();'),
   harness=fs.readFileSync(path.join(__dirname,'game-harness.cjs'),'utf8'),helpers=harness.slice(harness.indexOf('const living='),harness.indexOf('module.exports='));
  const hooks=`const assert={ok(v,m){if(!v)throw Error(m||'test assertion failed');},equal(a,b,m){if(a!==b)throw Error((m||'test assertion failed')+': '+a+' !== '+b);}};
- window.__qa={start,interact,simulate,shoot,reload,brief,pause,spawnWave,move,passable,visibility,localThreat,updateDefuse,keys,
+ window.__qa={start,interact,simulate,shoot,reload,brief,pause,spawnWave,move,passable,visibility,localThreat,updateDefuse,keys,drawMini,
   get game(){return game;},get running(){return running;},hold(value){paused=value;},
   deploy(id,mode='campaign'){selected=id;soundOn=false;start(mode);},tactics:window.TVTactics};
  ${helpers}
@@ -30,7 +30,7 @@ async function main(){
   page.on('request',r=>{if(!/^(http:\/\/127\.0\.0\.1:|data:|blob:)/.test(r.url()))external.push(r.url());});
   const url=`http://127.0.0.1:${server.address().port}/`;
   await page.goto(url,{waitUntil:'networkidle'});await page.waitForFunction(()=>window.TV3D?.ready||window.TV3D?.error,{},{timeout:60000});
-  assert.equal(await page.evaluate(()=>TV3D.ready),true);console.log('R4 character engine ready');
+  assert.equal(await page.evaluate(()=>TV3D.ready),true);console.log('R5 character engine ready');
   await page.getByRole('button',{name:'Start Campaign'}).click();await page.locator('#deployBtn').click();
   await page.waitForSelector('#gameHUD:not([hidden])');
   // Real desktop input, including the focused Deploy button left by navigation.
@@ -59,20 +59,20 @@ async function main(){
 
   const scenes=[];
   for(const id of Array.from({length:12},(_,i)=>i)){
-   await page.evaluate(id=>{__qa.deploy(id);__qa.hold(true);TV3D.render(__qa.game);},id);
+   await page.evaluate(id=>{__qa.deploy(id);__qa.hold(true);TV3D.render(__qa.game);__qa.drawMini();const c=document.getElementById('scene');c.getContext('2d').clearRect(0,0,c.width,c.height);},id);
    const row=await page.evaluate(async()=>{
     const THREE=await import('/vendor/three/three.module.min.js'),g=__qa.game,
-     wall=TV3D.scene.children.find(o=>o.isMesh&&o.geometry?.getAttribute('color')),
-     origin=new THREE.Vector3(g.px,1.65,g.py);
+     wall=TV3D.scene.getObjectByName('OPEN_CITY_ENVIRONMENT'),
+     origin=new THREE.Vector3(g.px,g.route.floorAt(g.px,g.py)+1.65,g.py);
     const physicalOcclusion=g.enemies.map(e=>{
-     const target=new THREE.Vector3(e.x,1.2,e.y),direction=target.clone().sub(origin),distance=direction.length(),
-      hit=new THREE.Raycaster(origin,direction.normalize(),.05,distance).intersectObject(wall)[0];
+     const target=new THREE.Vector3(e.x,g.route.floorAt(e.x,e.y)+1.2,e.y),direction=target.clone().sub(origin),distance=direction.length(),
+      hit=new THREE.Raycaster(origin,direction.normalize(),.05,distance).intersectObject(wall,true).find(h=>!h.object.material.transparent);
      return !!hit&&hit.distance<distance-.2;
     });
-    return {id:g.id+1,map:g.m.map,name:g.route.plan.name,physicalOcclusion,
+    return {id:g.id+1,map:g.m.map,name:g.route.plan.name,physicalOcclusion,openFraction:g.grid.flat().filter(v=>v===0).length/(96*72),mazeWalls:g.grid.flat().filter(v=>v===31).length,
      visible:__qa.visible().length,engaged:__qa.engaged().length,glError:TV3D.renderer.getContext().getError(),metrics:TV3D.metrics};
    });
-   assert.equal(row.visible,0);assert.equal(row.engaged,0);assert.equal(row.glError,0);assert.ok(row.physicalOcclusion.every(Boolean),JSON.stringify(row));
+   assert.equal(row.visible,0);assert.equal(row.engaged,0);assert.equal(row.glError,0);if(!row.physicalOcclusion.every(Boolean))console.log('OCCLUSION FAILURE',JSON.stringify(row));
    await page.screenshot({path:path.join(out,`start-${id+1}.png`)});
    // Also inspect the landmark-specific middle section at player eye height.
    await page.evaluate(()=>{
@@ -82,6 +82,7 @@ async function main(){
    });
    await page.screenshot({path:path.join(out,`site-${id+1}.png`)});scenes.push(row);console.log('Site geometry / hiding verified',id+1);
   }
+  assert.ok(scenes.every(s=>s.physicalOcclusion.every(Boolean)),'every initial guard must have genuine visual cover');
   const missions=await page.evaluate(()=>{
    const rows=[];__qa.hold(false);
    for(let id=0;id<12;id++){
@@ -100,12 +101,32 @@ async function main(){
   await page.keyboard.down('f');await page.evaluate(()=>__qa.tick(4.1));await page.keyboard.up('f');
   assert.equal(await page.evaluate(()=>__qa.game.devices),1);
   const bodies=await page.evaluate(async()=>{
-   const THREE=await import('/vendor/three/three.module.min.js');__qa.deploy(5);__qa.clear();__qa.hold(true);const g=__qa.game,rows=[];
-   for(const fall of [0,.25,.5,1]){for(const e of g.downeds)e.fall=fall;TV3D.render(g);
-    for(const entry of TV3D.entries.values())if(entry.dead){entry.root.updateMatrixWorld(true);for(const skin of entry.skins)skin.skeleton.update();const b=new THREE.Box3().setFromObject(entry.pivot,true);rows.push({fall,minY:b.min.y});}}
+   const THREE=await import('/vendor/three/three.module.min.js'),rows=[];
+   for(const id of [0,4,8,10]){
+    __qa.deploy(id);__qa.clear();__qa.hold(true);const g=__qa.game;g.enemies=g.enemies.slice(0,3);g.downeds=g.downeds.slice(0,3);
+    for(const fall of [0,.25,.5,1]){for(const e of g.downeds)e.fall=fall;TV3D.render(g);
+     for(const entry of TV3D.entries.values())if(entry.dead){entry.root.updateMatrixWorld(true);for(const skin of entry.skins)skin.skeleton.update();const b=new THREE.Box3().setFromObject(entry.pivot,true);rows.push({id,fall,minY:b.min.y,expected:g.route.floorAt(entry.root.position.x,entry.root.position.z)+.012});}}
+   }
    return rows;
   });
-  assert.ok(bodies.length>=24&&bodies.every(b=>Math.abs(b.minY-.012)<.004));
+  assert.equal(bodies.length,48);assert.ok(bodies.every(b=>Math.abs(b.minY-b.expected)<.004));
+  const characters=[];
+  for(const id of [0,4,8,10]){
+   const row=await page.evaluate(id=>{
+    __qa.deploy(id);__qa.hold(true);const g=__qa.game;g.px=48;g.py=id===8?31:60;g.dir=-Math.PI/2;g.pitch=-.04;
+    g.enemies=g.enemies.slice(0,3);g.enemies.forEach((e,i)=>{e.x=46+i*2;e.y=g.py-5;e.awakened=false;e.facing=Math.PI/2;e.appearance=TVCharacterStyles.enemy(g.theme.theme,i,e.kind);});
+    g.objective=null;g.routeGuide=null;TV3D.render(g);__qa.drawMini();const c=document.getElementById('scene');c.getContext('2d').clearRect(0,0,c.width,c.height);
+    return {id:id+1,looks:g.enemies.map(e=>e.appearance),rigs:[...TV3D.entries.values()].map(e=>({bones:Object.keys(e.bones).length,skins:e.skins.length}))};
+   },id);await page.screenshot({path:path.join(out,`characters-${id+1}.png`)});characters.push(row);
+  }
+  const runningPoses=await page.evaluate(async()=>{
+   const THREE=await import('/vendor/three/three.module.min.js');__qa.deploy(8);__qa.hold(true);const g=__qa.game,e=g.enemies[0];g.enemies=[e];e.x=48;e.y=30;e.awakened=true;e.moving=true;e.locomotionSpeed=3.2;e.intent='run';
+   const rows=[];for(let i=0;i<25;i++){g.elapsed+=.05;TV3D.render(g);const entry=TV3D.entries.get('enemy-'+e.id);entry.root.updateMatrixWorld(true);for(const s of entry.skins)s.skeleton.update();const bounds=new THREE.Box3().setFromObject(entry.pivot,true);rows.push({minY:bounds.min.y,head:entry.bones.Head.getWorldPosition(new THREE.Vector3()).y,leg:entry.bones.LeftLeg.quaternion.toArray(),clip:entry.current});}return rows;
+  });
+  assert.ok(new Set(runningPoses.map(r=>JSON.stringify(r.leg))).size>=20,'run clip must animate, not just have a Run label');
+  assert.ok(runningPoses.every(r=>r.clip==='Run'&&r.minY>-.04&&r.minY<.08&&r.head>1.3&&r.head<2.3),'civilian running soles and body proportions');
+  const elevations=await page.evaluate(()=>[2,5,10].map(id=>{__qa.deploy(id);__qa.hold(true);const g=__qa.game,p=id===2?{x:64.5,y:28.5}:id===5?{x:52.5,y:28.5}:{x:82.5,y:18.5};g.px=p.x;g.py=p.y;TV3D.render(g);return {id,ground:g.route.floorAt(p.x,p.y),cameraY:TV3D.camera.position.y};}));
+  assert.ok(elevations.every(e=>Math.abs(e.cameraY-e.ground-1.65)<1e-5));
   const defenses=await page.evaluate(()=>{
    __qa.hold(false);return [7,11].map(id=>{__qa.deploy(id,'defense');const g=__qa.game;g.armor=100000;for(let i=0;i<3;i++){__qa.clear();__qa.tick(10.1);}return {id:id+1,success:!__qa.running,spawns:g.spawnEvents.length,kills:g.kills};});
   });assert.ok(defenses.every(d=>d.success&&d.spawns===3&&d.kills===12));
@@ -125,8 +146,8 @@ async function main(){
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});assert.equal(await touch.evaluate(()=>__qa.game.devices),1);
   await touch.screenshot({path:path.join(out,'touch-defused.png')});
   assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
-  const report={build:'TACTICAL R4 · SITE MISSIONS',browser:await browser.version(),desktopControls,desktopDefuse:'passed',touchDefuse:'passed',touchFire:'passed',touchLookDoesNotFire:'passed',scenes,missions,groundedBodies:bodies.length,defenses,errors,externalRequests:external};
-  fs.writeFileSync(path.join(out,'site-browser-results.json'),JSON.stringify(report,null,2));console.log('All R4 browser checks passed');
+  const report={build:'TACTICAL R5 · OPEN CITY',browser:await browser.version(),desktopControls,desktopDefuse:'passed',touchDefuse:'passed',touchFire:'passed',touchLookDoesNotFire:'passed',scenes,missions,characters,runningPoses,elevations,groundedBodies:bodies.length,defenses,errors,externalRequests:external};
+  fs.writeFileSync(path.join(out,'site-browser-results.json'),JSON.stringify(report,null,2));console.log('All R5 browser checks passed');
  }finally{if(browser)await browser.close();server.close();}
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

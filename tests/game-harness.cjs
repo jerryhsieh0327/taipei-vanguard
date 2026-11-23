@@ -11,7 +11,7 @@ function loadGame(){
   alert(message){throw Error(message);},localStorage:{getItem:()=>null,setItem(){}},
   addEventListener:(name,fn)=>listeners.set(name,fn),window:{TV3D:{ready:true,load(){}}}};
  vm.createContext(sandbox);
- for(const file of ['landmarks.js','site-plans.js','route-layouts.js','enemy-ai.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),sandbox);
+ for(const file of ['landmarks.js','character-styles.js','site-plans.js','route-layouts.js','enemy-ai.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),sandbox);
  let source=fs.readFileSync(path.join(__dirname,'../game.js'),'utf8'),end=source.lastIndexOf('})();');assert.ok(end>0);
  source=source.slice(0,end)+`globalThis.testGame={missions,start,prepareStage,nextStage,spawnWave,spawnEnemy,passable,visibility,move,objectiveAt,jump,
   interact,updateDefuse,localThreat,simulate,shoot,reload,pause,tool,finish,keys,get game(){return game;},get running(){return running;},get progress(){return progress;},
@@ -25,7 +25,7 @@ function tick(api,seconds=.05){for(let t=0;t<seconds-1e-8;t+=.05)api.simulate(.0
 function shootVisible(api){
  const g=api.game;const target=engaged(g).find(e=>api.visibility(g.px,g.py,e.x,e.y)&&Math.hypot(e.x-g.px,e.y-g.py)<20);
  if(!target)return false;
- const d=Math.hypot(target.x-g.px,target.y-g.py);g.dir=Math.atan2(target.y-g.py,target.x-g.px);g.pitch=Math.atan2(.95-1.65,d);
+ const d=Math.hypot(target.x-g.px,target.y-g.py);g.dir=Math.atan2(target.y-g.py,target.x-g.px);g.pitch=Math.atan2(g.route.floorAt(target.x,target.y)+.95-g.route.floorAt(g.px,g.py)-1.65,d);
  if(!g.ammo)api.reload();api.shoot();return true;
 }
 function stepFight(api){shootVisible(api);api.simulate(.05);}

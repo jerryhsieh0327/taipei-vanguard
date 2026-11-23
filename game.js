@@ -1,8 +1,8 @@
-/* Taipei Vanguard: Skyline Alert — offline, dependency-free canvas FPS. */
+/* Taipei Vanguard — local Three.js FPS with open city scenes. */
 'use strict';
 (()=>{
 const $=id=>document.getElementById(id), TAU=Math.PI*2;
-const BUILD='TACTICAL R4 · SITE MISSIONS';window.TV_BUILD=BUILD;
+const BUILD='TACTICAL R5 · OPEN CITY';window.TV_BUILD=BUILD;
 const maps=[
  {name:'Taipei 101',theme:'tower',sky:'#79cbff',wall:'#b2c9da',trim:'#2778c0',floor:'#b3c3d0',accent:'#ffbd43'},
  {name:'National Chiang Kai-shek Memorial Hall',theme:'memorial',sky:'#89d6ff',wall:'#e7e8de',trim:'#2e64a8',floor:'#b2b5b5',accent:'#f0c35f'},
@@ -15,13 +15,13 @@ const maps=[
 ];
 const missions=[
  {
-  "name": "Atrium Bomb Alert",
+  "name": "Xinyi Boulevard Bomb Alert",
   "map": 0,
   "roster": 6,
   "diff": "Casual",
   "time": 600,
   "bombTime": 360,
-  "story": "Enter the 101 mall, circle the atrium and reach the express-lift bank. Guards use retail shutters and lift-core recesses. Defuse the bomb, then withdraw to the mall entrance.",
+  "story": "Approach Taipei 101 along the Xinyi boulevard. Use the sidewalks and entrance forecourt to reach the mall access bomb. Guards wait behind the delivery van, podium corners and entrance signs. Defuse the charge, then withdraw to the street evacuation point.",
   "steps": [
    [
     "defuse",
@@ -113,7 +113,7 @@ const missions=[
   "diff": "Casual",
   "time": 780,
   "bombTime": 0,
-  "story": "Enter at the dragon-side passage, cross successive courts beside the hall walls, and rescue the temple volunteer. Return through the opposite hu-long corridor to the tiger-side exit.",
+  "story": "Cross the open forecourt and enter the temple gate. Move around the halls and through the rear court to rescue the volunteer, then use the side corridor to reach the eastern evacuation point.",
   "steps": [
    [
     "rescue",
@@ -136,7 +136,7 @@ const missions=[
   "diff": "Tight",
   "time": 840,
   "bombTime": 360,
-  "story": "Search connected exhibition rooms. Display cases break sightlines while gallery doors create crossing fire. Defuse a charge in the east wing and another in the archive gallery, then exit through the foyer.",
+  "story": "Approach across the museum garden, climb the entrance steps and search the broad exhibition rooms. Guards hold the gallery doors and partition corners. Disarm both charges and leave through the entrance forecourt.",
   "steps": [
    [
     "defuse",
@@ -301,7 +301,7 @@ function resize(){const w=innerWidth,h=innerHeight;canvas.width=Math.min(1280,Ma
 addEventListener('resize',resize);resize();
 let screen='menu', selected=0, running=false, paused=false,game=null, last=performance.now(), screenDepth=[],spriteCache={};
 let soundOn=true,audio=null;function beep(type='tap',vol=.12){if(!soundOn)return;try{audio||=new (window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const t=audio.currentTime,o=audio.createOscillator(),g=audio.createGain();o.type=type==='shot'?'sawtooth':type==='damage'?'square':'sine';o.frequency.setValueAtTime(type==='shot'?210:type==='hit'?640:type==='win'?525:type==='damage'?120:410,t);o.frequency.exponentialRampToValueAtTime(type==='shot'?65:type==='win'?880:type==='damage'?65:290,t+.12);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);o.connect(g).connect(audio.destination);o.start(t);o.stop(t+.16);}catch(e){}}
-function show(id){for(const el of document.querySelectorAll('.panel-screen'))el.classList.toggle('active',el.id===id);screen=id;$('gameHUD').hidden=id!=='playing';$('pauseOverlay').hidden=true;}
+function show(id){for(const el of document.querySelectorAll('.panel-screen'))el.classList.toggle('active',el.id===id);screen=id;$('gameHUD').hidden=id!=='playing';$('pauseOverlay').hidden=true;canvas.style.display=id==='playing'?'none':'block';}
 function save(){try{localStorage.setItem('tvsa_progress_v1',JSON.stringify(progress));}catch(e){}}
 let progress={unlocked:1,stars:{}};try{Object.assign(progress,JSON.parse(localStorage.getItem('tvsa_progress_v1')||'{}'));}catch(e){}progress.unlocked=Math.max(1,Math.min(12,progress.unlocked||1));
 function missionSelect(){running=false;show('missionSelect');const grid=$('missionGrid');grid.replaceChildren();missions.forEach((m,i)=>{let b=document.createElement('button');b.className='mission-tile';b.disabled=i>=progress.unlocked;b.style.opacity=b.disabled?'.48':'1';b.style.backgroundImage=`linear-gradient(100deg,#0b2d63ec,#124879dd),url('assets/landmark-${m.map+1}.jpg')`;b.style.backgroundSize='cover';b.style.backgroundPosition='center';b.innerHTML=`<div class="top"><span>MISSION ${String(i+1).padStart(2,'0')}</span><span class="tag ${m.diff==='Tight'?'tight':''}">${m.diff.toUpperCase()}</span></div><b>${m.name}</b><small>${maps[m.map].name}</small><small>${b.disabled?'🔒 LOCKED':(progress.stars[i]?'★'.repeat(progress.stars[i])+' CLEARED':'READY TO DEPLOY')}</small>`;b.onclick=()=>brief(i);grid.append(b);});}
@@ -310,7 +310,15 @@ $('continueBtn').onclick=()=>brief(Math.max(0,progress.unlocked-1));$('openMissi
 $('soundToggle').onclick=()=>{soundOn=!soundOn;$('soundToggle').textContent=soundOn?'♫ ON':'♫ OFF';beep();};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.();};
 function solid(x,y){const row=game?.grid[Math.floor(y)],col=Math.floor(x);return !row||col<0||col>=row.length||row[col]>0;}
 function passable(x,y,r=.22){return !solid(x-r,y-r)&&!solid(x+r,y-r)&&!solid(x-r,y+r)&&!solid(x+r,y+r);}
-function visibility(x1,y1,x2,y2){let d=Math.hypot(x2-x1,y2-y1),s=Math.max(1,Math.ceil(d/.14));for(let i=1;i<s;i++){let a=i/s,x=x1+(x2-x1)*a,y=y1+(y2-y1)*a,tile=game?.grid[Math.floor(y)]?.[Math.floor(x)];if(tile!==33&&solid(x,y))return false;}return true;}
+function visibility(x1,y1,x2,y2){
+ const d=Math.hypot(x2-x1,y2-y1),steps=Math.max(1,Math.ceil(d/.16)),f=game.route.floorAt,
+  aHeight=f(x1,y1)+1.55,bHeight=f(x2,y2)+1.25;
+ for(let i=1;i<steps;i++){
+  const t=i/steps,x=x1+(x2-x1)*t,y=y1+(y2-y1)*t,h=game.route.occlusion[Math.floor(y)]?.[Math.floor(x)];
+  if(h===undefined)return false;if(h>0&&f(x,y)+h>aHeight+(bHeight-aHeight)*t)return false;
+ }return true;
+}
+
 function objectiveAt(type,index=0){
  const p=game.route.plan,location=type==='bomb'||type==='device'?p.bombs[index]:type==='rescue'?p.hostage:p.extraction;
  return {type,...location,active:true,index};
@@ -333,12 +341,12 @@ function start(mode='campaign'){
   game.spawnEvents.push({reason:'hidden-roster',time:0,count:game.enemies.length});
  }else spawnWave(3,false,'deployment');
  game.rosterSize=game.enemies.length;game.spawnLocked=mode==='campaign';
- prepareStage();window.TVRoutes.update(game,visibility);beep('win',.09);note(mode==='defense'?'OPTIONAL DEFENSE — WAVE 1 / 3':'FOLLOW THE ROUTE — WATCH THE CORNERS',2.5);
+ prepareStage();window.TVRoutes.update(game,visibility);beep('win',.09);note(mode==='defense'?'OPTIONAL DEFENSE — WAVE 1 / 3':'OPEN CITY — CHECK YOUR OBJECTIVE',2.5);
 }
 function spawnEnemy(x,y,kind='guard'){
  if(!running||game.spawnLocked||solid(x,y))return false;
  const hp=kind==='heavy'?6:3;
- game.enemies.push({id:game.nextEnemyId++,x,y,kind,hp,maxHp:hp,phase:Math.random()*6,moving:false,facing:Math.PI,
+ game.enemies.push({id:game.nextEnemyId++,x,y,kind,appearance:window.TVCharacterStyles.enemy(game.theme.theme,game.nextEnemyId,kind),hp,maxHp:hp,phase:Math.random()*6,moving:false,facing:Math.PI,
   fall:0,state:'active',hitAt:0,locomotionSpeed:0,intent:'hold',nextShot:game.elapsed+1.1+Math.random()*.8});return game.enemies[game.enemies.length-1];
 }
 function spawnWave(n,heavy=false,reason='defense-wave'){
@@ -353,7 +361,7 @@ function spawnWave(n,heavy=false,reason='defense-wave'){
 function prepareStage(){
  if(!running||!game||game.preparedStage===game.stage)return;
  const st=game.m.steps[game.stage];game.preparedStage=game.stage;
- game.objective=null;game.escort=null;game.defuseProgress=0;interactHeld=false;
+ game.objective=null;game.escort=null;game.defuseProgress=0;interactHeld=false;$('interactBtn').style.display='none';$('missionPrompt').style.display='none';
  if(!st){finish(true);return;}
  game.stageDone=0;game.objectIndex=0;
  // Keep living threats; defeated actors remain in downeds for the 3D renderer.
@@ -376,6 +384,7 @@ let noticeUntil=0;function note(msg,seconds=1.6){$('notice').textContent=msg;$('
 function updateHUD(){
  if(!game)return;const st=game.m.steps[game.stage],g=game;
  $('buildLabel').textContent=BUILD;
+ $('gameHUD').style.setProperty?.('--damage',String(Math.min(1,g.hitFlash*5)));
  $('hostileCount').textContent=g.mode==='campaign'?g.route.plan.name+' · '+g.enemies.filter(e=>e.state==='active'&&e.awakened).length+' ENGAGED · NO RESPAWN':'OPTIONAL DEFENSE WAVES';
  $('hudMission').textContent=`MISSION ${String(g.id+1).padStart(2,'0')} · ${g.theme.name}`;
  $('hudObjective').textContent=st?(st[0]==='defend'?`WAVE ${g.stageDone+1} / ${st[1]} · TERMINAL ${Math.ceil(g.terminalHealth)}%`:st[0]==='defuse'?`${st[2]} · ${g.stageDone} / ${st[1]} SAFE`+(g.defuseProgress?` · ${Math.floor(g.defuseProgress/4*100)}%`:''):st[2]):'Mission Complete';
@@ -393,13 +402,13 @@ function jump(){
 function updateJump(dt){
  if(game.jumpHeight<=0&&game.jumpVelocity<=0)return;
  game.jumpVelocity-=18*dt;game.jumpHeight+=game.jumpVelocity*dt;
- const ceiling=window.TVRoutes.ceilingAt(game,game.px,game.py)-1.8-.02;
+ const ceiling=window.TVRoutes.ceilingAt(game,game.px,game.py)-game.route.floorAt(game.px,game.py)-1.8-.02;
  if(game.jumpHeight>ceiling){game.jumpHeight=Math.max(0,ceiling);game.jumpVelocity=Math.min(0,game.jumpVelocity);}
  if(game.jumpHeight<=0){game.jumpHeight=0;game.jumpVelocity=0;}
 }
-function canPlayerMove(x,y){return passable(x,y,.21)&&1.8+(game.jumpHeight||0)+.02<=window.TVRoutes.ceilingAt(game,x,y)+1e-6;}
+function canPlayerMove(x,y){return passable(x,y,.21)&&game.route.floorAt(x,y)+1.8+(game.jumpHeight||0)+.02<=window.TVRoutes.ceilingAt(game,x,y)+1e-6;}
 function move(dx,dy){if(!running||paused)return;if(canPlayerMove(game.px+dx,game.py))game.px+=dx;if(canPlayerMove(game.px,game.py+dy))game.py+=dy;}
-function shoot(){completeReload();if(game?.reloadUntil)return;if(!running||paused||game.elapsed-game.lastFire<(game.weapon?.3:.16))return;game.lastFire=game.elapsed;if(game.ammo<=0){note('RELOAD REQUIRED',1);beep('tap');return;}game.ammo--;game.shots++;game.muzzle=.08;game.recoil=Math.min(.12,game.recoil+.018);game.shotNoiseUntil=game.elapsed+1.5;beep('shot',.07);let target=null,angle=game.dir,best=1e6;for(const e of game.enemies){if(e.state!=='active')continue;let dist=Math.hypot(e.x-game.px,e.y-game.py),ad=Math.atan2(e.y-game.py,e.x-game.px)-angle;ad=Math.atan2(Math.sin(ad),Math.cos(ad));const threshold=Math.atan(.3/Math.max(.1,dist))+(game.aim?.003:.009);if(Math.abs(ad)<threshold*3&&visibility(game.px,game.py,e.x,e.y)){if(e.awakened===false)window.TVRoutes.wakeGroup(game,e.encounterId,'incoming-fire');window.TVTactics.react(e,game);}const height=1.65+(game.jumpHeight||0)+Math.tan(game.pitch||0)*dist;if(height<.15||height>(e.crouching?1.25:1.95))continue;if(Math.abs(ad)<threshold&&dist<21&&dist<best&&visibility(game.px,game.py,e.x,e.y)){target=e;best=dist;}}if(target){game.hits++;target.hp--;target.hitAt=.25;beep('hit',.07);if(target.hp<=0){target.state='disabled';target.fall=0;target.moving=false;game.downeds.push(target);game.kills++;note('HOSTILE UNIT STOPPED!',.85);}else note('DIRECT HIT!',.5);}updateHUD();}
+function shoot(){completeReload();if(game?.reloadUntil)return;if(!running||paused||game.elapsed-game.lastFire<(game.weapon?.3:.16))return;game.lastFire=game.elapsed;if(game.ammo<=0){note('RELOAD REQUIRED',1);beep('tap');return;}game.ammo--;game.shots++;game.muzzle=.08;game.recoil=Math.min(.12,game.recoil+.018);game.shotNoiseUntil=game.elapsed+1.5;beep('shot',.07);let target=null,angle=game.dir,best=1e6;for(const e of game.enemies){if(e.state!=='active')continue;let dist=Math.hypot(e.x-game.px,e.y-game.py),ad=Math.atan2(e.y-game.py,e.x-game.px)-angle;ad=Math.atan2(Math.sin(ad),Math.cos(ad));const threshold=Math.atan(.3/Math.max(.1,dist))+(game.aim?.003:.009);if(Math.abs(ad)<threshold*3&&visibility(game.px,game.py,e.x,e.y)){if(e.awakened===false)window.TVRoutes.wakeGroup(game,e.encounterId,'incoming-fire');window.TVTactics.react(e,game);}const height=game.route.floorAt(game.px,game.py)+1.65+(game.jumpHeight||0)+Math.tan(game.pitch||0)*dist-game.route.floorAt(e.x,e.y);if(height<.15||height>(e.crouching?1.25:1.95))continue;if(Math.abs(ad)<threshold&&dist<21&&dist<best&&visibility(game.px,game.py,e.x,e.y)){target=e;best=dist;}}if(target){game.hits++;target.hp--;target.hitAt=.25;beep('hit',.07);if(target.hp<=0){target.state='disabled';target.fall=0;target.moving=false;game.downeds.push(target);game.kills++;note('HOSTILE UNIT STOPPED!',.85);}else note('DIRECT HIT!',.5);}updateHUD();}
 function completeReload(){if(!game||!game.reloadUntil||game.elapsed<game.reloadUntil)return;
  const max=game.weapon?12:30,take=Math.min(max-game.ammo,game.reserve);game.ammo+=take;game.reserve-=take;game.reloadUntil=0;updateHUD();}
 function reload(){if(!running||!game||paused||game.reloadUntil||game.ammo>=(game.weapon?12:30)||game.reserve<=0)return;

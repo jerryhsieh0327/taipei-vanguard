@@ -2,291 +2,303 @@ TAP version 13
 # Subtest: Space starts a ballistic jump without shooting or consuming ammo
 ok 1 - Space starts a ballistic jump without shooting or consuming ammo
   ---
-  duration_ms: 30.8612
+  duration_ms: 42.9628
   type: 'test'
   ...
 # Subtest: holding Space and repeated presses cannot relaunch in midair or auto-hop on landing
 ok 2 - holding Space and repeated presses cannot relaunch in midair or auto-hop on landing
   ---
-  duration_ms: 18.4625
+  duration_ms: 26.9836
   type: 'test'
   ...
 # Subtest: jump is blocked in menus, pause and results; pausing freezes the airborne state
 ok 3 - jump is blocked in menus, pause and results; pausing freezes the airborne state
   ---
-  duration_ms: 22.2585
+  duration_ms: 28.8639
   type: 'test'
   ...
 # Subtest: jumping cannot cross authored walls and low market awnings stop the head
 ok 4 - jumping cannot cross authored walls and low market awnings stop the head
   ---
-  duration_ms: 21.8838
+  duration_ms: 41.1733
   type: 'test'
   ...
 # Subtest: left mouse fires immediately without pointer lock, holds to repeat, and releases to stop
 ok 5 - left mouse fires immediately without pointer lock, holds to repeat, and releases to stop
   ---
-  duration_ms: 18.9754
+  duration_ms: 20.8752
   type: 'test'
   ...
 # Subtest: releasing Space while holding left mouse does not interrupt firing
 ok 6 - releasing Space while holding left mouse does not interrupt firing
   ---
-  duration_ms: 16.3071
+  duration_ms: 28.0525
   type: 'test'
   ...
 # Subtest: mouse firing ignores UI buttons, right click, touch-look and inactive gameplay
 ok 7 - mouse firing ignores UI buttons, right click, touch-look and inactive gameplay
   ---
-  duration_ms: 14.5126
+  duration_ms: 23.3208
   type: 'test'
   ...
 # Subtest: pointer cancellation, lost lock, blur and pause stop held firing
 ok 8 - pointer cancellation, lost lock, blur and pause stop held firing
   ---
-  duration_ms: 17.159
+  duration_ms: 29.3797
   type: 'test'
   ...
 # Subtest: touch FIRE still works and releasing the look finger does not stop the fire finger
 ok 9 - touch FIRE still works and releasing the look finger does not stop the fire finger
   ---
-  duration_ms: 19.1824
+  duration_ms: 20.9221
   type: 'test'
   ...
 # Subtest: airborne shots use the raised eye height, rather than the old ground-level trajectory
 ok 10 - airborne shots use the raised eye height, rather than the old ground-level trajectory
   ---
-  duration_ms: 14.941
+  duration_ms: 23.7916
   type: 'test'
   ...
 # Subtest: mission 1: authored topology, hidden guards, reachable objectives and flanks
 ok 11 - mission 1: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 81.2526
+  duration_ms: 152.8892
   type: 'test'
   ...
 # Subtest: mission 2: authored topology, hidden guards, reachable objectives and flanks
 ok 12 - mission 2: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 66.079
+  duration_ms: 134.5203
   type: 'test'
   ...
 # Subtest: mission 3: authored topology, hidden guards, reachable objectives and flanks
 ok 13 - mission 3: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 60.53
+  duration_ms: 147.683
   type: 'test'
   ...
 # Subtest: mission 4: authored topology, hidden guards, reachable objectives and flanks
 ok 14 - mission 4: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 56.168
+  duration_ms: 169.1736
   type: 'test'
   ...
 # Subtest: mission 5: authored topology, hidden guards, reachable objectives and flanks
 ok 15 - mission 5: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 45.1526
+  duration_ms: 130.7484
   type: 'test'
   ...
 # Subtest: mission 6: authored topology, hidden guards, reachable objectives and flanks
 ok 16 - mission 6: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 59.0867
+  duration_ms: 199.9766
   type: 'test'
   ...
 # Subtest: mission 7: authored topology, hidden guards, reachable objectives and flanks
 ok 17 - mission 7: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 64.3652
+  duration_ms: 150.9858
   type: 'test'
   ...
 # Subtest: mission 8: authored topology, hidden guards, reachable objectives and flanks
 ok 18 - mission 8: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 52.538
+  duration_ms: 89.8946
   type: 'test'
   ...
 # Subtest: mission 9: authored topology, hidden guards, reachable objectives and flanks
 ok 19 - mission 9: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 42.3999
+  duration_ms: 103.2245
   type: 'test'
   ...
 # Subtest: mission 10: authored topology, hidden guards, reachable objectives and flanks
 ok 20 - mission 10: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 41.2755
+  duration_ms: 104.1495
   type: 'test'
   ...
 # Subtest: mission 11: authored topology, hidden guards, reachable objectives and flanks
 ok 21 - mission 11: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 34.097
+  duration_ms: 169.1944
   type: 'test'
   ...
 # Subtest: mission 12: authored topology, hidden guards, reachable objectives and flanks
 ok 22 - mission 12: authored topology, hidden guards, reachable objectives and flanks
   ---
-  duration_ms: 41.9497
+  duration_ms: 204.6814
   type: 'test'
   ...
 # Subtest: eight sites have different collision topology; all twelve missions have different routes
 ok 23 - eight sites have different collision topology; all twelve missions have different routes
   ---
-  duration_ms: 131.6423
+  duration_ms: 276.5739
   type: 'test'
   ...
 # Subtest: mission 1: collision movement, shooting, site objectives and evacuation
 ok 24 - mission 1: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 240.8843
+  duration_ms: 407.317
   type: 'test'
   ...
 # Subtest: mission 2: collision movement, shooting, site objectives and evacuation
 ok 25 - mission 2: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 224.9307
+  duration_ms: 502.2933
   type: 'test'
   ...
 # Subtest: mission 3: collision movement, shooting, site objectives and evacuation
 ok 26 - mission 3: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 187.2101
+  duration_ms: 568.7075
   type: 'test'
   ...
 # Subtest: mission 4: collision movement, shooting, site objectives and evacuation
 ok 27 - mission 4: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 197.7585
+  duration_ms: 500.8417
   type: 'test'
   ...
 # Subtest: mission 5: collision movement, shooting, site objectives and evacuation
 ok 28 - mission 5: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 195.1209
+  duration_ms: 683.3571
   type: 'test'
   ...
 # Subtest: mission 6: collision movement, shooting, site objectives and evacuation
 ok 29 - mission 6: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 255.3099
+  duration_ms: 890.1758
   type: 'test'
   ...
 # Subtest: mission 7: collision movement, shooting, site objectives and evacuation
 ok 30 - mission 7: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 287.8333
+  duration_ms: 657.8837
   type: 'test'
   ...
 # Subtest: mission 8: collision movement, shooting, site objectives and evacuation
 ok 31 - mission 8: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 244.2786
+  duration_ms: 558.7123
   type: 'test'
   ...
 # Subtest: mission 9: collision movement, shooting, site objectives and evacuation
 ok 32 - mission 9: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 304.4179
+  duration_ms: 343.0114
   type: 'test'
   ...
 # Subtest: mission 10: collision movement, shooting, site objectives and evacuation
 ok 33 - mission 10: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 265.2018
+  duration_ms: 802.029
   type: 'test'
   ...
 # Subtest: mission 11: collision movement, shooting, site objectives and evacuation
 ok 34 - mission 11: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 167.5751
+  duration_ms: 1249.2951
   type: 'test'
   ...
 # Subtest: mission 12: collision movement, shooting, site objectives and evacuation
 ok 35 - mission 12: collision movement, shooting, site objectives and evacuation
   ---
-  duration_ms: 298.906
+  duration_ms: 1068.1996
   type: 'test'
   ...
 # Subtest: proximity gates do not awaken distant teams from accumulated route progress
 ok 36 - proximity gates do not awaken distant teams from accumulated route progress
   ---
-  duration_ms: 25.842
+  duration_ms: 21.297
   type: 'test'
   ...
 # Subtest: Interact, backtracking, stage preparation and restarts cannot revive campaign enemies
 ok 37 - Interact, backtracking, stage preparation and restarts cannot revive campaign enemies
   ---
-  duration_ms: 300.1004
+  duration_ms: 386.8724
   type: 'test'
   ...
 # Subtest: a bomb needs four continuous seconds; release, movement, firing, jumping and damage reset progress
 ok 38 - a bomb needs four continuous seconds; release, movement, firing, jumping and damage reset progress
   ---
-  duration_ms: 22.9725
+  duration_ms: 29.8657
   type: 'test'
   ...
 # Subtest: remote dormant guards do not block rescue or bomb interaction; nearby visible guards do
 ok 39 - remote dormant guards do not block rescue or bomb interaction; nearby visible guards do
   ---
-  duration_ms: 23.57
+  duration_ms: 37.612
   type: 'test'
   ...
 # Subtest: second bomb is distinct and double taps cannot disarm it or spawn guards
 ok 40 - second bomb is distinct and double taps cannot disarm it or spawn guards
   ---
-  duration_ms: 21.3083
+  duration_ms: 45.9307
   type: 'test'
   ...
 # Subtest: bomb timer fails while armed, stops after disposal, and pause freezes it
 ok 41 - bomb timer fails while armed, stops after disposal, and pause freezes it
   ---
-  duration_ms: 22.5042
+  duration_ms: 34.6752
   type: 'test'
   ...
 # Subtest: rescue, escort and exit positions come from the specific site, not a shared final point
 ok 42 - rescue, escort and exit positions come from the specific site, not a shared final point
   ---
-  duration_ms: 10.7892
+  duration_ms: 21.1008
   type: 'test'
   ...
 # Subtest: guard tactics differ: sentry holds an angle, flanker uses its authored branch, rusher closes distance
 ok 43 - guard tactics differ: sentry holds an angle, flanker uses its authored branch, rusher closes distance
   ---
-  duration_ms: 17.7366
+  duration_ms: 32.3899
   type: 'test'
   ...
 # Subtest: ponds block walking but do not act as opaque walls
 ok 44 - ponds block walking but do not act as opaque walls
   ---
-  duration_ms: 12.3645
+  duration_ms: 24.648
   type: 'test'
   ...
 # Subtest: touch cancellation and pause cancel held bomb disposal
 ok 45 - touch cancellation and pause cancel held bomb disposal
   ---
-  duration_ms: 16.4046
+  duration_ms: 20.2557
   type: 'test'
   ...
 # Subtest: mission 8: optional defense retains exactly three explicit waves
 ok 46 - mission 8: optional defense retains exactly three explicit waves
   ---
-  duration_ms: 19.0411
+  duration_ms: 29.9819
   type: 'test'
   ...
 # Subtest: mission 12: optional defense retains exactly three explicit waves
 ok 47 - mission 12: optional defense retains exactly three explicit waves
   ---
-  duration_ms: 16.4732
+  duration_ms: 28.3251
   type: 'test'
   ...
-1..47
-# tests 47
+# Subtest: vendor, gang and tactical silhouettes have distinct clothing and headgear
+ok 48 - vendor, gang and tactical silhouettes have distinct clothing and headgear
+  ---
+  duration_ms: 90.5558
+  type: 'test'
+  ...
+# Subtest: memorial steps, museum terrace and mountain slopes carry real floor elevations
+ok 49 - memorial steps, museum terrace and mountain slopes carry real floor elevations
+  ---
+  duration_ms: 68.013
+  type: 'test'
+  ...
+1..49
+# tests 49
 # suites 0
-# pass 47
+# pass 49
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 4312.9442
+# duration_ms 11307.0209
