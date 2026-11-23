@@ -47,3 +47,7 @@ These dependencies are bundled locally. No external CDN is used at runtime.
 ## Supplied imagery
 
 The original approved imagery remains unchanged. Rights to user-supplied imagery remain with their respective owners. The existing game geometry is retained as simplified Taipei site studies; references and limitations are listed in SCENE_REFERENCES.md.
+
+## R6 original additions
+
+Street vehicles, market products, museum exhibit studies, ink-study textures, civilian routes and shopping accessories are original procedural additions. Scene references are informational and are listed in SCENE_DESIGN_R6.md; no new downloaded third-party art is included in R6. The existing bundled model and decoder notices above still apply.

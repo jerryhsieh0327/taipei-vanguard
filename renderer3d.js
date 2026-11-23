@@ -4,9 +4,9 @@ import {GLTFLoader} from './vendor/three/addons/loaders/GLTFLoader.js';
 import {KTX2Loader} from './vendor/three/addons/loaders/KTX2Loader.js';
 import {MeshoptDecoder} from './vendor/three/addons/libs/meshopt_decoder.module.js';
 import {clone as cloneSkeleton,retargetClip} from './vendor/three/addons/utils/SkeletonUtils.js';
-import {buildWorld} from './city-scene.js';
-import {wardrobe,boneAliases} from './character-wardrobe.js';
-const status={ready:false,loading:true,ownsWeapon:true,build:'TACTICAL-R5',error:null};
+import {buildWorld} from './city-scene.js?v=city-life-r6';
+import {wardrobe,boneAliases} from './character-wardrobe.js?v=city-life-r6';
+const status={ready:false,loading:true,ownsWeapon:true,build:'TACTICAL-R6',error:null};
 window.TV3D=status;
 const canvas=document.createElement('canvas');canvas.id='world3d';
 canvas.setAttribute('aria-label','Textured tactical Taipei game');document.getElementById('app').prepend(canvas);
@@ -174,6 +174,8 @@ function render(game){
  const dt=Math.max(0,Math.min(.1,game.elapsed-lastElapsed));lastElapsed=game.elapsed;
  const actors=[...new Set(game.enemies.concat(game.downeds))],liveKeys=new Set();
  for(const e of actors){const key='enemy-'+e.id;liveKeys.add(key);pose(entries.get(key)||makeActor(key,false,e.appearance),e,dt);}
+ const residents=(game.civilians||[]).filter(c=>Math.hypot(c.x-game.px,c.y-game.py)<42).sort((a,b)=>Math.hypot(a.x-game.px,a.y-game.py)-Math.hypot(b.x-game.px,b.y-game.py)).slice(0,8);
+ for(const c of residents){const key='civilian-'+c.id;liveKeys.add(key);pose(entries.get(key)||makeActor(key,true,c.appearance),c,dt);}
  if(game.escort||game.objective?.type==='rescue'){
   const e=game.escort||game.objective,key='ally';liveKeys.add(key);
   pose(entries.get(key)||makeActor(key,true,window.TVCharacterStyles.civilian(game.theme.theme,game.id)),{...e,state:'active',moving:!!game.escort,locomotionSpeed:game.escort?2:0,facing:Math.atan2(game.py-e.y,game.px-e.x)},dt);
@@ -189,7 +191,7 @@ function render(game){
  weapon.position.set(game.aim?.025:.23,-.25+bob-(game.reloadUntil?Math.sin((game.reloadUntil-game.elapsed)*3)*.07:0),-.45+(game.muzzle?game.muzzle*.45:0));
  weapon.rotation.set(game.reloadUntil?-.42:0,Math.PI,game.reloadUntil?.28:0);weapon.userData.flash.visible=game.muzzle>0;
  renderer.render(scene,camera);
- status.metrics={actors:actors.length,skinnedMeshes:[...entries.values()].reduce((n,e)=>n+e.skins.length,0),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};
+ status.metrics={actors:actors.length,civilians:residents.length,population:game.civilians?.length||0,skinnedMeshes:[...entries.values()].reduce((n,e)=>n+e.skins.length,0),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};
 }
 async function boot(){
  try{

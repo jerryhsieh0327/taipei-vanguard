@@ -63,7 +63,7 @@ test('remote dormant guards do not block rescue or bomb interaction; nearby visi
  b.keys.add('f');tick(b,.3);assert.equal(h.defuseProgress,0);assert.equal(h.devices,0);
 });
 test('second bomb is distinct and double taps cannot disarm it or spawn guards',()=>{
- const a=loadGame();a.deploy(5);const g=a.game;clearForStateTest(a);g.px=g.objective.x;g.py=g.objective.y;const first={...g.objective};
+ const a=loadGame();a.deploy(5);const g=a.game;clearForStateTest(a);g.px=g.objective.x;g.py=g.objective.y;tick(a,.1);assert.equal(g.enteredMuseum,true);g.px=g.objective.x;g.py=g.objective.y;const first={...g.objective};
  defuse(a);assert.equal(g.devices,1);assert.notDeepEqual(g.objective,first);a.interact();a.interact();tick(a,.4);assert.equal(g.devices,1);
  g.px=g.objective.x;g.py=g.objective.y;defuse(a);assert.equal(g.devices,2);assert.equal(g.spawnEvents.length,1);
 });
@@ -113,4 +113,40 @@ test('memorial steps, museum terrace and mountain slopes carry real floor elevat
  const a=loadGame();a.deploy(2);assert.ok(a.game.route.floorAt(64,27)>2);assert.equal(a.game.route.floorAt(51,27),0);
  a.deploy(5);assert.equal(a.game.route.floorAt(52,25),2.4);assert.equal(a.game.route.floorAt(52,51),0);
  a.deploy(10);assert.ok(Math.abs(a.game.route.floorAt(80,18)-a.game.route.floorAt(18,60))>.5);
+});
+test('each public site has unarmed civilians on connected, walkable tracks',()=>{
+ for(const id of [0,2,4,5,6,7,8,10]){
+  const a=loadGame();a.deploy(id);const g=a.game;assert.ok(g.civilians.length>=8);
+  for(const c of g.civilians){assert.equal(c.appearance.armed,false);assert.equal(c.appearance.armband,null);assert.ok(!g.enemies.includes(c));assert.ok(a.passable(c.x,c.y,.28));assert.ok(c.path.every(p=>a.passable(p.x,p.y,.28)));}
+ }
+});
+test('civilians stroll, pause with the game and flee from nearby gunfire without creating enemies',()=>{
+ const a=loadGame();a.deploy(0);const g=a.game;clearForStateTest(a);const before=g.civilians.map(c=>[c.x,c.y]);tick(a,3);
+ assert.ok(g.civilians.some((c,i)=>Math.hypot(c.x-before[i][0],c.y-before[i][1])>1));
+ const frozen=g.civilians.map(c=>[c.x,c.y]);a.pause();tick(a,2);assert.deepEqual(g.civilians.map(c=>[c.x,c.y]),frozen);a.pause();
+ const c=g.civilians[0];g.px=c.x+3;g.py=c.y;const kills=g.kills,spawns=g.spawnEvents.length;a.shoot();tick(a,.6);
+ assert.ok(g.civilians.some(c=>c.intent==='flee'&&c.locomotionSpeed>2.5));assert.equal(g.kills,kills);assert.equal(g.spawnEvents.length,spawns);
+ assert.ok(g.civilians.every(c=>a.passable(c.x,c.y,.28)));tick(a,8);assert.ok(g.civilians.every(c=>c.intent!=='flee'));
+});
+test('shooting an unarmed passer-by cannot count as a hostile elimination or complete an objective',()=>{
+ const a=loadGame();a.deploy(0);const g=a.game;g.enemies=[];g.px=45.5;g.py=50.5;g.dir=0;g.pitch=0;
+ const c=g.civilians[0];c.x=g.px+2;c.y=g.py;const stage=g.stage;a.shoot();tick(a,.1);
+ assert.equal(g.kills,0);assert.equal(g.downeds.length,0);assert.equal(g.stage,stage);assert.equal(c.state,'active');assert.equal(g.spawnEvents.length,1);
+});
+test('the museum starts outside and requires walking through its lobby before disposal',()=>{
+ const a=loadGame();a.deploy(5);const g=a.game;clearForStateTest(a);
+ assert.equal(g.stage,0);assert.equal(g.m.steps[0][0],'enter');assert.equal(g.enteredMuseum,false);assert.ok(g.py>48);assert.equal(g.route.floorAt(g.px,g.py),0);assert.equal(g.objective.type,'entry');
+ a.keys.add('f');tick(a,4.1);a.keys.delete('f');assert.equal(g.devices,0);assert.equal(g.stage,0);
+ navigate(a,g.objective);assert.equal(g.enteredMuseum,true);assert.equal(g.stage,1);assert.ok(g.py<35&&g.route.floorAt(g.px,g.py)===2.4);assert.equal(g.objective.type,'bomb');assert.equal(g.spawnEvents.length,1);
+});
+test('both 101 missions use the shopping district and retain different routes and guard deployments',()=>{
+ const plans=[];for(const id of [0,1]){const a=loadGame();a.deploy(id);const g=a.game;assert.ok(!g.route.plan.name.includes('89F'));assert.ok(g.route.plan.landmark.x>g.grid[0].length);assert.ok(g.route.plan.initialPitch>0);assert.equal(g.route.floorAt(g.px,g.py),0);plans.push(g.route.plan);}
+ assert.notDeepEqual(plans[0].nodes,plans[1].nodes);assert.notDeepEqual(plans[0].encounters,plans[1].encounters);
+});
+test('parked vehicles share collision footprints and the market has eight distinct product stalls',()=>{
+ for(const id of [0,2,4,5,6,7,8,10]){const a=loadGame();a.deploy(id);const g=a.game,vehicles=g.route.plan.features.filter(f=>['car','van','scooter'].includes(f[0]));assert.ok(vehicles.length>=3);for(const [,x,z,X,Z] of vehicles)assert.equal(a.passable((x+X+1)/2,(z+Z+1)/2),false);}
+ const a=loadGame();a.deploy(8);const stalls=a.game.route.plan.features.filter(f=>f[0]==='stall');assert.equal(new Set(stalls.map(f=>f[6])).size,8);assert.ok(a.game.civilians.some(c=>c.stationary&&c.appearance.apron));
+});
+test('civilian time steps cannot revive a cleared guard or replay an encounter',()=>{
+ const a=loadGame();a.deploy(0);const g=a.game;clearForStateTest(a);const ids=g.downeds.map(e=>e.id);tick(a,20);for(let i=0;i<10;i++)a.interact();assert.equal(g.spawnEvents.length,1);assert.ok(ids.every(id=>g.downeds.some(e=>e.id===id&&e.state==='disabled')));
 });

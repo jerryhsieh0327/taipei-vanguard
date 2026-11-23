@@ -1,5 +1,5 @@
 {
-  "build": "TACTICAL R5 · OPEN CITY",
+  "build": "TACTICAL R6 · CITY LIFE",
   "browser": "157.0.8103.79",
   "desktopControls": {
     "spaceJump": "passed",
@@ -20,7 +20,7 @@
     {
       "id": 1,
       "map": 0,
-      "name": "101 · XINYI BOULEVARD",
+      "name": "XINYI · XIANGTI SHOPPING PROMENADE",
       "physicalOcclusion": [
         true,
         true,
@@ -29,22 +29,24 @@
         true,
         true
       ],
-      "openFraction": 0.7217881944444444,
+      "openFraction": 0.7374131944444444,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 6,
-        "skinnedMeshes": 10,
-        "drawCalls": 174,
-        "triangles": 120472
+        "civilians": 8,
+        "population": 14,
+        "skinnedMeshes": 18,
+        "drawCalls": 185,
+        "triangles": 189684
       }
     },
     {
       "id": 2,
       "map": 0,
-      "name": "101 · 89F SKYLINE WINDOWS",
+      "name": "XINYI · XIANGTI SHOPPING PROMENADE",
       "physicalOcclusion": [
         true,
         true,
@@ -54,16 +56,18 @@
         true,
         true
       ],
-      "openFraction": 0.8758680555555556,
+      "openFraction": 0.7374131944444444,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 13,
-        "drawCalls": 152,
-        "triangles": 93073
+        "civilians": 8,
+        "population": 14,
+        "skinnedMeshes": 21,
+        "drawCalls": 129,
+        "triangles": 205095
       }
     },
     {
@@ -79,16 +83,18 @@
         true,
         true
       ],
-      "openFraction": 0.8159722222222222,
+      "openFraction": 0.8113425925925926,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 7,
-        "drawCalls": 193,
-        "triangles": 121451
+        "civilians": 5,
+        "population": 8,
+        "skinnedMeshes": 12,
+        "drawCalls": 209,
+        "triangles": 171470
       }
     },
     {
@@ -104,16 +110,18 @@
         true,
         true
       ],
-      "openFraction": 0.8159722222222222,
+      "openFraction": 0.8113425925925926,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 8,
-        "drawCalls": 83,
-        "triangles": 127050
+        "civilians": 5,
+        "population": 8,
+        "skinnedMeshes": 13,
+        "drawCalls": 95,
+        "triangles": 174297
       }
     },
     {
@@ -129,16 +137,18 @@
         true,
         true
       ],
-      "openFraction": 0.8353587962962963,
+      "openFraction": 0.8307291666666666,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 8,
-        "drawCalls": 211,
-        "triangles": 125298
+        "civilians": 8,
+        "population": 8,
+        "skinnedMeshes": 16,
+        "drawCalls": 239,
+        "triangles": 204900
       }
     },
     {
@@ -155,16 +165,18 @@
         true,
         true
       ],
-      "openFraction": 0.8725405092592593,
+      "openFraction": 0.8557581018518519,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 8,
-        "skinnedMeshes": 8,
-        "drawCalls": 194,
-        "triangles": 124470
+        "civilians": 6,
+        "population": 12,
+        "skinnedMeshes": 14,
+        "drawCalls": 221,
+        "triangles": 193586
       }
     },
     {
@@ -179,16 +191,18 @@
         true,
         true
       ],
-      "openFraction": 0.8075810185185185,
+      "openFraction": 0.8041087962962963,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 6,
-        "skinnedMeshes": 6,
-        "drawCalls": 172,
-        "triangles": 109110
+        "civilians": 5,
+        "population": 8,
+        "skinnedMeshes": 11,
+        "drawCalls": 200,
+        "triangles": 161687
       }
     },
     {
@@ -205,16 +219,18 @@
         true,
         true
       ],
-      "openFraction": 0.7203414351851852,
+      "openFraction": 0.7157118055555556,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 8,
-        "skinnedMeshes": 8,
-        "drawCalls": 132,
-        "triangles": 111540
+        "civilians": 8,
+        "population": 8,
+        "skinnedMeshes": 16,
+        "drawCalls": 160,
+        "triangles": 189334
       }
     },
     {
@@ -230,16 +246,18 @@
         true,
         true
       ],
-      "openFraction": 0.63671875,
+      "openFraction": 0.6138599537037037,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 7,
-        "skinnedMeshes": 8,
-        "drawCalls": 220,
-        "triangles": 174298
+        "civilians": 8,
+        "population": 22,
+        "skinnedMeshes": 16,
+        "drawCalls": 287,
+        "triangles": 304198
       }
     },
     {
@@ -256,16 +274,18 @@
         true,
         true
       ],
-      "openFraction": 0.63671875,
+      "openFraction": 0.6138599537037037,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 8,
-        "skinnedMeshes": 8,
-        "drawCalls": 296,
-        "triangles": 176118
+        "civilians": 8,
+        "population": 22,
+        "skinnedMeshes": 16,
+        "drawCalls": 367,
+        "triangles": 305940
       }
     },
     {
@@ -280,16 +300,18 @@
         true,
         true
       ],
-      "openFraction": 0.9142071759259259,
+      "openFraction": 0.9095775462962963,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 6,
-        "skinnedMeshes": 7,
-        "drawCalls": 171,
-        "triangles": 140877
+        "civilians": 4,
+        "population": 8,
+        "skinnedMeshes": 11,
+        "drawCalls": 208,
+        "triangles": 182817
       }
     },
     {
@@ -306,16 +328,18 @@
         true,
         true
       ],
-      "openFraction": 0.9142071759259259,
+      "openFraction": 0.9095775462962963,
       "mazeWalls": 0,
       "visible": 0,
       "engaged": 0,
       "glError": 0,
       "metrics": {
         "actors": 8,
-        "skinnedMeshes": 8,
-        "drawCalls": 171,
-        "triangles": 149718
+        "civilians": 4,
+        "population": 8,
+        "skinnedMeshes": 12,
+        "drawCalls": 183,
+        "triangles": 189824
       }
     }
   ],
@@ -323,25 +347,26 @@
     {
       "id": 1,
       "success": true,
-      "kills": 6,
+      "kills": 4,
       "roster": 6,
-      "shots": 18,
+      "shots": 12,
       "bombs": 1,
       "bombTotal": 1,
       "rescues": 0,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
-          "id": 0,
-          "label": "LOADING VAN"
-        },
-        {
           "id": 1,
-          "label": "PODIUM CORNER"
+          "label": "A9 SIDE ENTRANCE"
         },
         {
           "id": 2,
-          "label": "LIFT ENTRANCE SCREEN"
+          "label": "VISITOR KIOSK"
+        },
+        {
+          "id": 0,
+          "label": "A11 SERVICE CORNER"
         }
       ],
       "stage": 2,
@@ -350,29 +375,30 @@
     {
       "id": 2,
       "success": true,
-      "kills": 7,
+      "kills": 5,
       "roster": 7,
-      "shots": 21,
+      "shots": 15,
       "bombs": 0,
       "bombTotal": 0,
       "rescues": 1,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
-          "id": 2,
-          "label": "WEST LIFT BAY"
-        },
-        {
           "id": 0,
-          "label": "SOUTH CORE RETURN"
+          "label": "SOUTH SHOP FRONT"
         },
         {
           "id": 1,
-          "label": "EAST WINDOW EXHIBIT"
+          "label": "A11 DISPLAY CORNER"
+        },
+        {
+          "id": 2,
+          "label": "A9 LOADING ENTRANCE"
         },
         {
           "id": 3,
-          "label": "NORTH LIFT CORNER"
+          "label": "KIOSK REAR"
         }
       ],
       "stage": 2,
@@ -388,6 +414,7 @@
       "bombTotal": 2,
       "rescues": 0,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 1,
@@ -415,6 +442,7 @@
       "bombTotal": 0,
       "rescues": 1,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 0,
@@ -446,6 +474,7 @@
       "bombTotal": 0,
       "rescues": 1,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 0,
@@ -470,18 +499,15 @@
     {
       "id": 6,
       "success": true,
-      "kills": 8,
+      "kills": 6,
       "roster": 8,
-      "shots": 24,
+      "shots": 18,
       "bombs": 2,
       "bombTotal": 2,
       "rescues": 0,
       "spawns": 1,
+      "enteredMuseum": true,
       "encounters": [
-        {
-          "id": 0,
-          "label": "GARDEN VEHICLE"
-        },
         {
           "id": 1,
           "label": "WEST GALLERY DOOR"
@@ -495,8 +521,8 @@
           "label": "EAST GALLERY DOOR"
         }
       ],
-      "stage": 2,
-      "steps": 2
+      "stage": 3,
+      "steps": 3
     },
     {
       "id": 7,
@@ -508,6 +534,7 @@
       "bombTotal": 2,
       "rescues": 0,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 0,
@@ -535,6 +562,7 @@
       "bombTotal": 2,
       "rescues": 0,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 0,
@@ -566,6 +594,7 @@
       "bombTotal": 0,
       "rescues": 1,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 0,
@@ -593,6 +622,7 @@
       "bombTotal": 1,
       "rescues": 1,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 0,
@@ -624,6 +654,7 @@
       "bombTotal": 0,
       "rescues": 1,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 0,
@@ -655,6 +686,7 @@
       "bombTotal": 2,
       "rescues": 0,
       "spawns": 1,
+      "enteredMuseum": false,
       "encounters": [
         {
           "id": 0,
@@ -677,6 +709,126 @@
       "steps": 2
     }
   ],
+  "cityLife": {
+    "projectedBounds": [
+      [
+        0.15511598888235523,
+        -0.13038321789549892,
+        0.9995132783912652
+      ],
+      [
+        0.2576186541447028,
+        -0.13249006008510208,
+        0.9994336778855966
+      ],
+      [
+        0.15068772171211772,
+        0.5249370996420814,
+        0.9995328835612491
+      ],
+      [
+        0.2494387320032913,
+        0.5964437674979419,
+        0.9994580108240116
+      ],
+      [
+        0.2310642911086334,
+        -0.12925496448139723,
+        0.9995559059514726
+      ],
+      [
+        0.33471540566589353,
+        -0.13109513193702838,
+        0.9994863809245362
+      ],
+      [
+        0.22486631689271028,
+        0.486449025568448,
+        0.9995731834038134
+      ],
+      [
+        0.32479674844469464,
+        0.5491524903784746,
+        0.9995075282672313
+      ]
+    ],
+    "visibleTowerSamples": [
+      false,
+      true,
+      true,
+      true,
+      true
+    ],
+    "movingPeople": 14,
+    "population": 14,
+    "rendered": 8,
+    "unarmed": true,
+    "details": {
+      "vehicles": 3,
+      "scooters": 3,
+      "stalls": 0,
+      "productKinds": [],
+      "museumArtifacts": 0,
+      "departmentStores": 3
+    }
+  },
+  "museumProgress": {
+    "start": {
+      "x": 52.5,
+      "y": 63.5,
+      "stage": 0,
+      "ground": 0
+    },
+    "entered": true,
+    "stage": 1,
+    "position": {
+      "x": 52.5,
+      "y": 30.5,
+      "ground": 2.4
+    },
+    "details": {
+      "vehicles": 4,
+      "scooters": 1,
+      "stalls": 0,
+      "productKinds": [],
+      "museumArtifacts": 7,
+      "departmentStores": 0,
+      "interiorDetails": [
+        "102 orientation lobby",
+        "service counter",
+        "gallery labels",
+        "framed ink studies",
+        "ceramics",
+        "bronze vessel",
+        "jade display",
+        "manuscript",
+        "case lighting",
+        "exit signage"
+      ]
+    },
+    "spawns": 1
+  },
+  "marketLife": {
+    "population": 22,
+    "vendors": 6,
+    "details": {
+      "vehicles": 3,
+      "scooters": 12,
+      "stalls": 8,
+      "productKinds": [
+        "胡椒餅",
+        "藥燉排骨",
+        "蚵仔煎",
+        "珍珠奶茶",
+        "水果鮮切",
+        "豆花甜品",
+        "服飾包包",
+        "玩具雜貨"
+      ],
+      "museumArtifacts": 0,
+      "departmentStores": 0
+    }
+  },
   "characters": [
     {
       "id": 1,
@@ -754,6 +906,38 @@
         {
           "bones": 55,
           "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
         }
       ]
     },
@@ -822,6 +1006,38 @@
         }
       ],
       "rigs": [
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
         {
           "bones": 55,
           "skins": 1
@@ -912,6 +1128,38 @@
         {
           "bones": 55,
           "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
         }
       ]
     },
@@ -980,6 +1228,22 @@
         }
       ],
       "rigs": [
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
+        {
+          "bones": 55,
+          "skins": 1
+        },
         {
           "bones": 55,
           "skins": 1

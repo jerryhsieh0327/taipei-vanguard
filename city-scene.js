@@ -1,5 +1,6 @@
 /* Open streets / courtyards. Original procedural materials and architecture. */
 import * as T from './vendor/three/three.module.min.js';
+import {vehicle,marketGoods,artifact,museumInterior,departmentStore} from './city-details.js?v=city-life-r6';
 const C={stone:0xc9c5b5,ivory:0xe7e3d7,red:0x8f372c,roof:0x984a35,gold:0xbe9853,green:0x456d5b,glass:0x688d9c,steel:0x6e7a7c,wood:0x745440};
 function texture(kind){
  const c=document.createElement('canvas');c.width=c.height=256;const p=c.getContext('2d');let seed=101;
@@ -24,8 +25,8 @@ function collector(){
  function beam(a,b,r,m=M.steel){const A=new T.Vector3(...a),B=new T.Vector3(...b),v=B.clone().sub(A),g=new T.CylinderGeometry(r,r,v.length(),7);g.applyQuaternion(new T.Quaternion().setFromUnitVectors(new T.Vector3(0,1,0),v.normalize()));const p=A.add(B).multiplyScalar(.5);add(g,m,p.x,p.y,p.z);}
  function plane(x,z,w,d,m=M.tile,y=.006){const g=new T.PlaneGeometry(w,d);g.rotateX(-Math.PI/2);const uv=g.getAttribute('uv');for(let i=0;i<uv.count;i++){uv.setXY(i,uv.getX(i)*w/3,uv.getY(i)*d/3);}add(g,m,x,y,z);}
  function sign(text,x,y,z,w,h,yaw=0,color='#e7d6ad',bg='#403b31'){
-  const c=document.createElement('canvas');c.width=512;c.height=128;const p=c.getContext('2d');p.fillStyle=bg;p.fillRect(0,0,512,128);p.strokeStyle=color;p.lineWidth=3;p.strokeRect(6,6,500,116);p.fillStyle=color;p.font='bold 62px "Microsoft JhengHei",sans-serif';p.textAlign='center';p.textBaseline='middle';p.fillText(text,256,67,475);
-  const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;textures.push(tex);const material=new T.MeshStandardMaterial({map:tex,roughness:.7,emissive:0xffffff,emissiveMap:tex,emissiveIntensity:.12,side:T.DoubleSide});materials.set('sign-'+materials.size,material);add(new T.PlaneGeometry(w,h),material,x,y,z,[0,yaw,0]);
+  const c=document.createElement('canvas');c.width=Math.max(256,Math.min(2048,Math.round(w/h*96)));c.height=96;const p=c.getContext('2d');p.fillStyle=bg;p.fillRect(0,0,c.width,96);p.strokeStyle=color;p.lineWidth=2;p.strokeRect(4,4,c.width-8,88);p.fillStyle=color;p.font='bold 53px "Microsoft JhengHei",sans-serif';p.textAlign='center';p.textBaseline='middle';p.fillText(text,c.width/2,50,c.width-24);
+  const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;textures.push(tex);const material=new T.MeshStandardMaterial({map:tex,roughness:.7,emissive:0xffffff,emissiveMap:tex,emissiveIntensity:.12,side:T.FrontSide});materials.set('sign-'+materials.size,material);add(new T.PlaneGeometry(w,h),material,x,y,z,[0,yaw,0]);
  }
  function roof(x,z,w,d,y,m=M.roof,rise=2){
   const g=new T.BufferGeometry(),pts=[[-w/2,0,-d/2],[w/2,0,-d/2],[w*.32,rise,0],[-w*.32,rise,0],[-w/2,0,d/2],[w/2,0,d/2]],idx=[0,1,2,0,2,3,4,3,2,4,2,5,0,3,4,1,5,2];g.setAttribute('position',new T.Float32BufferAttribute(idx.flatMap(i=>pts[i]),3));g.computeVertexNormals();g.setAttribute('uv',new T.Float32BufferAttribute(idx.flatMap(i=>[(pts[i][0]+w/2)/2,(pts[i][2]+d/2)/2]),2));add(g,m,x,y,z);
@@ -48,30 +49,34 @@ function collector(){
   }
   group.userData.dispose=()=>{group.traverse(o=>{if(o.isMesh){o.geometry.dispose();}});for(const m of materials.values())m.dispose();for(const t of textures)t.dispose();};return group;
  }
- return {group,M,mat,add,box,cyl,ball,beam,plane,sign,roof,tree,streetLamp,cityBlock,finish};
+ return {group,M,mat,add,box,cyl,ball,beam,plane,sign,roof,tree,streetLamp,cityBlock,finish,registerTexture:t=>textures.push(t),registerMaterial:m=>materials.set('extra-'+materials.size,m)};
 }
 export function buildWorld(route){
- const b=collector(),{M,box,cyl,ball,beam,plane,sign,roof,tree,streetLamp,cityBlock,add,mat}=b,p=route.plan,t=p.theme,floor=route.floorAt;
+ const b=collector(),{M,box,cyl,ball,beam,plane,sign,roof,tree,streetLamp,cityBlock,add,mat}=b,p=route.plan,t=p.theme,floor=route.floorAt;b.stats={vehicles:0,scooters:0,stalls:0,productKinds:[],museumArtifacts:0,departmentStores:0};
  if(t==='mountain'){
   const g=new T.PlaneGeometry(320,260,160,130);g.rotateX(-Math.PI/2);const pos=g.getAttribute('position'),uv=g.getAttribute('uv');for(let i=0;i<pos.count;i++){const x=pos.getX(i)+48,z=pos.getZ(i)+36;pos.setXYZ(i,x,floor(x,z)-.025,z);uv.setXY(i,x/3,z/3);}g.computeVertexNormals();add(g,M.grass);
  }else plane(48,36,340,280,t==='night'?M.asphalt:M.tile,-.025);
  if(!['mountain','dome'].includes(t)&&!p.name.includes('89F')){
-  for(let i=0;i<13;i++){const x=-40+i*17,z=i%2?-35:107;cityBlock(x,z,10+(i%3)*3,10,10+(i*7)%32,i%4);}
+  for(let i=0;i<13;i++){const x=-40+i*17,z=i%2?-35:107;if(t==='tower'&&x>55&&z<20)continue;cityBlock(x,z,10+(i%3)*3,10,10+(i*7)%32,i%4);}
   for(let i=0;i<5;i++)cityBlock(-35,10+i*17,15,12,16+i*4,i%4);
  }
- if(t==='tower'&&!p.name.includes('89F')){
-  plane(48,56,135,14,M.asphalt,.007);plane(48,46,110,6,M.concrete,.01);plane(48,67,110,6,M.concrete,.01);
-  for(let x=-12;x<110;x+=7){box(x,.018,56,3,.012,.13,M.white);box(x,.018,50,.9,.012,.12,M.orange);}
-  for(let x=10;x<18;x+=1.3)box(x,.022,56,.65,.012,11,M.white);
-  for(let x=9;x<92;x+=12){tree(x,43,6.3);streetLamp(x,66);}
-  // Recognizable bamboo-section tower; its podium is part of the playable street.
+ if(t==='tower'){
+  plane(48,65,135,9,M.asphalt,.007);plane(48,59.5,110,3,M.concrete,.01);
+  plane(48,37,43,43,M.tile,.01);
+  for(let x=-12;x<110;x+=7)box(x,.018,65,3,.012,.13,M.white);
+  for(let x=14;x<23;x+=1.3)box(x,.022,65,.65,.012,8,M.white);
+  for(const z of [14,28,42,56])streetLamp(30,z,6);
+  for(const [x,z] of [[33,16],[67,54],[64,17]])tree(x,z,5.5);
   const old=new window.TVSceneGeometry.Mesh(),receiver={a:old.a};for(const k of ['box','cyl','ball','beam','quad','cone'])receiver[k]=()=>{};
   window.TVSites.build(receiver,'tower',window.TVSceneGeometry.Mesh);
-  const raw=old.a,geometry=new T.BufferGeometry(),positions=[],normals=[],colors=[];
-  for(let i=0;i<raw.length;i+=9){positions.push((raw[i]-34)*2+64,raw[i+1]*2,(raw[i+2]-12)*2+26);normals.push(...raw.slice(i+3,i+6));colors.push(...raw.slice(i+6,i+9));}
-  geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setAttribute('normal',new T.Float32BufferAttribute(normals,3));geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));
-  const tower=new T.Mesh(geometry,new T.MeshStandardMaterial({vertexColors:true,roughness:.43,metalness:.3,side:T.DoubleSide}));tower.castShadow=true;tower.receiveShadow=true;b.group.add(tower);
-  sign('信義路五段',15,4,45,4,.8,0);sign('TAIPEI 101 · MALL',64,5,40.1,16,1.3,0);
+  const raw=old.a,geometry=new T.BufferGeometry(),positions=[],normals=[],colors=[],landmark=p.landmark;
+  for(let i=0;i<raw.length;i+=9){positions.push((raw[i]-34)*landmark.scale+landmark.x,raw[i+1]*landmark.scale,(raw[i+2]-12)*landmark.scale+landmark.z);normals.push(...raw.slice(i+3,i+6));colors.push(...raw.slice(i+6,i+9));}
+  geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setAttribute('normal',new T.Float32BufferAttribute(normals,3));geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));geometry.computeBoundingBox();
+  const material=new T.MeshStandardMaterial({vertexColors:true,roughness:.43,metalness:.3,side:T.DoubleSide});b.registerMaterial(material);
+  const tower=new T.Mesh(geometry,material);tower.name='TAIPEI_101_LANDMARK';tower.castShadow=true;tower.receiveShadow=true;b.group.add(tower);
+  for(const X of [40,50])cyl(X,0,42,.055,3.75,M.steel,7);for(const X of [57,69])cyl(X,0,33,.055,4.55,M.steel,7);
+  sign('香堤大道 · XIANGTI',45,3.7,42,10,.8,0,'#e1d2a7','#3c4b48');
+  sign('信義新天地 · XINYI',63,4.5,33,12,.9,0,'#e2d3b0','#455359');
  }
  if(p.name.includes('89F')){
   plane(48,36,64,56,M.concrete,.005);box(48,5.9,36,65,.15,57,M.ivory);
@@ -149,6 +154,8 @@ export function buildWorld(route){
  for(const feature of p.features){
   const [kind,a,c,A,C,h,label]=feature,x=(a+A+1)/2,z=(c+C+1)/2,w=A-a+1,d=C-c+1,y=floor(x,z);
   if(kind==='podium')continue;
+  if(kind==='departmentStore'){departmentStore(b,feature,y);continue;}
+  if(['car','van','scooter'].includes(kind)){vehicle(b,feature,y);continue;}
   if(kind==='building'){cityBlock(x,z,w,d,h,a%4);continue;}
   if(kind==='pond'){plane(x,z,w,d,mat('water',0x547f80,null,{roughness:.23,metalness:.3}),.01);for(const Z of [c,C+1])box(x,0,Z,w,.25,.3,M.stone);continue;}
   if(kind==='grove'||kind==='bamboo'){
@@ -172,13 +179,7 @@ export function buildWorld(route){
   if(kind==='stall'){
    box(x,y,z,w,1,d,M.wood);box(x,y+1,z,w+.15,.08,d+.15,M.steel);box(x,y+2.35,z,w+1,.2,d+1,[M.roof,M.green,M.orange][a%3]);
    for(const X of [a+.12,A+.88])for(const Z of [c+.12,C+.88])cyl(X,y,Z,.045,2.35,M.steel,5);
-   for(let i=0;i<5;i++){ball(a+.6+i*(w-1)/5,y+1.2,c+.55,.25,.18,.25,i%2?M.orange:M.cream);cyl(a+.7+i*.6,y+1.1,C+.3,.2,.23,M.dark,10);}
-   sign(['台灣小吃','現煎蚵仔煎','手工胡椒餅'][a%3],x,y+1.75,c-.04,w-.5,.55,Math.PI);continue;
-  }
-  if(kind==='van'||kind==='car'){
-   box(x,y+.35,z,w,h-.35,d,kind==='van'?M.ivory:M.blue);box(x,y+h*.62,z-d*.26,w*.8,h*.24,.04,M.glass);
-   for(const X of [a+.2,A+.8])for(const Z of [c+.5,C+.5]){add(new T.CylinderGeometry(.4,.4,.18,12),M.dark,X,y+.4,Z,[0,0,Math.PI/2]);}
-   box(x,y+.45,c-.04,w*.8,.16,.08,M.stone);continue;
+   marketGoods(b,feature,y);continue;
   }
   if(kind==='planter'){box(x,y,z,w,h,d,M.stone);for(let i=0;i<5;i++)ball(a+.6+i*w/5,y+h+.15,z,.45,.25,d*.3,M.leaf);continue;}
   if(kind==='pillar'){cyl(x,y,z,.38,h,M.red);continue;}
@@ -193,20 +194,26 @@ export function buildWorld(route){
    if(label)sign(label,x,y+h-.7,c-.16,Math.min(w-2,10),.85,Math.PI,'#ddc071','#6c352b');continue;
   }
   if(kind==='galleryWall'||kind==='partition'){box(x,y,z,w,h,d,kind==='partition'?M.cream:M.ivory);if(kind==='galleryWall'&&w>d)for(let X=a+2;X<A;X+=4)box(X,y+2,z-.52,1.8,1.8,.04,M.glass);continue;}
-  if(kind==='display'){box(x,y,z,w,.75,d,M.cream);box(x,y+.75,z,w,1,d,mat('caseGlass',0x91bab5,null,{transparent:true,opacity:.23,roughness:.15,depthWrite:false}));ball(x,y+1,z,.32,.45,.3,M.gold);continue;}
-  if(kind==='pavilion'||kind==='hut'||kind==='dugout'||kind==='core'){
+  if(kind==='display'){
+   box(x,y,z,w,.75,d,M.cream);box(x,y+.75,z,w,1,d,mat('caseGlass',0x91bab5,null,{transparent:true,opacity:.23,roughness:.15,depthWrite:false}));
+   if(t==='museum'){
+    artifact(b,x,y+.77,z,label||'青花瓷瓶');sign(label||'珍玩展示',x,y+.44,C+1.025,Math.min(w-.2,2.7),.32,0,'#d9ca9c','#4a5a50');
+   }else ball(x,y+1,z,.32,.45,.3,M.gold);
+   continue;
+  }
+  if(kind==='reception'){
+   box(x,y,z,w,h,d,M.wood);box(x,y+h,z,w+.1,.08,d+.1,M.stone);box(x-.8,y+h+.08,z,.5,.35,.25,M.dark);sign('服務台 INFORMATION',x,y+.6,C+1.04,w-.3,.38,0);continue;
+  }
+  if(kind==='bench'){
+   box(x,y+.4,z,w,.12,d,M.wood);box(x,y+.52,z+.35,w,.65,.15,M.wood);for(const X of [a+.4,A+.6])box(X,y,z,.14,.4,d*.8,M.steel);continue;
+  }
+  if(kind==='pavilion'||kind==='hut'||kind==='dugout'||kind==='core'||kind==='kiosk'){
    box(x,y,z,w,h,d,kind==='hut'?M.wood:kind==='core'?M.stone:M.concrete);roof(x,z,w+.8,d+.8,y+h,kind==='pavilion'?M.green:M.steel,kind==='pavilion'?2:.5);
    if(label)sign(label,x,y+h-.6,c-.06,w-1,.7,Math.PI);continue;
   }
   if(kind==='screen'){box(x,y,z,w,h,d,t==='temple'?M.red:M.stone);continue;}
  }
- if(t==='night'){
-  for(let i=0;i<14;i++){const x=15+i*4.8,z=i%2?46:26;const y=0;const angle=i%2?.3:-.3;
-   // Parked scooters: visible wheels, saddle, body and handlebars.
-   box(x,y+.35,z,.45,.4,1.35,[M.blue,M.dark,M.cream][i%3]);box(x,y+.8,z-.1,.4,.12,.65,M.dark);beam([x,.7,z+.6],[x,1.2,z+.6],.045,M.steel);beam([x-.27,1.2,z+.6],[x+.27,1.2,z+.6],.035,M.dark);
-   for(const Z of [z-.5,z+.55])add(new T.CylinderGeometry(.24,.24,.16,10),M.dark,x,.25,Z,[0,0,Math.PI/2]);
-  }
- }
+ if(t==='museum')museumInterior(b,route);
  if(t==='dome'){
   plane(48,36,57,41,M.grass,.01);
   const diamond=new T.PlaneGeometry(17,17);diamond.rotateX(-Math.PI/2);diamond.rotateY(Math.PI/4);add(diamond,mat('dirt',0xad8661),48,.018,40);
@@ -226,5 +233,5 @@ export function buildWorld(route){
   sign('TAIPEI DOME',48,12,5.5,23,3,0,'#e1dfbd','#1f343b');sign('臺北大巨蛋',48,8.7,5.5,18,2,0);
   for(const [X,Z] of [[23,20],[73,20],[23,53],[73,53]]){const light=new T.PointLight(0xe2eeeb,240,85,2);light.position.set(X,16,Z);b.group.add(light);}
  }
- const world=b.finish();world.name='OPEN_CITY_ENVIRONMENT';world.userData.floorAt=floor;return world;
+ const world=b.finish();world.name='OPEN_CITY_ENVIRONMENT';world.userData.floorAt=floor;world.userData.details=b.stats;world.userData.landmark=p.landmark||null;return world;
 }

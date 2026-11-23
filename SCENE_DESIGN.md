@@ -1,3 +1,3 @@
-# R5 design
+# R6 current design
 
-See SCENE_DESIGN_R5.md for current research and scope, and SCENE_DESIGN.html for actual game screenshots. R4 layout diagrams have been superseded.
+See SCENE_DESIGN_R6.md for current scene research, scope and limitations, and SCENE_DESIGN.html for actual screenshots. The R5 document remains historical; its 89F mission is no longer active.

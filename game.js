@@ -2,7 +2,7 @@
 'use strict';
 (()=>{
 const $=id=>document.getElementById(id), TAU=Math.PI*2;
-const BUILD='TACTICAL R5 · OPEN CITY';window.TV_BUILD=BUILD;
+const BUILD='TACTICAL R6 · CITY LIFE';window.TV_BUILD=BUILD;
 const maps=[
  {name:'Taipei 101',theme:'tower',sky:'#79cbff',wall:'#b2c9da',trim:'#2778c0',floor:'#b3c3d0',accent:'#ffbd43'},
  {name:'National Chiang Kai-shek Memorial Hall',theme:'memorial',sky:'#89d6ff',wall:'#e7e8de',trim:'#2e64a8',floor:'#b2b5b5',accent:'#f0c35f'},
@@ -15,18 +15,18 @@ const maps=[
 ];
 const missions=[
  {
-  "name": "Xinyi Boulevard Bomb Alert",
+  "name": "Xinyi Promenade Bomb Alert",
   "map": 0,
   "roster": 6,
   "diff": "Casual",
   "time": 600,
   "bombTime": 360,
-  "story": "Approach Taipei 101 along the Xinyi boulevard. Use the sidewalks and entrance forecourt to reach the mall access bomb. Guards wait behind the delivery van, podium corners and entrance signs. Defuse the charge, then withdraw to the street evacuation point.",
+  "story": "Deploy in the Xinyi shopping district near the Xiangti promenade. Keep Taipei 101 in sight beyond the department stores, move through the pedestrian plaza and defuse the kiosk-side charge.",
   "steps": [
    [
     "defuse",
     1,
-    "Hold F / INTERACT to defuse the lift-lobby bomb"
+    "Defuse the shopping-promenade charge"
    ],
    [
     "waypoint",
@@ -38,23 +38,23 @@ const missions=[
   "lose": "Armor reaches zero, an active bomb detonates, or the mission timer expires."
  },
  {
-  "name": "89F Skyline Rescue",
+  "name": "Xinyi Department-Store Rescue",
   "map": 0,
   "roster": 7,
   "diff": "Tight",
   "time": 720,
   "bombTime": 0,
-  "story": "Inserted at the 89F express-lift lobby. Circle the service core along the observation ring, rescue Leo near the south windows, and escort him to the express lift.",
+  "story": "Walk through the department-store plaza with Taipei 101 visible in the skyline. Rescue the stranded shopper beside the north plaza and escort them to the eastern street exit.",
   "steps": [
    [
     "rescue",
     0,
-    "Rescue Leo in the south observation bay"
+    "Rescue the shopper in the north plaza"
    ],
    [
     "escort",
     0,
-    "Bring Leo to the express lift"
+    "Escort the shopper to the east street exit"
    ]
   ],
   "win": "Complete the site objectives and reach the marked evacuation point. Eliminations alone do not complete this mission.",
@@ -136,8 +136,13 @@ const missions=[
   "diff": "Tight",
   "time": 840,
   "bombTime": 360,
-  "story": "Approach across the museum garden, climb the entrance steps and search the broad exhibition rooms. Guards hold the gallery doors and partition corners. Disarm both charges and leave through the entrance forecourt.",
+  "story": "Start outside the Palace Museum. Cross the forecourt, climb the entrance steps, enter the 102-inspired orientation lobby, and search the document and decorative-arts galleries. Defuse both charges, then return to the forecourt.",
   "steps": [
+   [
+    "enter",
+    0,
+    "Enter the museum through the main lobby"
+   ],
    [
     "defuse",
     2,
@@ -320,7 +325,7 @@ function visibility(x1,y1,x2,y2){
 }
 
 function objectiveAt(type,index=0){
- const p=game.route.plan,location=type==='bomb'||type==='device'?p.bombs[index]:type==='rescue'?p.hostage:p.extraction;
+ const p=game.route.plan,location=type==='bomb'||type==='device'?p.bombs[index]:type==='rescue'?p.hostage:type==='entry'?p.entrance:p.extraction;
  return {type,...location,active:true,index};
 }
 function start(mode='campaign'){
@@ -330,18 +335,18 @@ function start(mode='campaign'){
  const base=missions[selected],m=mode==='defense'?{...base,name:base.name+' — Defense Drill',
   steps:[['defend',3,'Optional defense drill — clear three incoming waves']],win:'Clear the three explicit defense waves.'}:base;
  const layout=window.TVRoutes.create(maps[m.map].theme,null,selected),entry=mode==='campaign'?layout.plan.start:layout.plan.siteStart;
- game={id:selected,m,mode,theme:maps[m.map],grid:layout.grid,route:layout,routeProgress:0,encounterEvents:[],routeGuide:null,passableForRoute:passable,defuseProgress:0,defuseCooldown:0,bombRemaining:mode==='campaign'?m.bombTime:0,bombTotal:mode==='campaign'?(m.steps.find(s=>s[0]==='defuse')?.[1]||0):0,px:entry.x,py:entry.y,dir:Math.atan2(layout.plan.nodes[1].y-entry.y,layout.plan.nodes[1].x-entry.x),pitch:0,jumpHeight:0,jumpVelocity:0,
+ game={id:selected,m,mode,theme:maps[m.map],grid:layout.grid,route:layout,routeProgress:0,encounterEvents:[],routeGuide:null,passableForRoute:passable,defuseProgress:0,defuseCooldown:0,bombRemaining:mode==='campaign'?m.bombTime:0,bombTotal:mode==='campaign'?(m.steps.find(s=>s[0]==='defuse')?.[1]||0):0,px:entry.x,py:entry.y,dir:Math.atan2(layout.plan.nodes[1].y-entry.y,layout.plan.nodes[1].x-entry.x),pitch:layout.plan.initialPitch||0,jumpHeight:0,jumpVelocity:0,
   armor:100,escortHealth:100,terminalHealth:100,ammo:30,reserve:150,weapon:0,aim:false,reloadUntil:0,recoil:0,
   shieldUntil:0,droneUntil:0,enemies:[],downeds:[],objective:null,stage:0,preparedStage:-1,stageDone:0,nextInteractAt:0,
   kills:0,shots:0,hits:0,devices:0,rescues:0,elapsed:0,remaining:m.time,animation:0,muzzle:0,hitFlash:0,wasMoving:false,
-  escort:null,lastFire:-10,spawnCycle:0,defendClock:0,spawnLocked:false,nextEnemyId:1,spawnEvents:[]};
+  civilians:[],enteredMuseum:false,escort:null,lastFire:-10,spawnCycle:0,defendClock:0,spawnLocked:false,nextEnemyId:1,spawnEvents:[]};
  running=true;paused=false;keys.clear();firing=false;moveInput.x=moveInput.y=0;show('playing');ctx.clearRect(0,0,CW,CH);passable.bounds={width:game.grid[0].length,height:game.grid.length};window.TV3D.load(m.map,game.grid,layout);
  if(mode==='campaign'){
   window.TVRoutes.roster(game,m.roster,spawnEnemy);game.spawnCycle+=3;
   game.spawnEvents.push({reason:'hidden-roster',time:0,count:game.enemies.length});
  }else spawnWave(3,false,'deployment');
  game.rosterSize=game.enemies.length;game.spawnLocked=mode==='campaign';
- prepareStage();window.TVRoutes.update(game,visibility);beep('win',.09);note(mode==='defense'?'OPTIONAL DEFENSE — WAVE 1 / 3':'OPEN CITY — CHECK YOUR OBJECTIVE',2.5);
+ game.civilians=window.TVLife.create(game);prepareStage();window.TVRoutes.update(game,visibility);beep('win',.09);note(mode==='defense'?'OPTIONAL DEFENSE — WAVE 1 / 3':'OPEN CITY — CHECK YOUR OBJECTIVE',2.5);
 }
 function spawnEnemy(x,y,kind='guard'){
  if(!running||game.spawnLocked||solid(x,y))return false;
@@ -370,6 +375,7 @@ function prepareStage(){
  if(st[0]==='defend'){game.defendClock=0;game.terminalHealth=100;}
  else if(st[0]==='rescue')game.objective=objectiveAt('rescue');
  else if(st[0]==='escort'){game.escort={...objectiveAt('rescue'),safety:100};game.objective={type:'exit',...game.route.plan.extraction,active:true};}
+ else if(st[0]==='enter')game.objective=objectiveAt('entry');
  else if(st[0]==='defuse')game.objective=objectiveAt('bomb');
  else if(st[0]==='disable')game.objective=objectiveAt('device');
  else if(st[0]==='waypoint')game.objective=objectiveAt('point');
@@ -426,6 +432,7 @@ function interact(){
  if(st[0]==='escort'&&(!game.escort||Math.hypot(game.escort.x-o.x,game.escort.y-o.y)>=2.5)){note('WAIT FOR YOUR ESCORT',1.1);return;}
  o.active=false;game.nextInteractAt=game.elapsed+.3;
  if(st[0]==='rescue'){game.rescues++;note('HOSTAGE FOLLOWING — REACH THE EXIT',2);beep('win');nextStage(stage);}
+ else if(st[0]==='enter'&&game.route.floorAt(game.px,game.py)>2){game.enteredMuseum=true;nextStage(stage);}
  else if(st[0]==='escort'||st[0]==='waypoint')nextStage(stage);
 }
 function updateDefuse(dt,damaged){
@@ -488,6 +495,7 @@ updateJump(dt);game.animation+=dt*(game.wasMoving?8:1.4);game.muzzle=Math.max(0,
 if(keys.has('arrowleft'))game.dir-=dt*1.8;if(keys.has('arrowright'))game.dir+=dt*1.8;
 let forward=(keys.has('w')||keys.has('arrowup')?1:0)-(keys.has('s')||keys.has('arrowdown')?1:0)-moveInput.y;let side=(keys.has('d')?1:0)-(keys.has('a')?1:0)+moveInput.x;let magnitude=Math.hypot(forward,side);game.wasMoving=magnitude>.08;if(magnitude>1){forward/=magnitude;side/=magnitude;}let sp=(keys.has('shift')?4.1:3.2)*dt;move(Math.cos(game.dir)*forward*sp+Math.cos(game.dir+Math.PI/2)*side*sp,Math.sin(game.dir)*forward*sp+Math.sin(game.dir+Math.PI/2)*side*sp);if(firing)shoot();
 window.TVRoutes.update(game,visibility);
+window.TVLife.update(game,dt,passable);
 const armorBefore=game.armor;
 for(const e of game.enemies){window.TVTactics.update(e,game,dt,{passable,visibility,solid,onDamage:()=>beep('damage',.026)});if(game.armor<=0){finish(false);return;}}
 updateDefuse(dt,game.armor<armorBefore);
@@ -496,6 +504,7 @@ for(const e of game.downeds)e.fall=Math.min(1,e.fall+dt*2.0);if(game.downeds.len
 const stage=game.stage,st=game.m.steps[stage];
 if(st){
  if(st[0]==='combat'&&game.enemies.length&&game.enemies.every(e=>e.state!=='active'))nextStage(stage);
+ else if(st[0]==='enter'&&nearObjective()&&game.route.floorAt(game.px,game.py)>2&&!localThreat()){game.enteredMuseum=true;nextStage(stage);}
  else if(st[0]==='waypoint'&&nearObjective()&&!localThreat())nextStage(stage);
  else if(st[0]==='defend'&&game.mode==='defense'){
   game.defendClock=Math.min(10,game.defendClock+dt);
@@ -525,7 +534,7 @@ if(st){
   if(Math.hypot(o.x-game.objective.x,o.y-game.objective.y)<2.2&&Math.hypot(game.px-game.objective.x,game.py-game.objective.y)<2.8&&!localThreat())nextStage(stage);
  }
 }
-if(game.ammo===0&&game.reserve===0){game.reserve=48;note('EMERGENCY AMMO SUPPLY!',1.3);}updateHUD();let it=game.objective&&nearObjective();$('interactBtn').style.display=it?'block':'none';$('missionPrompt').style.display=it?'block':'none';$('missionPrompt').textContent=it?(game.objective.type==='bomb'?`HOLD F / INTERACT — DEFUSE ${Math.floor(game.defuseProgress/4*100)}%`:game.objective.type==='device'?'TAP INTERACT — DISABLE DEVICE':game.objective.type==='rescue'?'TAP INTERACT — RESCUE':game.objective.type==='exit'?'ESCORT TO THE EXIT':'CHECKPOINT REACHED'):'';if(performance.now()/1000>noticeUntil)$('notice').style.opacity=0;
+if(game.ammo===0&&game.reserve===0){game.reserve=48;note('EMERGENCY AMMO SUPPLY!',1.3);}updateHUD();let it=game.objective&&nearObjective();$('interactBtn').style.display=it?'block':'none';$('missionPrompt').style.display=it?'block':'none';$('missionPrompt').textContent=it?(game.objective.type==='entry'?'ENTER THE MAIN LOBBY':game.objective.type==='bomb'?`HOLD F / INTERACT — DEFUSE ${Math.floor(game.defuseProgress/4*100)}%`:game.objective.type==='device'?'TAP INTERACT — DISABLE DEVICE':game.objective.type==='rescue'?'TAP INTERACT — RESCUE':game.objective.type==='exit'?'ESCORT TO THE EXIT':'CHECKPOINT REACHED'):'';if(performance.now()/1000>noticeUntil)$('notice').style.opacity=0;
 }
 // Painted character sprites, lighting and decorative landmark skyline are original procedural artwork.
 function sprite(kind){if(spriteCache[kind])return spriteCache[kind];let c=document.createElement('canvas');c.width=160;c.height=230;let p=c.getContext('2d');p.lineJoin='round';p.lineCap='round';p.strokeStyle='#15365b';p.lineWidth=6;

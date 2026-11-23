@@ -2,7 +2,7 @@
 (()=>{'use strict';
 const width=96,height=72,offset={x:0,y:0},pt=p=>Array.isArray(p)?{x:p[0]+.5,y:p[1]+.5}:{...p},distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 function create(theme,_unused,mission=0){
- const spec=window.TVSitePlans[theme==='tower'&&mission===1?'observatory':theme],alternate=[3,9,11].includes(mission),
+ const spec=window.TVSitePlans[theme],alternate=[1,3,9,11].includes(mission),
   grid=Array.from({length:height},(_,y)=>Array.from({length:width},(_,x)=>!x||!y||x===width-1||y===height-1?1:0)),
   occlusion=Array.from({length:height},()=>Array(width).fill(0));
  const floorAt=(x,z)=>{
@@ -23,7 +23,7 @@ function create(theme,_unused,mission=0){
  }
  const nodes=(alternate&&spec.alternate?spec.alternate:spec.nodes).map(pt),encounters=(alternate&&spec.alternateTeams?spec.alternateTeams:spec.teams).map(([label,gate,spots,exit,tactics,flank=[]],id)=>({id,label,gate:pt(gate),radius:5,spots:spots.map(pt),exit:pt(exit),tactics,flank:flank.map(pt)}));
  const plan={...spec,variant:spec.name,width,height,offset:{...offset},nodes,start:pt(alternate&&spec.alternateStart?spec.alternateStart:spec.start),encounters,
-  siteStart:pt(spec.siteStart),hostage:pt(spec.hostage),bombs:spec.bombs.map(pt),extraction:pt(alternate&&spec.alternateExit?spec.alternateExit:spec.exit),
+  siteStart:pt(spec.siteStart),hostage:pt(spec.hostage),entrance:spec.entrance?pt(spec.entrance):null,bombs:spec.bombs.map(pt),extraction:pt(alternate&&spec.alternateExit?spec.alternateExit:spec.exit),
   length:nodes.slice(1).reduce((n,p,i)=>n+distance(nodes[i],p),0),defenseSpots:[]};
  const floor=(x,y,r=.28)=>[[-r,-r],[r,-r],[-r,r],[r,r]].every(([dx,dy])=>grid[Math.floor(y+dy)]?.[Math.floor(x+dx)]===0);
  floor.bounds={width,height};plan.walkLine=[plan.start];

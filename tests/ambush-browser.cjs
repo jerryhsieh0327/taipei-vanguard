@@ -30,7 +30,7 @@ async function main(){
   page.on('request',r=>{if(!/^(http:\/\/127\.0\.0\.1:|data:|blob:)/.test(r.url()))external.push(r.url());});
   const url=`http://127.0.0.1:${server.address().port}/`;
   await page.goto(url,{waitUntil:'networkidle'});await page.waitForFunction(()=>window.TV3D?.ready||window.TV3D?.error,{},{timeout:60000});
-  assert.equal(await page.evaluate(()=>TV3D.ready),true);console.log('R5 character engine ready');
+  assert.equal(await page.evaluate(()=>TV3D.ready),true);console.log('R6 character engine ready');
   await page.getByRole('button',{name:'Start Campaign'}).click();await page.locator('#deployBtn').click();
   await page.waitForSelector('#gameHUD:not([hidden])');
   // Real desktop input, including the focused Deploy button left by navigation.
@@ -89,10 +89,10 @@ async function main(){
     __qa.deploy(id);const g=__qa.game;g.armor=100000;__qa.traverse();__qa.complete();
     rows.push({id:id+1,success:!__qa.running&&document.getElementById('resultTitle').textContent==='MISSION COMPLETE!',
      kills:g.kills,roster:g.rosterSize,shots:g.shots,bombs:g.devices,bombTotal:g.bombTotal,rescues:g.rescues,
-     spawns:g.spawnEvents.length,encounters:g.encounterEvents.map(e=>({id:e.id,label:e.label})),stage:g.stage,steps:g.m.steps.length});
+     spawns:g.spawnEvents.length,enteredMuseum:g.enteredMuseum,encounters:g.encounterEvents.map(e=>({id:e.id,label:e.label})),stage:g.stage,steps:g.m.steps.length});
    }return rows;
   });
-  assert.ok(missions.every(m=>m.success&&m.spawns===1&&m.bombs===m.bombTotal&&m.shots>0&&m.stage===m.steps));
+  assert.ok(missions.every(m=>m.success&&m.spawns===1&&m.bombs===m.bombTotal&&m.shots>0&&m.stage===m.steps));assert.equal(missions[5].enteredMuseum,true);
   // A real F key must be held; a quick tap cannot disarm the objective.
   await page.evaluate(()=>{__qa.deploy(0);__qa.clear();const g=__qa.game;g.px=g.objective.x;g.py=g.objective.y;__qa.tick(.1);});
   await page.keyboard.down('f');await page.evaluate(()=>__qa.tick(1));
@@ -100,6 +100,37 @@ async function main(){
   await page.keyboard.up('f');await page.evaluate(()=>__qa.tick(.1));assert.equal(await page.evaluate(()=>__qa.game.defuseProgress),0);
   await page.keyboard.down('f');await page.evaluate(()=>__qa.tick(4.1));await page.keyboard.up('f');
   assert.equal(await page.evaluate(()=>__qa.game.devices),1);
+  const cityLife=await page.evaluate(async()=>{
+   const THREE=await import('/vendor/three/three.module.min.js');__qa.deploy(0);__qa.hold(true);const g=__qa.game;TV3D.render(g);
+   const world=TV3D.scene.getObjectByName('OPEN_CITY_ENVIRONMENT'),tower=world.getObjectByName('TAIPEI_101_LANDMARK'),bounds=new THREE.Box3().setFromObject(tower),screen=[];
+   for(const x of [bounds.min.x,bounds.max.x])for(const y of [bounds.min.y,bounds.max.y])for(const z of [bounds.min.z,bounds.max.z])screen.push(new THREE.Vector3(x,y,z).project(TV3D.camera).toArray());
+   const origin=TV3D.camera.position.clone(),center=bounds.getCenter(new THREE.Vector3());
+   const sight=[.08,.25,.45,.65,.9].map(v=>{const p=new THREE.Vector3(center.x,bounds.min.y+(bounds.max.y-bounds.min.y)*v,center.z),direction=p.sub(origin),distance=direction.length(),hit=new THREE.Raycaster(origin,direction.normalize(),.01,distance).intersectObject(world,true).find(h=>!h.object.material.transparent);return !hit||hit.object===tower;});
+   const before=g.civilians.map(c=>({x:c.x,y:c.y}));__qa.hold(false);__qa.tick(3);__qa.hold(true);TV3D.render(g);
+   return {projectedBounds:screen,visibleTowerSamples:sight,movingPeople:g.civilians.filter((c,i)=>Math.hypot(c.x-before[i].x,c.y-before[i].y)>1).length,
+    population:g.civilians.length,rendered:TV3D.metrics.civilians,unarmed:[...TV3D.entries].filter(([k])=>k.startsWith('civilian-')).every(([,e])=>e.ally&&!e.gun.visible),details:world.userData.details};
+  });
+  assert.ok(cityLife.projectedBounds.every(p=>Math.abs(p[0])<1&&Math.abs(p[1])<1&&p[2]>0&&p[2]<1),'the entire 101 must fit in the initial view');
+  assert.ok(cityLife.visibleTowerSamples.filter(Boolean).length>=4,'101 must be visible beyond the street frontage');
+  assert.ok(cityLife.population>=12&&cityLife.rendered>=4&&cityLife.rendered<=8&&cityLife.movingPeople>=4&&cityLife.unarmed);
+  const museumProgress=await page.evaluate(()=>{
+   __qa.deploy(5);__qa.clear();const g=__qa.game,start={x:g.px,y:g.py,stage:g.stage,ground:g.route.floorAt(g.px,g.py)};__qa.hold(false);__qa.navigate(g.objective);__qa.hold(true);TV3D.render(g);
+   g.dir=-Math.PI/2;g.pitch=.02;TV3D.render(g);__qa.drawMini();
+   return {start,entered:g.enteredMuseum,stage:g.stage,position:{x:g.px,y:g.py,ground:g.route.floorAt(g.px,g.py)},details:TV3D.scene.getObjectByName('OPEN_CITY_ENVIRONMENT').userData.details,spawns:g.spawnEvents.length};
+  });
+  await page.screenshot({path:path.join(out,'museum-lobby.png')});
+  assert.ok(museumProgress.start.y>48&&museumProgress.start.ground===0&&museumProgress.entered&&museumProgress.stage===1&&museumProgress.position.y<35&&museumProgress.position.ground===2.4&&museumProgress.spawns===1);
+  assert.ok(museumProgress.details.museumArtifacts>=7&&museumProgress.details.interiorDetails.length>=8);
+  await page.evaluate(()=>{__qa.hold(false);__qa.navigate({x:43.5,y:22.5});__qa.hold(true);const g=__qa.game;g.dir=-Math.PI/2;g.pitch=-.025;TV3D.render(g);__qa.drawMini();});
+  await page.screenshot({path:path.join(out,'museum-gallery.png')});
+  const marketLife=await page.evaluate(()=>{
+   __qa.deploy(8);__qa.hold(true);const g=__qa.game,world=TV3D.scene.getObjectByName('OPEN_CITY_ENVIRONMENT');
+   return {population:g.civilians.length,vendors:g.civilians.filter(c=>c.stationary&&c.appearance.apron&&!c.appearance.armed).length,details:world.userData.details};
+  });
+  assert.ok(marketLife.population>=20&&marketLife.vendors>=6&&marketLife.details.stalls===8&&new Set(marketLife.details.productKinds).size===8&&marketLife.details.scooters>=12&&marketLife.details.vehicles>=3);
+  for(const view of [{name:'market-buns',x:16.8,y:31.5,dir:1.05,pitch:-.15},{name:'market-drinks',x:49.7,y:31.7,dir:1.0,pitch:-.18},{name:'market-goods',x:16,y:31.5,dir:-Math.PI/2,pitch:-.15}]){
+   await page.evaluate(v=>{const g=__qa.game;g.px=v.x;g.py=v.y;g.dir=v.dir;g.pitch=v.pitch;TV3D.render(g);__qa.drawMini();},view);await page.screenshot({path:path.join(out,view.name+'.png')});
+  }
   const bodies=await page.evaluate(async()=>{
    const THREE=await import('/vendor/three/three.module.min.js'),rows=[];
    for(const id of [0,4,8,10]){
@@ -146,8 +177,8 @@ async function main(){
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});assert.equal(await touch.evaluate(()=>__qa.game.devices),1);
   await touch.screenshot({path:path.join(out,'touch-defused.png')});
   assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
-  const report={build:'TACTICAL R5 · OPEN CITY',browser:await browser.version(),desktopControls,desktopDefuse:'passed',touchDefuse:'passed',touchFire:'passed',touchLookDoesNotFire:'passed',scenes,missions,characters,runningPoses,elevations,groundedBodies:bodies.length,defenses,errors,externalRequests:external};
-  fs.writeFileSync(path.join(out,'site-browser-results.json'),JSON.stringify(report,null,2));console.log('All R5 browser checks passed');
+  const report={build:'TACTICAL R6 · CITY LIFE',browser:await browser.version(),desktopControls,desktopDefuse:'passed',touchDefuse:'passed',touchFire:'passed',touchLookDoesNotFire:'passed',scenes,missions,cityLife,museumProgress,marketLife,characters,runningPoses,elevations,groundedBodies:bodies.length,defenses,errors,externalRequests:external};
+  fs.writeFileSync(path.join(out,'site-browser-results.json'),JSON.stringify(report,null,2));console.log('All R6 browser checks passed');
  }finally{if(browser)await browser.close();server.close();}
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

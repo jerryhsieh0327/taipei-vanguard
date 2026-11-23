@@ -11,7 +11,7 @@ function loadGame(){
   alert(message){throw Error(message);},localStorage:{getItem:()=>null,setItem(){}},
   addEventListener:(name,fn)=>listeners.set(name,fn),window:{TV3D:{ready:true,load(){}}}};
  vm.createContext(sandbox);
- for(const file of ['landmarks.js','character-styles.js','site-plans.js','route-layouts.js','enemy-ai.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),sandbox);
+ for(const file of ['landmarks.js','character-styles.js','site-plans.js','route-layouts.js','enemy-ai.js','ambient-life.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),sandbox);
  let source=fs.readFileSync(path.join(__dirname,'../game.js'),'utf8'),end=source.lastIndexOf('})();');assert.ok(end>0);
  source=source.slice(0,end)+`globalThis.testGame={missions,start,prepareStage,nextStage,spawnWave,spawnEnemy,passable,visibility,move,objectiveAt,jump,
   interact,updateDefuse,localThreat,simulate,shoot,reload,pause,tool,finish,keys,get game(){return game;},get running(){return running;},get progress(){return progress;},

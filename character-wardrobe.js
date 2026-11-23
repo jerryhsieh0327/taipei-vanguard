@@ -63,6 +63,15 @@ export function wardrobe(model,style){
   for(const X of [-.055,.055])attach('head',box(.09,.045,.024,dark),[X,.075,.14]);attach('head',box(.035,.012,.02,gold),[0,.075,.15]);
  }
  if(style.armband){const m=material(style.armband);attach('upperarm_L',box(.09,.13,.11,m),[0,-.14,0]);}
+ if(style.shoppingBag){
+  const paper=material(style.variant===0?'#b59770':'#567178');attach('hand_L',box(.24,.3,.13,paper),[0,-.23,0]);
+  attach('hand_L',new T.Mesh(new T.TorusGeometry(.075,.009,5,12),paper),[0,-.05,0]);
+ }
+ if(style.backpack){
+  const pack=material(style.variant===1?'#8b6950':'#45616d');attach('spine1',box(.32,.45,.17,pack),[0,-.02,-.2]);
+  attach('spine1',box(.25,.13,.03,pack),[0,-.16,-.3]);
+  for(const X of [-.12,.12])attach('chest',box(.035,.34,.035,pack),[X,.05,-.15]);
+ }
  if(style.family==='tactical'){
   const mask=material('#242b2c');attach('head',sphere(.115,.09,.09,mask),[0,.02,.025]);attach('chest',box(.43,.46,.12,mask),[0,-.02,.13]);
  }
